@@ -2,7 +2,6 @@
     "name": "cradlephp/components",
     "type": "library",
     "description": "Common PHP7 Patterns and Constructs",
-    "minimum-stability": "dev",
     "homepage": "https://cradlephp.github.io/",
     "keywords": [
         "library",
