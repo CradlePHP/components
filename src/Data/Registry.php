@@ -52,7 +52,7 @@ class Registry implements ArrayAccess, Iterator, Countable, RegistryInterface
             DataTrait::__getData as __get;
             DataTrait::__setData as __set;
             DataTrait::__toStringData as __toString;
-        }
+    }
 
     /**
      * Attempts to use __callData then __callResolver

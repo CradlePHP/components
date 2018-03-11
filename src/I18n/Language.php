@@ -55,7 +55,7 @@ class Language implements ArrayAccess, Iterator
             MagicTrait::__getData as __get;
             MagicTrait::__setData as __set;
             MagicTrait::__toStringData as __toString;
-        }
+    }
 
     /**
      * @var string $file The language file to save to

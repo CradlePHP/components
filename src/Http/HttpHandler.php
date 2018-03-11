@@ -42,7 +42,7 @@ class HttpHandler
         StateTrait
         {
             StateTrait::__callResolver as __call;
-        }
+    }
 
     /**
      * @const STATUS_404 Status template
