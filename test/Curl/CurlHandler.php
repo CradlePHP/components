@@ -191,7 +191,6 @@ class Cradle_Curl_CurlHandler_Test extends TestCase
      * @covers Cradle\Curl\CurlHandler::send
      * @covers Cradle\Curl\CurlHandler::getMeta
      * @covers Cradle\Curl\CurlHandler::addHeaders
-     * @covers Cradle\Curl\CurlHandler::addParameters
      */
     public function testSend()
     {
