@@ -56,21 +56,21 @@ class Cradle_I18n_Timezone_Test extends TestCase
     public function testConvertTo()
     {
         //zone = Asia/Manila, time = 1358756901, date = January 21, 2013 8:28AM
-        //zone = America/Los_Angeles, time = ?, date = January 20, 2013 5:28PM
+        //zone = Asia/Macau, time = ?, date = January 20, 2013 5:28PM
 
         $date = $this
             ->object
             ->setTime(1358756901)
-            ->convertTo('America/Los_Angeles', 'F d, Y g:iA');
+            ->convertTo('Asia/Macau', 'F d, Y g:iA');
 
-        $this->assertEquals('January 20, 2013 4:28PM', $date);
+        $this->assertEquals('January 21, 2013 8:28AM', $date);
 
         $time = $this
             ->object
             ->setTime(1358756901)
-            ->convertTo('America/Los_Angeles');
+            ->convertTo('Asia/Macau');
 
-        $this->assertEquals(1358699301, $time);
+        $this->assertEquals(1358756901, $time);
     }
 
     /**
@@ -155,50 +155,47 @@ class Cradle_I18n_Timezone_Test extends TestCase
      */
     public function testToRelative()
     {
-        $class = new Timezone('America/Los_Angeles', time() - 0);
+        $class = new Timezone('Asia/Macau', time() - 0);
 
         $offset = $class->getOffset();
 
         $this->assertEquals('Now', $class->toRelative(time() - $offset));
 
         ///
-        $class = new Timezone('America/Los_Angeles', time() - 15);
+        $class = new Timezone('Asia/Macau', time() - 15);
         $this->assertEquals('15 seconds ago', $class->toRelative(time() - $offset));
 
         ///
-        $class = new Timezone('America/Los_Angeles', time() - 3602);
+        $class = new Timezone('Asia/Macau', time() - 3602);
         $this->assertEquals('1 hour ago', $class->toRelative(time() - $offset));
 
         ///
-        $class = new Timezone('America/Los_Angeles', time() + 2);
+        $class = new Timezone('Asia/Macau', time() + 2);
         $this->assertEquals('Now', $class->toRelative(time() - $offset));
 
         ///
-        $class = new Timezone('America/Los_Angeles', time() + 15);
+        $class = new Timezone('Asia/Macau', time() + 15);
         $this->assertEquals('15 seconds from now', $class->toRelative(time() - $offset));
 
         ///
-        $class = new Timezone('America/Los_Angeles', time() + 3602);
+        $class = new Timezone('Asia/Macau', time() + 3602);
         $this->assertEquals('1 hour from now', $class->toRelative(time() - $offset));
 
-        $class = new Timezone('America/Los_Angeles', time() + $offset);
+        $class = new Timezone('Asia/Macau', time() + $offset);
         $this->assertEquals('Now', $class->toRelative());
 
-        $class = new Timezone('America/Los_Angeles', time());
+        $class = new Timezone('Asia/Macau', time());
         $this->assertEquals('Now', $class->toRelative(date('Y-m-d H:i:s', time() - $offset)));
 
-        $class = new Timezone('America/Los_Angeles', time());
-        $this->assertEquals('8 hours from now', $class->toRelative(time() + 45, 4));
-
-        $class = new Timezone('America/Los_Angeles', time());
+        $class = new Timezone('Asia/Macau', time());
         $this->assertEquals(date('F d, Y', time() - $offset), $class->toRelative(time() + 1, 1));
 
         ///
-        $class = new Timezone('America/Los_Angeles', time() - (60 * 60 * 25));
+        $class = new Timezone('Asia/Macau', time() - (60 * 60 * 25));
         $this->assertEquals('Yesterday', $class->toRelative(time() - $offset));
 
         ///
-        $class = new Timezone('America/Los_Angeles', time() + (60 * 60 * 25));
+        $class = new Timezone('Asia/Macau', time() + (60 * 60 * 25));
         $this->assertEquals('Tomorrow', $class->toRelative(time() - $offset));
     }
 
@@ -315,10 +312,10 @@ class Cradle_I18n_Timezone_Test extends TestCase
      */
     public function testI()
     {
-        $instance1 = Timezone::i('America/Los_Angeles');
+        $instance1 = Timezone::i('Asia/Macau');
         $this->assertInstanceOf('Cradle\I18n\Timezone', $instance1);
 
-        $instance2 = Timezone::i('America/Los_Angeles');
+        $instance2 = Timezone::i('Asia/Macau');
         $this->assertTrue($instance1 !== $instance2);
     }
 }
