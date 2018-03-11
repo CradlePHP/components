@@ -37,6 +37,8 @@ See [https://cradlephp.github.io/](https://cradlephp.github.io/) for more inform
 
 Thank you for considering to contribute to Cradle PHP.
 
+Please be aware that master branch contains all edge releases of the current version. Please check the version you are working with and find the corresponding branch. For example `v1.1.1` can be in the `1.1` branch.
+
 Bug fixes will be reviewed as soon as possible. Minor features will also be considered, but give me time to review it and get back to you. Major features will **only** be considered on the `master` branch.
 
 1. Fork the Repository.
