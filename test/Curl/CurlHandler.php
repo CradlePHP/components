@@ -20,8 +20,6 @@ class Cradle_Curl_CurlHandler_Test extends TestCase
     /**
      * Sets up the fixture, for example, opens a network connection.
      * This method is called before a test is executed.
-     *
-     * @covers Cradle\Curl\CurlHandler::__construct
      */
     protected function setUp()
     {
@@ -189,6 +187,7 @@ class Cradle_Curl_CurlHandler_Test extends TestCase
     }
 
     /**
+     * @covers Cradle\Curl\CurlHandler::__construct
      * @covers Cradle\Curl\CurlHandler::send
      * @covers Cradle\Curl\CurlHandler::getMeta
      * @covers Cradle\Curl\CurlHandler::addHeaders
@@ -196,13 +195,16 @@ class Cradle_Curl_CurlHandler_Test extends TestCase
      */
     public function testSend()
     {
-        $this->object->setHeaders(array('Expect'));
-
         $instance = $this->object->send();
         $this->assertInstanceOf('Cradle\Curl\CurlHandler', $instance);
 
         $meta = $this->object->getMeta('response');
         $this->assertEquals('foobar', $meta);
+
+        $this->object->setHeaders(array('Expect'));
+        $this->object->setPostFields(['foo' => 'bar']);
+        $instance = $this->object->send();
+        $this->assertInstanceOf('Cradle\Curl\CurlHandler', $instance);
     }
 
     /**

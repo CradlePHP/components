@@ -22,9 +22,9 @@ class Cradle_Data_DotTrait_Test extends TestCase
     {
         $this->object = new DotTraitStub;
 
-		$this->object->setDot('foo', 'bar');
-		$this->object->setDot('bar', 'foo');
-		$this->object->setDot('bar.zoo', 'zoo');
+        $this->object->setDot('foo', 'bar');
+        $this->object->setDot('bar', 'foo');
+        $this->object->setDot('bar.zoo', 'zoo');
     }
 
     /**
@@ -43,7 +43,7 @@ class Cradle_Data_DotTrait_Test extends TestCase
         $this->assertEquals('bar', $this->object->getDot('foo'));
         $this->assertEquals('zoo', $this->object->getDot('bar.zoo'));
 
-		$this->assertNull($this->object->getDot(''));
+        $this->assertNull($this->object->getDot(''));
         $this->assertNull($this->object->getDot('foo.foo.bar'));
     }
 
@@ -52,9 +52,9 @@ class Cradle_Data_DotTrait_Test extends TestCase
      */
     public function testIsDot()
     {
-		$this->assertTrue($this->object->isDot('bar'));
-		$this->assertTrue($this->object->isDot('bar.zoo'));
-		$this->assertFalse($this->object->isDot(''));
+        $this->assertTrue($this->object->isDot('bar'));
+        $this->assertTrue($this->object->isDot('bar.zoo'));
+        $this->assertFalse($this->object->isDot(''));
     }
 
     /**
@@ -62,14 +62,14 @@ class Cradle_Data_DotTrait_Test extends TestCase
      */
     public function testRemoveDot()
     {
-		$instance = $this->object->removeDot('');
-		$this->assertInstanceOf('Cradle\Data\DotTraitStub', $instance);
+        $instance = $this->object->removeDot('');
+        $this->assertInstanceOf('Cradle\Data\DotTraitStub', $instance);
 
-		$this->object->removeDot('foo');
-		$this->assertFalse($this->object->isDot('foo'));
+        $this->object->removeDot('foo');
+        $this->assertFalse($this->object->isDot('foo'));
 
-		$this->object->removeDot('bar.zoo');
-		$this->assertFalse($this->object->isDot('bar.zoo'));
+        $this->object->removeDot('bar.zoo');
+        $this->assertFalse($this->object->isDot('bar.zoo'));
     }
 
     /**
@@ -77,18 +77,18 @@ class Cradle_Data_DotTrait_Test extends TestCase
      */
     public function testSetDot()
     {
-		$instance = $this->object->setDot('', 'foo');
-		$this->assertInstanceOf('Cradle\Data\DotTraitStub', $instance);
-		$this->object->setDot('zoo', 2);
+        $instance = $this->object->setDot('', 'foo');
+        $this->assertInstanceOf('Cradle\Data\DotTraitStub', $instance);
+        $this->object->setDot('zoo', 2);
         $this->assertEquals(2, $this->object->getDot('zoo'));
     }
 }
 
 if(!class_exists('Cradle\Data\DotTraitStub')) {
-	class DotTraitStub
-	{
-		use DotTrait;
+    class DotTraitStub
+    {
+        use DotTrait;
 
-		protected $data = array();
-	}
+        protected $data = array();
+    }
 }

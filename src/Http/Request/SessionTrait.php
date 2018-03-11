@@ -42,9 +42,11 @@ trait SessionTrait
     {
         $results = $this->remove('session', ...$args);
 
+        // @codeCoverageIgnoreStart
         if (isset($_SESSION)) {
             $_SESSION = $this->get('session');
         }
+        // @codeCoverageIgnoreEnd
 
         return $results;
     }
@@ -72,9 +74,11 @@ trait SessionTrait
     public function setSession($data, ...$args)
     {
         if (is_array($data)) {
+            // @codeCoverageIgnoreStart
             if (isset($_SESSION) && $data !== $_SESSION) {
                 $_SESSION = $data;
             }
+            // @codeCoverageIgnoreEnd
 
             return $this->set('session', $data);
         }
@@ -85,9 +89,11 @@ trait SessionTrait
 
         $this->set('session', $data, ...$args);
 
+        // @codeCoverageIgnoreStart
         if (isset($_SESSION) && $data !== $_SESSION) {
             $_SESSION = $this->get('session');
         }
+        // @codeCoverageIgnoreEnd
 
         return $this;
     }

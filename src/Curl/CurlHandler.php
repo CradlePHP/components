@@ -206,7 +206,7 @@ class CurlHandler implements ArrayAccess
      */
     public function getResponse()
     {
-        $this->addParameters()->addHeaders();
+        $this->addHeaders();
         $this->options[CURLOPT_RETURNTRANSFER] = true;
 
         $this->meta = call_user_func($this->map, $this->options);
@@ -326,7 +326,7 @@ class CurlHandler implements ArrayAccess
      */
     public function send()
     {
-        $this->addParameters()->addHeaders();
+        $this->addHeaders();
 
         $this->meta = call_user_func($this->map, $this->options);
 
@@ -499,40 +499,6 @@ class CurlHandler implements ArrayAccess
         }
 
         $this->options[CURLOPT_HTTPHEADER] = $this->headers;
-        return $this;
-    }
-
-    /**
-     * Adds extra post parameters to the cURL request
-     *
-     * @return CurlHandler
-     */
-    protected function addParameters()
-    {
-        if (empty($this->params)) {
-            return $this;
-        }
-
-        $params = http_build_query($this->params);
-        if ($this->options[CURLOPT_POST]) {
-            $this->options[CURLOPT_POSTFIELDS] = $params;
-            return $this;
-        }
-
-        //if there is a question mark in the url
-        if (strpos($this->options[CURLOPT_URL], '?') === false) {
-            //add the question mark
-            $params = '?'.$params;
-        //else if the question mark is not at the end
-        } else if (substr($this->options[CURLOPT_URL], -1, 1) != '?') {
-            //append the parameters to the end
-            //with the other parameters
-            $params = '&'.$params;
-        }
-
-        //append the parameters
-        $this->options[CURLOPT_URL] .= $params;
-
         return $this;
     }
 }
