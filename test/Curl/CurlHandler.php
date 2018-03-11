@@ -20,6 +20,8 @@ class Cradle_Curl_CurlHandler_Test extends TestCase
     /**
      * Sets up the fixture, for example, opens a network connection.
      * This method is called before a test is executed.
+     *
+     * @covers Cradle\Curl\CurlHandler::__construct
      */
     protected function setUp()
     {
@@ -144,6 +146,10 @@ class Cradle_Curl_CurlHandler_Test extends TestCase
         //CURLOPT_FOLLOWLOCATION
         $actual = $this->object->offsetExists('foobar');
         $this->assertFalse($actual);
+
+        $this->object->setFollowlocation(true);
+        $actual = $this->object->offsetExists('CURLOPT_FOLLOWLOCATION');
+        $this->assertTrue($actual);
     }
 
     /**
@@ -184,11 +190,19 @@ class Cradle_Curl_CurlHandler_Test extends TestCase
 
     /**
      * @covers Cradle\Curl\CurlHandler::send
+     * @covers Cradle\Curl\CurlHandler::getMeta
+     * @covers Cradle\Curl\CurlHandler::addHeaders
+     * @covers Cradle\Curl\CurlHandler::addParameters
      */
     public function testSend()
     {
+        $this->object->setHeaders(array('Expect'));
+
         $instance = $this->object->send();
         $this->assertInstanceOf('Cradle\Curl\CurlHandler', $instance);
+
+        $meta = $this->object->getMeta('response');
+        $this->assertEquals('foobar', $meta);
     }
 
     /**
@@ -307,7 +321,7 @@ class Cradle_Curl_CurlHandler_Test extends TestCase
         $this->assertTrue($instance1 !== $instance2);
     }
 
-     /**
+    /**
      * @covers Cradle\Curl\CurlHandler::loop
      */
     public function testLoop()
