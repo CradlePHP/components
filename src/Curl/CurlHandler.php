@@ -41,29 +41,54 @@ class CurlHandler implements ArrayAccess
         StateTrait;
 
     /**
-     * @const string PUT Send method type
+     * @const string ENCODE_JSON
      */
-    const PUT = 'PUT';
+    const ENCODE_JSON = 'json';
 
     /**
-     * @const string DELETE Send method type
+     * @const string ENCODE_QUERY
      */
-    const DELETE = 'DELETE';
+    const ENCODE_QUERY = 'query';
 
     /**
-     * @const string GET Send method type
+     * @const string ENCODE_XML
      */
-    const GET = 'GET';
+    const ENCODE_XML = 'xml';
 
     /**
-     * @const string POST Send method type
+     * @const string ENCODE_RAW
      */
-    const POST = 'POST';
+    const ENCODE_RAW = 'raw';
 
     /**
-     * @const string PATCH Send method type
+     * @const string METHOD_GET
      */
-    const PATCH = 'PATCH';
+    const METHOD_GET = 'GET';
+
+    /**
+     * @const string METHOD_OPTIONS
+     */
+    const METHOD_OPTIONS = 'OPTIONS';
+
+    /**
+     * @const string METHOD_POST
+     */
+    const METHOD_POST = 'POST';
+
+    /**
+     * @const string METHOD_PATCH
+     */
+    const METHOD_PATCH = 'PATCH';
+
+    /**
+     * @const string METHOD_PUT
+     */
+    const METHOD_PUT = 'PUT';
+
+    /**
+     * @const string METHOD_DELETE
+     */
+    const METHOD_DELETE = 'DELETE';
 
     /**
      * @var Closure|null $mapCache The global curl callback
@@ -342,7 +367,20 @@ class CurlHandler implements ArrayAccess
      */
     public function setCustomGet()
     {
-        $this->setCustomRequest(self::GET);
+        $this->setCustomRequest(self::METHOD_GET);
+        return $this;
+    }
+
+    /**
+     * Curl has problems handling custom request types
+     * from misconfigured end points or vice versa.
+     * When default cURL fails, try a custom OPTIONS instead
+     *
+     * @return CurlHandler
+     */
+    public function setCustomOptions()
+    {
+        $this->setCustomRequest(self::METHOD_OPTIONS);
         return $this;
     }
 
@@ -355,7 +393,7 @@ class CurlHandler implements ArrayAccess
      */
     public function setCustomPost()
     {
-        $this->setCustomRequest(self::POST);
+        $this->setCustomRequest(self::METHOD_POST);
         return $this;
     }
 
@@ -368,7 +406,7 @@ class CurlHandler implements ArrayAccess
      */
     public function setCustomPatch()
     {
-        $this->setCustomRequest(self::PATCH);
+        $this->setCustomRequest(self::METHOD_PATCH);
         return $this;
     }
 
@@ -381,7 +419,7 @@ class CurlHandler implements ArrayAccess
      */
     public function setCustomPut()
     {
-        $this->setCustomRequest(self::PUT);
+        $this->setCustomRequest(self::METHOD_PUT);
         return $this;
     }
 
@@ -394,7 +432,7 @@ class CurlHandler implements ArrayAccess
      */
     public function setCustomDelete()
     {
-        $this->setCustomRequest(self::DELETE);
+        $this->setCustomRequest(self::METHOD_DELETE);
         return $this;
     }
 
@@ -408,10 +446,10 @@ class CurlHandler implements ArrayAccess
      *
      * @return CurlHandler
      */
-    public function setPostFields($fields, string $type = 'query')
+    public function setPostFields($fields, string $type = self::ENCODE_QUERY)
     {
         if (is_array($fields)) {
-            if ($type === 'json') {
+            if ($type === self::ENCODE_JSON) {
                  $fields = json_encode($fields);
             } else {
                  $fields = http_build_query($fields);
