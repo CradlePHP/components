@@ -225,6 +225,15 @@ class Cradle_Curl_CurlHandler_Test extends TestCase
     }
 
     /**
+     * @covers Cradle\Curl\CurlHandler::setCustomOptions
+     */
+    public function testSetCustomOptions()
+    {
+        $instance = $this->object->setCustomOptions();
+        $this->assertInstanceOf('Cradle\Curl\CurlHandler', $instance);
+    }
+
+    /**
      * @covers Cradle\Curl\CurlHandler::setCustomPatch
      */
     public function testSetCustomPatch()

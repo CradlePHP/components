@@ -90,6 +90,7 @@
     </testsuite>
     <testsuite name="CradlePHP Curl Test Suite">
       <file>test/Curl/CurlHandler.php</file>
+      <file>test/Curl/Rest.php</file>
     </testsuite>
     <testsuite name="CradlePHP Image Test Suite">
       <file>test/Image/ImageHandler.php</file>

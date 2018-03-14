@@ -27,6 +27,21 @@ class EventHandler implements EventInterface
 {
     use ResolverTrait, InstanceTrait;
 
+    /**
+     * @const int STATUS_OK
+     */
+    const STATUS_OK = 200;
+
+    /**
+     * @const int STATUS_NOT_FOUND
+     */
+    const STATUS_NOT_FOUND = 404;
+
+    /**
+     * @const int STATUS_INCOMPLETE
+     */
+    const STATUS_INCOMPLETE = 308;
+
      /**
      * @var array $observers cache of event handlers
      */
@@ -195,6 +210,13 @@ class EventHandler implements EventInterface
     {
         $matches = $this->match($event);
 
+        //if there are no events found
+        if (empty($matches)) {
+            //report a 404
+            $this->meta = self::STATUS_NOT_FOUND;
+            return $this;
+        }
+
         foreach ($matches as $match) {
             //add on to match
             $match['args'] = $args;
@@ -220,13 +242,15 @@ class EventHandler implements EventInterface
 
                 //if this is the same event, call the method, if the method returns false
                 if (call_user_func_array($callback, $args) === false) {
-                    $this->meta = false;
+                    //report a 308
+                    $this->meta = self::STATUS_INCOMPLETE;
                     return $this;
                 }
             }
         }
 
-        $this->meta = true;
+        //report a 200
+        $this->meta = self::STATUS_OK;
 
         return $this;
     }
