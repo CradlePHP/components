@@ -57,7 +57,7 @@ class Router implements RouterInterface
         return $this
             ->getEventHandler()
             ->trigger($event, $request, ...$args)
-            ->getMeta();
+            ->getMeta() !== EventHandler::STATUS_INCOMPLETE;
     }
 
     /**
