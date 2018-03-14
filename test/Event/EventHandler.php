@@ -120,7 +120,7 @@ class Cradle_Event_EventHandler_Test extends TestCase
         $this->assertTrue($trigger->success1);
         $this->assertNull($trigger->success2);
 
-        $this->assertFalse($this->object->getMeta());
+        $this->assertEquals(308, $this->object->getMeta());
     }
 
     /**
@@ -144,14 +144,30 @@ class Cradle_Event_EventHandler_Test extends TestCase
             $trigger->success = false;
         };
 
+        $meta = $this
+            ->object
+            ->trigger('foobar', 1, 2)
+            ->getMeta();
+
+        $this->assertEquals(404, $meta);
+
+        $meta = $this
+            ->object
+            ->on('foobar', $callback2)
+            ->trigger('foobar', 1, 2)
+            ->getMeta();
+
+        $this->assertEquals(200, $meta);
+
         $instance = $this
             ->object
-            ->on('foobar', $callback)
-            ->on('foobar', $callback2)
-            ->trigger('foobar', 1, 2);
+            ->on('foobar2', $callback)
+            ->on('foobar2', $callback2)
+            ->trigger('foobar2', 1, 2);
 
         $this->assertInstanceOf('Cradle\Event\EventHandler', $instance);
         $this->assertTrue($trigger->success);
+        $this->assertEquals(308, $this->object->getMeta());
     }
 
     /**
