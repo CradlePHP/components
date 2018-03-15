@@ -107,9 +107,9 @@ class Cradle_Http_RouterTrait_Test extends TestCase
     /**
      * covers Cradle\Http\RouterTrait::triggerRoute
      */
-    public function testTriggerRoute()
+    public function testRouteTo()
     {
-        $instance = $this->object->triggerRoute('get', 'foobar');
+        $instance = $this->object->routeTo('get', 'foobar');
         $this->assertInstanceOf('Cradle\Http\Router\RouterTraitStub', $instance);
     }
 }

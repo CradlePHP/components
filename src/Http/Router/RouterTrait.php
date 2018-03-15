@@ -149,7 +149,7 @@ trait RouterTrait
      *
      * @return RouterTrait
      */
-    public function triggerRoute(string $method, string $path, ...$args)
+    public function routeTo(string $method, string $path, ...$args)
     {
         $event = strtoupper($method).' '.$path;
 
