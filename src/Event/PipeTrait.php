@@ -55,8 +55,8 @@ trait PipeTrait
             //analyze the meta
             $meta = $this->getEventHandler()->getMeta();
 
-            //if meta is false
-            if ($meta === false) {
+            //if status is incomplete
+            if ($meta === EventHandler::STATUS_INCOMPLETE) {
                 //we should also stop the flow
                 return false;
             }
@@ -215,8 +215,8 @@ trait PipeTrait
             //analyze the meta
             $meta = $this->getEventHandler()->getMeta();
 
-            //if meta is false
-            if ($meta === false) {
+            //if status is incomplete
+            if ($meta === EventHandler::STATUS_INCOMPLETE) {
                 //we should also stop the flow
                 break;
             }
