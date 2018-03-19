@@ -22,7 +22,7 @@ composer install cradlephp/components
 
 See the [Wiki](https://github.com/CradlePHP/components/wiki) for documentation on these components. See [https://cradlephp.github.io/](https://cradlephp.github.io/) for more information about the entire project.
 
-====
+----
 
 <a name="contributing"></a>
 # Contributing to Cradle PHP
