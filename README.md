@@ -1,5 +1,12 @@
 # Common PHP7 Patterns and Constructs
 
+[![Travis CI](https://travis-ci.org/CradlePHP/components.svg?branch=master)](https://travis-ci.org/CradlePHP/components)
+[![Coverage Status](https://coveralls.io/repos/github/CradlePHP/components/badge.svg?branch=master)](https://coveralls.io/github/CradlePHP/components?branch=master)
+[![Latest Stable Version](https://poser.pugx.org/cradlephp/components/v/stable)](https://packagist.org/packages/cradlephp/components)
+[![Total Downloads](https://poser.pugx.org/cradlephp/components/downloads)](https://packagist.org/packages/cradlephp/components)
+[![Latest Unstable Version](https://poser.pugx.org/cradlephp/components/v/unstable)](https://packagist.org/packages/cradlephp/components)
+[![License](https://poser.pugx.org/cradlephp/components/license)](https://packagist.org/packages/cradlephp/components)
+
 ## Install
 
 ```bash
