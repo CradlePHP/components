@@ -58,13 +58,13 @@ trait EventTrait
      * Attaches an instance to be notified
      * when an event has been triggered
      *
-     * @param *string   $event     the name of the event
-     * @param *callable $callback  the event handler
-     * @param int       $priority  if true will be prepended in order
+     * @param *string|array   $event     the name of the event
+     * @param *callable       $callback  the event handler
+     * @param int             $priority  if true will be prepended in order
      *
      * @return EventTrait
      */
-    public function on(string $event, callable $callback, int $priority = 0)
+    public function on($event, callable $callback, int $priority = 0)
     {
         $dispatcher = $this->getEventHandler();
 
