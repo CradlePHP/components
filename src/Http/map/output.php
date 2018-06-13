@@ -21,9 +21,7 @@ return function ($code = null, array $headers = array(), string $body = '') {
     $trailer = ob_get_contents();
 
     //make sure nothing is already in the buffer
-    if ($trailer || ob_get_length()) {
-        ob_end_clean();
-    }
+    ob_end_clean();
 
     //close the connection
     header(HttpDispatcher::HEADER_CONNECTION_CLOSE);
