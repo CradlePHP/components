@@ -137,7 +137,12 @@ trait HttpTrait
 
         $continue = true;
 
-        if (!$response->hasContent() && !$response->hasJson()) {
+        //check for content
+        //check for redirect
+        if (!$response->hasContent()
+            && !$response->hasJson()
+            && !$this->hasRedirect()
+        ) {
             $request = $this->getRequest();
             $response->setStatus(404, HttpHandler::STATUS_404);
 
@@ -194,5 +199,31 @@ trait HttpTrait
         // @codeCoverageIgnoreEnd
 
         return $continue;
+    }
+
+    /**
+     * Returns true if there is a Location header
+     *
+     * @return bool
+     */
+    protected function hasRedirect(): bool
+    {
+        $headers = $this->getResponse()->getHeaders();
+        if (isset($headers['Location'])
+            || !isset($headers['location'])
+        ) {
+            return true;
+        }
+
+        //we need to also check the PHP headers
+        foreach(headers_list() as $header) {
+            //if there was a redirect set
+            if (strpos(strtolower($header), 'location:') === 0) {
+                return true;
+            }
+        }
+
+        //no redirect was found
+        return false;
     }
 }
