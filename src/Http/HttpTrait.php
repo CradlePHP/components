@@ -216,7 +216,7 @@ trait HttpTrait
         }
 
         //we need to also check the PHP headers
-        foreach(headers_list() as $header) {
+        foreach (headers_list() as $header) {
             //if there was a redirect set
             if (strpos(strtolower($header), 'location:') === 0) {
                 return true;
