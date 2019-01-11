@@ -210,7 +210,7 @@ trait HttpTrait
     {
         $headers = $this->getResponse()->getHeaders();
         if (isset($headers['Location'])
-            || !isset($headers['location'])
+            || isset($headers['location'])
         ) {
             return true;
         }
