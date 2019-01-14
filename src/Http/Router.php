@@ -75,8 +75,7 @@ class Router implements RouterInterface
         string $pattern,
         callable $callback,
         int $priority = 0
-    ): RouterInterface
-    {
+    ): RouterInterface {
         //hard requirement
         if (!is_callable($callback)) {
             throw HttpException::forInvalidRouteCallback();

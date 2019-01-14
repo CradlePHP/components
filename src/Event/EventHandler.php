@@ -42,17 +42,17 @@ class EventHandler implements EventInterface
      */
     const STATUS_INCOMPLETE = 308;
 
-     /**
+    /**
      * @var array $observers cache of event handlers
      */
     protected $observers = [];
 
-     /**
+    /**
      * @var array $regexp listeners with regexp
      */
     protected $regex = [];
 
-     /**
+    /**
      * @var array|bool $meta The meta data for the current event
      */
     protected $meta = true;
@@ -83,7 +83,7 @@ class EventHandler implements EventInterface
             $matches[$event] = array(
                 'event' => $event,
                 'pattern' => $event,
-                'variables' => array()
+                'variables' => []
             );
         }
 
@@ -91,7 +91,7 @@ class EventHandler implements EventInterface
         foreach ($this->regex as $pattern) {
             //if it matches
             if (preg_match_all($pattern, $event, $match)) {
-                $variables = array();
+                $variables = [];
 
                 if (is_array($match) && !empty($match)) {
                     //flatten
@@ -192,7 +192,10 @@ class EventHandler implements EventInterface
             $this->regex[] = $event;
         }
 
-        $this->observers[$event][$priority][] = $observer;
+        $this->observers[$event][] = [
+            'priority' => $priority,
+            'observer' => $observer
+        ];
 
         return $this;
     }
@@ -217,9 +220,8 @@ class EventHandler implements EventInterface
             return $this;
         }
 
+        $observers = [];
         foreach ($matches as $match) {
-            //add on to match
-            $match['args'] = $args;
             $event = $match['pattern'];
 
             //if no direct observers
@@ -227,25 +229,36 @@ class EventHandler implements EventInterface
                 continue;
             }
 
-            //sort it out
-            krsort($this->observers[$event]);
-            $observers = call_user_func_array('array_merge', $this->observers[$event]);
+            //add args on to match
+            $match['args'] = $args;
 
-            //for each observer
-            foreach ($observers as $observer) {
+            //then loop the observers
+            foreach ($this->observers[$event] as $observer) {
                 //get the callback
-                $callback = $observer->getCallback();
+                $callback = $observer['observer']->getCallback();
+                $priority = $observer['priority'];
                 //add on to match
                 $match['callback'] = $callback;
-                //set the current
-                $this->meta = $match;
+                $observers[$priority][] = $match;
+            }
+        }
 
-                //if this is the same event, call the method, if the method returns false
-                if (call_user_func_array($callback, $args) === false) {
-                    //report a 308
-                    $this->meta = self::STATUS_INCOMPLETE;
-                    return $this;
-                }
+        //then sort by priority
+        krsort($observers);
+        if (!empty($observers)) {
+            $observers = call_user_func_array('array_merge', $observers);
+        }
+
+        //call the callbacks
+        foreach ($observers as $match) {
+            //set the current
+            $this->meta = $match;
+
+            //if this is the same event, call the method, if the method returns false
+            if (call_user_func_array($match['callback'], $args) === false) {
+                //report a 308
+                $this->meta = self::STATUS_INCOMPLETE;
+                return $this;
             }
         }
 
@@ -265,7 +278,7 @@ class EventHandler implements EventInterface
     protected function removeObserversByCallback(callable $callback): EventInterface
     {
         //find the callback
-        foreach ($this->observers as $event => $priorities) {
+        foreach ($this->observers as $event => $observer) {
             $this->removeObserversByEvent($event, $callback);
         }
 
@@ -289,13 +302,10 @@ class EventHandler implements EventInterface
         }
 
         //'foobar' => array(
-        foreach ($this->observers[$event] as $priority => $observers) {
-            //0 => array(
-            foreach ($observers as $i => $observer) {
-                //0 => callback
-                if ($observer->assertEquals($callback)) {
-                    unset($this->observers[$event][$priority][$i]);
-                }
+        foreach ($this->observers[$event] as $i => $observer) {
+            //0 => callback
+            if ($observer['observer']->assertEquals($callback)) {
+                unset($this->observers[$event][$i]);
             }
         }
 
