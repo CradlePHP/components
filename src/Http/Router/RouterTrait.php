@@ -32,12 +32,13 @@ trait RouterTrait
      *
      * @param *string   $path     The route path
      * @param *callable $callback The middleware handler
+     * @param int       $priority  if true will be prepended in order
      *
      * @return RouterTrait
      */
-    public function all(string $path, callable $callback)
+    public function all(string $path, callable $callback, int $priority = 0)
     {
-        return $this->route('all', $path, $callback);
+        return $this->route('all', $path, $callback, $priority);
     }
 
     /**
@@ -45,12 +46,13 @@ trait RouterTrait
      *
      * @param *string   $path     The route path
      * @param *callable $callback The middleware handler
+     * @param int       $priority  if true will be prepended in order
      *
      * @return RouterTrait
      */
-    public function delete(string $path, callable $callback)
+    public function delete(string $path, callable $callback, int $priority = 0)
     {
-        return $this->route('delete', $path, $callback);
+        return $this->route('delete', $path, $callback, $priority);
     }
 
     /**
@@ -58,12 +60,13 @@ trait RouterTrait
      *
      * @param *string   $path     The route path
      * @param *callable $callback The middleware handler
+     * @param int       $priority  if true will be prepended in order
      *
      * @return RouterTrait
      */
-    public function get(string $path, callable $callback)
+    public function get(string $path, callable $callback, int $priority = 0)
     {
-        return $this->route('get', $path, $callback);
+        return $this->route('get', $path, $callback, $priority);
     }
 
     /**
@@ -89,12 +92,13 @@ trait RouterTrait
      *
      * @param *string   $path     The route path
      * @param *callable $callback The middleware handler
+     * @param int       $priority  if true will be prepended in order
      *
      * @return RouterTrait
      */
-    public function post(string $path, callable $callback)
+    public function post(string $path, callable $callback, int $priority = 0)
     {
-        return $this->route('post', $path, $callback);
+        return $this->route('post', $path, $callback, $priority);
     }
 
     /**
@@ -102,12 +106,13 @@ trait RouterTrait
      *
      * @param *string   $path     The route path
      * @param *callable $callback The middleware handler
+     * @param int       $priority  if true will be prepended in order
      *
      * @return RouterTrait
      */
-    public function put(string $path, callable $callback)
+    public function put(string $path, callable $callback, int $priority = 0)
     {
-        return $this->route('put', $path, $callback);
+        return $this->route('put', $path, $callback, $priority);
     }
 
     /**
@@ -116,12 +121,13 @@ trait RouterTrait
      * @param *string   $method   The request method
      * @param *string   $path     The route path
      * @param *callable $callback The middleware handler
+     * @param int       $priority  if true will be prepended in order
      *
      * @return RouterTrait
      */
-    public function route(string $method, string $path, callable $callback)
+    public function route(string $method, string $path, callable $callback, int $priority = 0)
     {
-        $this->getRouter()->route($method, $path, $callback);
+        $this->getRouter()->route($method, $path, $callback, $priority);
 
         return $this;
     }

@@ -66,11 +66,16 @@ class Router implements RouterInterface
      * @param *string   $method   The request method
      * @param *string   $pattern  The route pattern
      * @param *callable $callback The middleware handler
+     * @param int       $priority  if true will be prepended in order
      *
      * @return RouterInterface
      */
-    public function route(string $method, string $pattern, callable $callback): RouterInterface
-    {
+    public function route(
+        string $method,
+        string $pattern,
+        callable $callback,
+        int $priority = 0
+    ): RouterInterface {
         //hard requirement
         if (!is_callable($callback)) {
             throw HttpException::forInvalidRouteCallback();
@@ -103,50 +108,54 @@ class Router implements RouterInterface
         //we need the handler for later
         $handler = $this->getEventHandler();
 
-        $handler->on($event, function (
-            RequestInterface $request,
-            ...$args
-        ) use (
-            $handler,
-            $callback,
-            $pattern,
-            $keys
-        ) {
-            $route = $handler->getMeta();
-            $variables = array();
-            $parameters = array();
+        $handler->on(
+            $event,
+            function (
+                RequestInterface $request,
+                ...$args
+            ) use (
+                $handler,
+                $callback,
+                $pattern,
+                $keys
+            ) {
+                $route = $handler->getMeta();
+                $variables = array();
+                $parameters = array();
 
-            //sanitize the variables
-            foreach ($route['variables'] as $i => $variable) {
-                //if it's a * variable
-                if (!isset($keys[$i]) || strpos($keys[$i], '*') === 0) {
-                    //it's a variable
-                    if (strpos($variable, '/') === false) {
-                        $variables[] = $variable;
+                //sanitize the variables
+                foreach ($route['variables'] as $i => $variable) {
+                    //if it's a * variable
+                    if (!isset($keys[$i]) || strpos($keys[$i], '*') === 0) {
+                        //it's a variable
+                        if (strpos($variable, '/') === false) {
+                            $variables[] = $variable;
+                            continue;
+                        }
+
+                        $variables = array_merge($variables, explode('/', $variable));
                         continue;
                     }
 
-                    $variables = array_merge($variables, explode('/', $variable));
-                    continue;
+                    //if it's a :parameter
+                    if (isset($keys[$i])) {
+                        $key = substr($keys[$i], 1);
+                        $parameters[$key] = $variable;
+                    }
                 }
 
-                //if it's a :parameter
-                if (isset($keys[$i])) {
-                    $key = substr($keys[$i], 1);
-                    $parameters[$key] = $variable;
-                }
-            }
+                $request
+                    ->setStage($parameters)
+                    ->setRoute(array(
+                        'event' => $route['event'],
+                        'variables' => $variables,
+                        'parameters' => $parameters
+                    ));
 
-            $request
-                ->setStage($parameters)
-                ->setRoute(array(
-                    'event' => $route['event'],
-                    'variables' => $variables,
-                    'parameters' => $parameters
-                ));
-
-            return call_user_func($callback, $request, ...$args);
-        });
+                return call_user_func($callback, $request, ...$args);
+            },
+            $priority
+        );
 
         return $this;
     }
