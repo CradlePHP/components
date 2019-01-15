@@ -9,6 +9,9 @@
 
 ## Install
 
+If you already installed Cradle, you may not need to install this because it
+should be already included.
+
 ```bash
 
 composer install cradlephp/components
