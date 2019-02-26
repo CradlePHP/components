@@ -10,6 +10,7 @@
 namespace Cradle\OAuth;
 
 use Cradle\Curl\CurlHandler;
+
 /**
  * OAuth 2 implementation
  *
@@ -63,7 +64,7 @@ class OAuth2 extends AbstractOAuth2 implements OAuth2Interface
         ];
 
         //if there is a code
-        if(!is_null($code)) {
+        if (!is_null($code)) {
             //put codein the query
             $query[self::CODE] = $code;
         }
@@ -78,7 +79,7 @@ class OAuth2 extends AbstractOAuth2 implements OAuth2Interface
             ->getResponse();
 
         //check if results is in JSON format
-        if($this->isJson($result)) {
+        if ($this->isJson($result)) {
             //if it is in json, lets json decode it
             $response =  json_decode($result, true);
         //else its not in json format
@@ -111,13 +112,13 @@ class OAuth2 extends AbstractOAuth2 implements OAuth2Interface
         }
 
         //if there is state
-        if(!is_null($this->state)) {
+        if (!is_null($this->state)) {
             //add state to the query
             $query['state'] = $this->state;
         }
 
         //if there is display
-        if(!is_null($this->display)) {
+        if (!is_null($this->display)) {
             //add state to the query
             $query['display'] = $this->display;
         }
