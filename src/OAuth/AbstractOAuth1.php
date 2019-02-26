@@ -193,7 +193,7 @@ abstract class AbstractOAuth1
         bool $noQuotes = true,
         bool $subList = false
     ): string {
-        if(empty($params)) {
+        if (empty($params)) {
             return '';
         }
 
@@ -217,18 +217,18 @@ abstract class AbstractOAuth1
                 continue;
             }
 
-            if(!$noQuotes) {
+            if (!$noQuotes) {
                 $value = '"'.$value.'"';
             }
 
             $params[$key] = $value;
         }
 
-        if($subList) {
+        if ($subList) {
             return $params;
         }
 
-        foreach($params as $key => $value) {
+        foreach ($params as $key => $value) {
             $params[$key] = $key.'='.$value;
         }
 
@@ -238,7 +238,7 @@ abstract class AbstractOAuth1
     protected function encode(string $string): string
     {
         if (is_array($string)) {
-            foreach($string as $i => $value) {
+            foreach ($string as $i => $value) {
                 $string[$i] = $this->encode($value);
             }
 
@@ -304,31 +304,31 @@ abstract class AbstractOAuth1
         ];
 
         //if no realm
-        if(is_null($this->realm)) {
+        if (is_null($this->realm)) {
             //remove it
             unset($params['realm']);
         }
 
         //if no token
-        if(is_null($this->requestToken)) {
+        if (is_null($this->requestToken)) {
             //remove it
             unset($params['oauth_token']);
         }
 
         //if no verifier
-        if(is_null($this->verifier)) {
+        if (is_null($this->verifier)) {
             //remove it
             unset($params['oauth_verifier']);
         }
 
 
         //if no callback
-        if(is_null($this->callback)) {
+        if (is_null($this->callback)) {
             //remove it
             unset($params['oauth_callback']);
         }
 
-        if(!$string) {
+        if (!$string) {
             return $params;
         }
 
@@ -382,19 +382,19 @@ abstract class AbstractOAuth1
         ];
 
         //if no token
-        if(is_null($this->requestToken)) {
+        if (is_null($this->requestToken)) {
             //unset that parameter
             unset($params['oauth_token']);
         }
 
         //if no token
-        if(is_null($this->verifier)) {
+        if (is_null($this->verifier)) {
             //unset that parameter
             unset($params['oauth_verifier']);
         }
 
         //if no callback
-        if(is_null($this->callback)) {
+        if (is_null($this->callback)) {
             //remove it
             unset($params['oauth_callback']);
         }
@@ -452,7 +452,7 @@ abstract class AbstractOAuth1
      */
     protected function getMeta(string $key = null)
     {
-        if(isset($this->meta[$key])) {
+        if (isset($this->meta[$key])) {
             return $this->meta[$key];
         }
 
@@ -491,7 +491,7 @@ abstract class AbstractOAuth1
         $headers = $this->headers;
         $json = null;
 
-        if($this->json) {
+        if ($this->json) {
             $json = json_encode($query);
             $query = [];
         }
@@ -501,7 +501,7 @@ abstract class AbstractOAuth1
         $authorization = $this->getAuthorization($signature, false);
 
         //if we should use the authrization
-        if($this->useAuthorization) {
+        if ($this->useAuthorization) {
             //add the string to headers
             $headers[] = sprintf(self::AUTH_HEADER, $this->buildQuery($authorization, ',', false));
         } else {
@@ -518,10 +518,10 @@ abstract class AbstractOAuth1
             ->verifyPeer(false);
 
         //if post
-        if($this->method === self::POST) {
+        if ($this->method === self::POST) {
             $headers[] = self::POST_HEADER;
 
-            if(!is_null($json)) {
+            if (!is_null($json)) {
                 $query = $json;
             }
 
@@ -533,15 +533,15 @@ abstract class AbstractOAuth1
                 ->setHeaders($headers)
                 ->getResponse();
         } else {
-            if(trim($query)) {
+            if (trim($query)) {
                 //determine the conector
                 $connector = null;
 
                 //if there is no question mark
-                if(strpos($url, '?') === false) {
+                if (strpos($url, '?') === false) {
                     $connector = '?';
                 //if the redirect doesn't end with a question mark
-                } else if(substr($url, -1) != '?') {
+                } else if (substr($url, -1) != '?') {
                     $connector = '&';
                 }
 
@@ -575,7 +575,7 @@ abstract class AbstractOAuth1
      */
     protected function getSignature(array $query = []): string
     {
-        switch($this->signature) {
+        switch ($this->signature) {
             case self::HMAC_SHA1:
                 return $this->getHmacSha1Signature($query);
             case self::RSA_SHA1:
@@ -619,7 +619,7 @@ abstract class AbstractOAuth1
     {
         $array = [];
 
-        if(strlen($string) < 1) {
+        if (strlen($string) < 1) {
             return $array;
         }
 

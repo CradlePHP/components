@@ -162,6 +162,11 @@ abstract class AbstractOAuth2
     protected $urlRequest = null;
 
     /**
+     * @var string|null $urlResource
+     */
+    protected $urlResource = null;
+
+    /**
      * Set auth to auto approve
      *
      * @return OAuth2
