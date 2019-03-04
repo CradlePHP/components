@@ -210,7 +210,7 @@ class Cradle_Async_Promise_Test extends TestCase
         }, $handler);
 
         $handler->run(function($value) {
-            echo $value . PHP_EOL;
+            // echo $value . PHP_EOL;
         });
 
 
@@ -224,7 +224,7 @@ class Cradle_Async_Promise_Test extends TestCase
 
         $called = false;
         $test = $this;
-        Promise::all([$promise1, $promise2], $handler)->then(function($values) use (&$called, $test) {
+        Promise::all([$promise1, $promise2], $handler)->then(null, function($values) use (&$called, $test) {
             $called = true;
             $test->assertEquals(10, $values[0]);
             $test->assertEquals(5, $values[1]);
@@ -266,7 +266,7 @@ class Cradle_Async_Promise_Test extends TestCase
 
         $called = false;
         $test = $this;
-        Promise::race([$promise1, $promise2], $handler)->then(function($value) use (&$called, $test) {
+        Promise::race([$promise1, $promise2], $handler)->then(null, function($value) use (&$called, $test) {
             $called = true;
             $test->assertEquals(5, $value);
         });
