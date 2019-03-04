@@ -203,18 +203,17 @@ class Cradle_Async_Promise_Test extends TestCase
         $promise1 = new Promise(function() {
             for($i = 0; $i < 10; $i++) {
                 $routine = yield;
-                echo '---- ' . $i . PHP_EOL;
                 yield $i;
             }
 
             $fulfill($i);
         }, $handler);
-echo 'START' . PHP_EOL;
+
         $handler->run(function($value) {
             echo $value . PHP_EOL;
         });
-        exit;
-return;
+
+
         $promise2 = new Promise(function() {
             for($i = 0; $i < 5; $i++) {
                 yield $i;
@@ -222,7 +221,7 @@ return;
 
             $fulfill($i);
         }, $handler);
-return;
+
         $called = false;
         $test = $this;
         Promise::all([$promise1, $promise2], $handler)->then(function($values) use (&$called, $test) {
@@ -232,8 +231,9 @@ return;
         });
 
         $handler->run(function($value) {
-            echo $value . PHP_EOL;
+            //echo $value . PHP_EOL;
         });
+
         $this->assertTrue($called);
     }
 
