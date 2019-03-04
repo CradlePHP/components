@@ -123,8 +123,7 @@ class OAuth1 extends AbstractOAuth1 implements OAuth1Interface
         string $url,
         array $accessToken,
         array $query = []
-        ): array
-    {
+    ): array {
         return $this
             ->setUrl($url)
             ->useAuthorization()
@@ -134,5 +133,3 @@ class OAuth1 extends AbstractOAuth1 implements OAuth1Interface
             ->getJsonResponse($query);
     }
 }
-
-
