@@ -119,7 +119,7 @@ class Coroutine
 
         //if this callback produces a generator class
         $reflection = new ReflectionFunction($callback);
-        if($reflection->isGenerator()) {
+        if ($reflection->isGenerator()) {
             $callback = $callback($this);
         }
 
@@ -129,7 +129,7 @@ class Coroutine
             return $this->routine;
         }
 
-        $this->routine = (function() use ($callback, &$args) {
+        $this->routine = (function () use ($callback, &$args) {
             yield call_user_func_array($callback, $args);
         })();
 

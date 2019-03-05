@@ -33,7 +33,7 @@ class Promise implements PromiseInterface
         InstanceTrait
         {
             ResolverTrait::resolve as _resolve;
-        }
+    }
 
     /**
      * @const int STATUS_FULFILLED
@@ -110,7 +110,7 @@ class Promise implements PromiseInterface
      */
     public static function all(array $promises, QueueInterface $handler = null)
     {
-        $executor = function($fulfill, $reject) use (&$promises) {
+        $executor = function ($fulfill, $reject) use (&$promises) {
             $rejected = false;
             $values = [];
 
@@ -124,7 +124,7 @@ class Promise implements PromiseInterface
                 }
 
                 //fulfill
-                $promise->then(function($value) use (
+                $promise->then(function ($value) use (
                     $fulfill,
                     $i,
                     &$promises,
@@ -153,7 +153,7 @@ class Promise implements PromiseInterface
                 });
 
                 //catch any errors
-                $promise->catch(function($value) use ($reject, &$rejected) {
+                $promise->catch(function ($value) use ($reject, &$rejected) {
                     //if rejected
                     if ($rejected) {
                         //do nothing else
@@ -172,7 +172,6 @@ class Promise implements PromiseInterface
                 //now fulfill
                 $fulfill([$values]);
             }
-
         };
 
         return new static($executor, $handler);
@@ -222,9 +221,9 @@ class Promise implements PromiseInterface
     protected function getCoroutine(callable $callback): Coroutine
     {
         //set the callback
-        $coroutine = function($routine) use (&$callback) {
+        $coroutine = function ($routine) use (&$callback) {
             //make the default callbacks
-            $fulfill = function($value) {
+            $fulfill = function ($value) {
                 if ($this->state === static::STATUS_PENDING) {
                     //set the value
                     $this->value = $value;
@@ -235,12 +234,10 @@ class Promise implements PromiseInterface
 
                     //settle the promise
                     $this->settle(static::STATUS_FULFILLED);
-
                 }
-
             };
 
-            $reject = function($value) {
+            $reject = function ($value) {
                 if ($this->state === static::STATUS_PENDING) {
                     //set the value
                     $this->value = $value;
@@ -309,7 +306,7 @@ class Promise implements PromiseInterface
      */
     public static function race(array $promises, QueueInterface $handler = null)
     {
-        $executor = function($fulfill, $reject) use (&$value) {
+        $executor = function ($fulfill, $reject) use (&$value) {
             $found = false;
 
             //loop promises
@@ -321,7 +318,7 @@ class Promise implements PromiseInterface
                 }
 
                 //fulfill
-                $promise->then(function($value) use ($fulfill, &$found) {
+                $promise->then(function ($value) use ($fulfill, &$found) {
                     //if found
                     if ($found) {
                         //do nothing else
@@ -333,7 +330,7 @@ class Promise implements PromiseInterface
                 });
 
                 //catch any errors
-                $promise->catch(function($value) use ($reject, &$found) {
+                $promise->catch(function ($value) use ($reject, &$found) {
                     //if found
                     if ($found) {
                         //do nothing else
@@ -344,7 +341,6 @@ class Promise implements PromiseInterface
                     $reject($value);
                 });
             }
-
         };
 
         return new static($executor, $handler);
@@ -362,7 +358,7 @@ class Promise implements PromiseInterface
     public static function reject($value = null, QueueInterface $handler = null)
     {
         return new static(
-            function($fulfill, $reject) use (&$value) {
+            function ($fulfill, $reject) use (&$value) {
                 $reject($value);
             },
             $handler
@@ -380,7 +376,7 @@ class Promise implements PromiseInterface
     public static function resolve($value = null, QueueInterface $handler = null)
     {
         return new static(
-            function($fulfill) use (&$value) {
+            function ($fulfill) use (&$value) {
                 $fulfill($value);
             },
             $handler
@@ -451,14 +447,14 @@ class Promise implements PromiseInterface
         //if the return value is a Promise
         if ($value instanceof Promise) {
             //we need to wait for the value before continuing
-            $fulfill = function($value) use ($queue) {
+            $fulfill = function ($value) use ($queue) {
                 //set the value
                 $this->value = $value;
                 //continue to settle
                 $this->settle(static::STATUS_FULFILLED, $queue);
             };
 
-            $reject = function($value) use ($queue) {
+            $reject = function ($value) use ($queue) {
                 //set the value
                 $this->value = $value;
                 //continue to settle

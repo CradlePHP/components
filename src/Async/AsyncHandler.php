@@ -88,7 +88,8 @@ class AsyncHandler implements QueueInterface
     public function run(callable $step = null): QueueInterface
     {
         if (is_null($step)) {
-            $step = function() {};
+            $step = function () {
+            };
         }
 
         while (!$this->routines->isEmpty()) {

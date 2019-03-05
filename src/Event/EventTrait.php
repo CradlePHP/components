@@ -48,7 +48,7 @@ trait EventTrait
         $handler = $this->getEventHandler();
 
         //set up the async callback
-        $callback = function() use ($handler, &$event, &$args) {
+        $callback = function () use ($handler, &$event, &$args) {
             yield $handler->trigger($event, ...$args);
         };
 
