@@ -70,7 +70,7 @@ class OAuth1 extends AbstractOAuth1 implements OAuth1Interface
             ->setUrl($this->urlAccess)
             ->useAuthorization()
             ->setMethodToPost()
-            ->setToken($token, $secret)
+            ->setToken($responseToken, $requestSecret)
             ->setVerifier($verifier)
             ->setSignatureToHmacSha1()
             ->getQueryResponse();
@@ -112,5 +112,24 @@ class OAuth1 extends AbstractOAuth1 implements OAuth1Interface
             ->setMethodToPost()
             ->setSignatureToHmacSha1()
             ->getQueryResponse();
+    }
+
+    /**
+     * Return resource
+     *
+     * @return array
+     */
+    public function get(
+        string $url,
+        array $accessToken,
+        array $query = []
+    ): array {
+        return $this
+            ->setUrl($url)
+            ->useAuthorization()
+            ->setMethodToGet()
+            ->setToken($accessToken['oauth_token'], $accessToken['oauth_token_secret'])
+            ->setSignatureToHmacSha1()
+            ->getJsonResponse($query);
     }
 }
