@@ -200,7 +200,7 @@ class Cradle_Async_Promise_Test extends TestCase
     public function testAll()
     {
         $handler = new AsyncHandler('noop');
-        $promise1 = new Promise(function() {
+        $promise1 = new Promise(function($fulfill) {
             for($i = 0; $i < 10; $i++) {
                 $routine = yield;
                 yield $i;
@@ -213,8 +213,7 @@ class Cradle_Async_Promise_Test extends TestCase
             // echo $value . PHP_EOL;
         });
 
-
-        $promise2 = new Promise(function() {
+        $promise2 = new Promise(function($fulfill) {
             for($i = 0; $i < 5; $i++) {
                 yield $i;
             }
@@ -223,18 +222,23 @@ class Cradle_Async_Promise_Test extends TestCase
         }, $handler);
 
         $called = false;
+        $error = null;
         $test = $this;
-        Promise::all([$promise1, $promise2], $handler)->then(null, function($values) use (&$called, $test) {
+
+        Promise::all([$promise1, $promise2], $handler)->then(function($values) use (&$called, $test) {
             $called = true;
             $test->assertEquals(10, $values[0]);
             $test->assertEquals(5, $values[1]);
+        })->catch(function($err) use (&$error) {
+            $error = $err;
         });
 
         $handler->run(function($value) {
-            //echo $value . PHP_EOL;
+            // echo $value . PHP_EOL;
         });
 
-        $this->assertTrue($called);
+        $test->assertNull($error);
+        $test->assertTrue($called);
     }
 
     /**
@@ -248,7 +252,7 @@ class Cradle_Async_Promise_Test extends TestCase
     public function testRace()
     {
         $handler = new AsyncHandler('noop');
-        $promise1 = new Promise(function() {
+        $promise1 = new Promise(function($fulfill) {
             for($i = 0; $i < 10; $i++) {
                 yield $i;
             }
@@ -256,7 +260,7 @@ class Cradle_Async_Promise_Test extends TestCase
             $fulfill($i);
         }, $handler);
 
-        $promise2 = new Promise(function() {
+        $promise2 = new Promise(function($fulfill) {
             for($i = 0; $i < 5; $i++) {
                 yield $i;
             }
@@ -265,13 +269,18 @@ class Cradle_Async_Promise_Test extends TestCase
         }, $handler);
 
         $called = false;
+        $error = null;
         $test = $this;
-        Promise::race([$promise1, $promise2], $handler)->then(null, function($value) use (&$called, $test) {
+
+        Promise::race([$promise1, $promise2], $handler)->then(function($value) use (&$called, $test) {
             $called = true;
             $test->assertEquals(5, $value);
+        })->catch(function($err) use (&$error) {
+            $error = $err;
         });
 
         $handler->run();
+        $this->assertNull($error);
         $this->assertTrue($called);
     }
 }

@@ -149,7 +149,7 @@ class Promise implements PromiseInterface
                     //we need to sort the values
                     krsort($values);
                     //now fulfill
-                    $fulfill([$values]);
+                    $fulfill($values);
                 });
 
                 //catch any errors
@@ -170,7 +170,7 @@ class Promise implements PromiseInterface
                 //we need to sort the value
                 krsort($values);
                 //now fulfill
-                $fulfill([$values]);
+                $fulfill($values);
             }
         };
 
@@ -306,7 +306,7 @@ class Promise implements PromiseInterface
      */
     public static function race(array $promises, QueueInterface $handler = null)
     {
-        $executor = function ($fulfill, $reject) use (&$value) {
+        $executor = function ($fulfill, $reject) use (&$value, &$promises) {
             $found = false;
 
             //loop promises
