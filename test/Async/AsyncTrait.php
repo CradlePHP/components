@@ -180,6 +180,10 @@ class Cradle_Async_AsyncTrait_Test extends TestCase
         $this->assertInstanceOf('Cradle\Async\AsyncHandler', $instance);
 
         $instance = $this->object
+            ->getAsyncHandler();
+        $this->assertInstanceOf('Cradle\Async\AsyncHandler', $instance);
+
+        $instance = $this->object
             ->setAsyncHandler(new AsyncHandler('noop'))
             ->getAsyncHandler();
 
