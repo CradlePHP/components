@@ -176,11 +176,11 @@ class Cradle_Async_AsyncTrait_Test extends TestCase
      */
     public function testGetAsyncHandler()
     {
-        $instance = $this->object->getAsyncHandler();
+        $object = new AsyncTraitStub;
+        $instance = $object->getAsyncHandler();
         $this->assertInstanceOf('Cradle\Async\AsyncHandler', $instance);
 
-        $instance = $this->object
-            ->getAsyncHandler();
+        $instance = $this->object->getAsyncHandler();
         $this->assertInstanceOf('Cradle\Async\AsyncHandler', $instance);
 
         $instance = $this->object
