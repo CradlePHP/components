@@ -239,6 +239,42 @@ class Cradle_Async_Promise_Test extends TestCase
 
         $test->assertNull($error);
         $test->assertTrue($called);
+
+        // Test Rejections
+        $promise3 = function() {
+            for($i = 0; $i < 5; $i++) {
+                yield $i;
+            }
+        };
+
+        $promise4 = new Promise(function() {
+            for($i = 0; $i < 5; $i++) {
+                yield $i;
+            }
+
+            $fulfill($i);
+        }, $handler);
+
+        $promise5 = new Promise(function($fulfill, $reject) {
+            for($i = 0; $i <= 1; $i++) {
+                yield $i;
+            }
+
+            $reject($i + 1);
+        }, $handler);
+
+        $called = false;
+        Promise::all([$promise3, $promise4, $promise5], $handler)->then(function($values) use (&$called, $test) {
+            $test->assertEquals(8, $values[0]);
+        })->catch(function($err) use (&$error) {
+            $error = $err;
+        });
+
+        $handler->run(function($value) {
+        });
+
+        $test->assertNotEmpty($error);
+        $test->assertFalse($called);
     }
 
     /**
