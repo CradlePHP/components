@@ -235,7 +235,7 @@ abstract class AbstractOAuth1
         return implode($separator, $params);
     }
 
-    protected function encode(string $string): string
+    protected function encode($string)
     {
         if (is_array($string)) {
             foreach ($string as $i => $value) {
@@ -412,7 +412,7 @@ abstract class AbstractOAuth1
         $string = implode('&', $string);
 
         //create the encryption key
-          $key = $this->encode($this->consumerSecret) . '&' . $this->encode($this->requestSecret);
+        $key = $this->encode($this->consumerSecret) . '&' . $this->encode($this->requestSecret);
 
         //authentication method
         return base64_encode(hash_hmac('sha1', $string, $key, true));
@@ -490,7 +490,6 @@ abstract class AbstractOAuth1
     {
         $headers = $this->headers;
         $json = null;
-
         if ($this->json) {
             $json = json_encode($query);
             $query = [];
