@@ -100,6 +100,7 @@ class Cradle_Async_AsyncHandler_Test extends TestCase
 
         $routine2 = $handler->add(function($routine) {
             for($i = 0; $i < 3; $i++) {
+
                 yield $routine->getId() . '-' . $i;
             }
         });
@@ -131,19 +132,30 @@ class Cradle_Async_AsyncHandler_Test extends TestCase
 
         $count = 0;
 
-        $routine = $handler->add(function($routine) {
+        $routine1 = $handler->add(function($routine1) {
             for($i = 0; $i < 5; $i++) {
-                yield [$routine->getId() , $i];
+                yield $i;
             }
         });
 
-        $handler->run(function($value, $routine) use (&$handler, &$count) {
-            $count = $value[1];
-            if ($count === 3) {
-                $handler->kill($value[0]);
+        $routine2 = $handler->add(function($routine2) {
+            for($i = 0; $i < 5; $i++) {
+                yield [$i * 2];
             }
         });
 
-        $this->assertEquals(4, $count);
+        echo 'rut1' . $routine1->getId().PHP_EOL;
+        echo 'rut2' . $routine2->getId().PHP_EOL;
+        // $handler->run(function($value) use (&$handler, $routine1) {
+        //     print_r($value).PHP_EOL;
+        //     // echo $routine2->getId().PHP_EOL;
+        //     // $count = $value[1];
+        //     if ($value === 1) {
+        //         $handler->kill($routine1->getId());
+        //     }
+        // });
+        //
+        //
+        // $this->assertEquals(4, $count);
     }
 }
