@@ -120,7 +120,7 @@ class Cradle_Async_Promise_Test extends TestCase
                 $called ++;
                 $test->assertEquals(1, $promise->getState());
             })
-            ->then(function ($x) use (&$test, &$called) {
+            ->then(function ($x) use (&$promise, &$test, &$called) {
                 $called ++;
                 $test->assertEquals(3, $x);
                 throw new Exception('fail');
@@ -128,6 +128,9 @@ class Cradle_Async_Promise_Test extends TestCase
             ->catch(function ($message) use (&$promise, &$test, &$called) {
                 $called ++;
                 $test->assertEquals(2, $promise->getState());
+
+                // overwrite state
+                $test->assertEquals(3, $promise->getState(3));
                 $test->assertEquals('fail', $message);
             });
 
@@ -267,12 +270,8 @@ class Cradle_Async_Promise_Test extends TestCase
             $fulfill($i);
         }, $handler);
 
-        // $promise6 = new Promise(function($fulfill) {
-        //     $fulfill('yes');
-        // }, $handler);
-
         $called = false;
-        Promise::all([$promise5, $promise3, $promise1], $handler)->then(function($values) use (&$called, $test) {
+        Promise::all([$promise3, $promise4, $promise5], $handler)->then(function($values) use (&$called, $test) {
             $test->assertEquals(8, $values[0]);
         })->catch(function($err) use (&$error) {
             $error = $err;
@@ -283,15 +282,6 @@ class Cradle_Async_Promise_Test extends TestCase
 
         $test->assertNotEmpty($error);
         $test->assertFalse($called);
-
-        // Promise::all([$promise4, $promise5], $handler)->then(function($values) use (&$called, $test) {
-        //     $test->assertEquals(8, $values[0]);
-        // })->catch(function($err) use (&$error) {
-        //     $error = $err;
-        // });
-        //
-        // $handler->run(function($value) {
-        // });
     }
 
     /**
@@ -305,6 +295,7 @@ class Cradle_Async_Promise_Test extends TestCase
     public function testRace()
     {
         $handler = new AsyncHandler('noop');
+
         $promise1 = new Promise(function($fulfill) {
             for($i = 0; $i < 10; $i++) {
                 yield $i;
@@ -337,18 +328,12 @@ class Cradle_Async_Promise_Test extends TestCase
         $this->assertTrue($called);
 
         // Test Rejections
-        $promise3 = function() {
-            for($i = 0; $i < 5; $i++) {
-                yield $i;
-            }
-        };
-
-        $promise4 = new Promise(function() {
-            $fulfill('yes');
+        $promise3 = new Promise(function($fullfill, $reject) {
+            $reject('yes');
         }, $handler);
 
-        $promise5 = new Promise(function($fulfill, $reject) {
-            for($i = 0; $i <= 1; $i++) {
+        $promise4 = new Promise(function($fulfill, $reject) {
+            for($i = 0; $i <= 10; $i++) {
                 yield $i;
             }
 
@@ -356,10 +341,10 @@ class Cradle_Async_Promise_Test extends TestCase
         }, $handler);
 
 
-
         $called = false;
-        Promise::race([$promise3, $promise4, $promise5], $handler)->then(function($values) use (&$called, $test) {
-            $test->assertEquals(8, $values[0]);
+        Promise::race([$promise3, $promise4], $handler)->then(function($value) use (&$called, $test) {
+            $called = true;
+            $test->assertEquals(8, $value);
         })->catch(function($err) use (&$error) {
             $error = $err;
         });
@@ -369,5 +354,30 @@ class Cradle_Async_Promise_Test extends TestCase
 
         $test->assertNotEmpty($error);
         $test->assertFalse($called);
+
+        // test not promise
+        $promise5 = 500;
+        $promise6 = new Promise(function($fulfill) {
+            for($i = 0; $i < 5; $i++) {
+                yield $i;
+            }
+
+            $fulfill($i);
+        }, $handler);
+
+        $called = false;
+        $error = null;
+        Promise::race([$promise5, $promise6], $handler)->then(function($value) use (&$called, $test) {
+            $called = true;
+            $test->assertEquals(500, $value);
+        })->catch(function($err) use (&$error) {
+            $error = $err;
+        });
+
+        $handler->run(function($value) {
+        });
+
+        $test->assertNull($error);
+        $test->assertTrue($called);
     }
 }
