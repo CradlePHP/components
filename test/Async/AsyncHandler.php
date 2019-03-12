@@ -140,7 +140,7 @@ class Cradle_Async_AsyncHandler_Test extends TestCase
 
         $handler->run(function($value) use (&$handler, &$count) {
             $count = $value[1];
-            if ($value === 3) {
+            if ($count === 3) {
                 $handler->kill($value[0]);
             }
         });
