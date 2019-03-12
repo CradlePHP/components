@@ -47,7 +47,7 @@ class Cradle_I18n_Timezone_Test extends TestCase
         $this->object->__construct('GMT+8');
         $this->assertEquals(28800, $this->object->getOffset());
         $this->object->__construct('ADT');
-        $this->assertEquals(-14400, $this->object->getOffset());
+        $this->assertEquals(-10800, $this->object->getOffset());
     }
 
     /**

@@ -132,30 +132,20 @@ class Cradle_Async_AsyncHandler_Test extends TestCase
 
         $count = 0;
 
-        $routine1 = $handler->add(function($routine1) {
+        $routine = $handler->add(function($routine) {
             for($i = 0; $i < 5; $i++) {
-                yield $i;
+                yield [$routine->getId() , $i];
             }
         });
 
-        $routine2 = $handler->add(function($routine2) {
-            for($i = 0; $i < 5; $i++) {
-                yield [$i * 2];
+        $handler->run(function($value) use (&$handler, &$count) {
+            $count = $value[1];
+            if ($value === 3) {
+                $handler->kill($value[0]);
             }
         });
 
-        echo 'rut1' . $routine1->getId().PHP_EOL;
-        echo 'rut2' . $routine2->getId().PHP_EOL;
-        // $handler->run(function($value) use (&$handler, $routine1) {
-        //     print_r($value).PHP_EOL;
-        //     // echo $routine2->getId().PHP_EOL;
-        //     // $count = $value[1];
-        //     if ($value === 1) {
-        //         $handler->kill($routine1->getId());
-        //     }
-        // });
-        //
-        //
-        // $this->assertEquals(4, $count);
+
+        $this->assertEquals(4, $count);
     }
 }
