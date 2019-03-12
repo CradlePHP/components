@@ -256,15 +256,23 @@ class Cradle_Async_Promise_Test extends TestCase
         }, $handler);
 
         $promise5 = new Promise(function($fulfill, $reject) {
-            for($i = 0; $i <= 1; $i++) {
+            for($i = 0; $i <= 3; $i++) {
+                if ($i == 2) {
+                    $reject($i);
+                }
+
                 yield $i;
             }
 
-            $reject($i + 1);
+            $fulfill($i);
         }, $handler);
 
+        // $promise6 = new Promise(function($fulfill) {
+        //     $fulfill('yes');
+        // }, $handler);
+
         $called = false;
-        Promise::all([$promise3, $promise4, $promise5], $handler)->then(function($values) use (&$called, $test) {
+        Promise::all([$promise5, $promise3, $promise1], $handler)->then(function($values) use (&$called, $test) {
             $test->assertEquals(8, $values[0]);
         })->catch(function($err) use (&$error) {
             $error = $err;
@@ -275,6 +283,15 @@ class Cradle_Async_Promise_Test extends TestCase
 
         $test->assertNotEmpty($error);
         $test->assertFalse($called);
+
+        // Promise::all([$promise4, $promise5], $handler)->then(function($values) use (&$called, $test) {
+        //     $test->assertEquals(8, $values[0]);
+        // })->catch(function($err) use (&$error) {
+        //     $error = $err;
+        // });
+        //
+        // $handler->run(function($value) {
+        // });
     }
 
     /**
@@ -318,5 +335,39 @@ class Cradle_Async_Promise_Test extends TestCase
         $handler->run();
         $this->assertNull($error);
         $this->assertTrue($called);
+
+        // Test Rejections
+        $promise3 = function() {
+            for($i = 0; $i < 5; $i++) {
+                yield $i;
+            }
+        };
+
+        $promise4 = new Promise(function() {
+            $fulfill('yes');
+        }, $handler);
+
+        $promise5 = new Promise(function($fulfill, $reject) {
+            for($i = 0; $i <= 1; $i++) {
+                yield $i;
+            }
+
+            $reject($i + 1);
+        }, $handler);
+
+
+
+        $called = false;
+        Promise::race([$promise3, $promise4, $promise5], $handler)->then(function($values) use (&$called, $test) {
+            $test->assertEquals(8, $values[0]);
+        })->catch(function($err) use (&$error) {
+            $error = $err;
+        });
+
+        $handler->run(function($value) {
+        });
+
+        $test->assertNotEmpty($error);
+        $test->assertFalse($called);
     }
 }
