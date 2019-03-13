@@ -64,13 +64,13 @@ class Cradle_Async_Promise_Test extends TestCase
         // test error
         $item = 0;
         $error = null;
-        $promise2 = Promise::i(function($fulfill) use ($promise1) {
+        $promise1 = Promise::i(function($fulfill) {
             // this is a typo and should result to an error
             $fullfill(10);
         }, $handler);
 
         $called = false;
-        $promise2
+        $promise1
             ->then(function ($value) use (&$item) {
                 $item = $value;
             })
