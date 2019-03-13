@@ -12,7 +12,6 @@ namespace Cradle\OAuth;
 use Closure;
 use Cradle\Curl\CurlHandler;
 
-
 /**
  * OAuth 2 implementation
  *

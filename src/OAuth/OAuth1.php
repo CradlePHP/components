@@ -10,6 +10,7 @@
 namespace Cradle\OAuth;
 
 use Closure;
+
 /**
  * OAuth 1 implementation
  *
@@ -19,7 +20,8 @@ use Closure;
  * @standard PSR-2
  */
 class OAuth1 extends AbstractOAuth1 implements OAuth1Interface
-{   
+{
+
     /**
      * Sets up the required variables
      *
