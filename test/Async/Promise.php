@@ -63,7 +63,7 @@ class Cradle_Async_Promise_Test extends TestCase
 
         // test error
         $item = 0;
-        $error = null;
+        $error = false;
         $promise1 = Promise::i(function($fulfill) {
             // this is a typo and should result to an error
             $fullfill(10);
@@ -75,13 +75,13 @@ class Cradle_Async_Promise_Test extends TestCase
                 $item = $value;
             })
             ->catch(function($err) use (&$error) {
-                $error =  $err;
+                $error =  true;
             });
 
         $handler->run();
 
         $this->assertEquals(0, $item);
-        $this->assertEquals('Function name must be a string', $error);
+        $this->assertTrue($error);
     }
 
     /**
