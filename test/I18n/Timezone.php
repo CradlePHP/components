@@ -48,6 +48,20 @@ class Cradle_I18n_Timezone_Test extends TestCase
         $this->assertEquals(28800, $this->object->getOffset());
         $this->object->__construct('ADT');
         $this->assertEquals(-10800, $this->object->getOffset());
+
+        $this->object->__construct('GMT+12');
+        $this->assertEquals(43200, $this->object->getOffset());
+        $this->object->__construct('UTC+5:30');
+        $this->assertEquals(19800, $this->object->getOffset());
+        $this->object->__construct('UTC+12:30');
+        $this->assertEquals(45000, $this->object->getOffset());
+
+        $this->object->__construct('THISISATYPO');
+        $this->assertEquals(0, $this->object->getOffset());
+
+
+        $this->object->__construct('UTC+12:305');
+        $this->assertEquals(0, $this->object->getOffset());
     }
 
     /**
@@ -197,6 +211,9 @@ class Cradle_I18n_Timezone_Test extends TestCase
         ///
         $class = new Timezone('Asia/Macau', time() + (60 * 60 * 25));
         $this->assertEquals('Tomorrow', $class->toRelative(time() - $offset));
+
+        // $class = new Timezone('Asia/Macau', time() + (60 * 60 * 25));
+        // $this->assertEquals('Tomorrow', $class->toRelative(time()));
     }
 
     /**
