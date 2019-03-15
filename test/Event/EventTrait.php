@@ -34,13 +34,48 @@ class Cradle_Event_EventTrait_Test extends TestCase
     }
 
     /**
+     * @covers Cradle\Event\EventTrait::async
+     */
+    public function testAsync()
+    {
+        $trigger = new StdClass();
+        $trigger->success = null;
+        $trigger->results = 0;
+
+        $process = function() use ($trigger) {
+            $trigger->success = true;
+            $trigger->results += 5;
+        };
+
+        $process2 = function() use ($trigger) {
+            $trigger->results += 10;
+        };
+
+        $instance = $this
+            ->object
+            ->on('foo', $process)
+            ->on('bar', $process2)
+            ->async('foo')
+            ->async('bar');
+
+        $this->assertInstanceOf('Cradle\Event\EventTraitStub', $instance);
+
+        $instance = $instance->getAsyncHandler();
+        $this->assertInstanceOf('Cradle\Async\AsyncHandler', $instance);
+
+        $instance->run();
+        $this->assertTrue($trigger->success);
+        $this->assertEquals(15, $trigger->results);
+    }
+
+    /**
      * @covers Cradle\Event\EventTrait::getEventHandler
      */
     public function testGetEventHandler()
     {
 		$instance = $this->object->getEventHandler();
 		$this->assertInstanceOf('Cradle\Event\EventHandler', $instance);
-		
+
         $instance = $this->object
 			->setEventHandler(new EventTraitEventHandlerStub)
 			->getEventHandler();
@@ -54,16 +89,16 @@ class Cradle_Event_EventTrait_Test extends TestCase
     {
         $trigger = new StdClass();
 		$trigger->success = null;
-		
+
         $callback = function() use ($trigger) {
 			$trigger->success = true;
 		};
-		
+
 		$instance = $this
 			->object
 			->on('foobar', $callback)
 			->trigger('foobar');
-		
+
 		$this->assertInstanceOf('Cradle\Event\EventTraitStub', $instance);
 		$this->assertTrue($trigger->success);
     }
@@ -75,10 +110,10 @@ class Cradle_Event_EventTrait_Test extends TestCase
     {
         $instance = $this->object->setEventHandler(new EventPipeEventHandlerStub);
 		$this->assertInstanceOf('Cradle\Event\EventTraitStub', $instance);
-		
+
         $instance = $this->object->setEventHandler(new EventPipeEventHandlerStub, true);
 		$this->assertInstanceOf('Cradle\Event\EventTraitStub', $instance);
-		
+
         $instance = $this->object->setEventHandler(new EventHandler, true);
     }
 
@@ -89,20 +124,20 @@ class Cradle_Event_EventTrait_Test extends TestCase
     {
 		$trigger = new StdClass();
 		$trigger->success = null;
-		
+
         $callback = function() use ($trigger) {
 			$trigger->success = true;
 		};
-		
+
 		$instance = $this
 			->object
 			->on('foobar', $callback)
 			->trigger('foobar');
-		
+
 		$this->assertInstanceOf('Cradle\Event\EventTraitStub', $instance);
 		$this->assertTrue($trigger->success);
     }
-	
+
     /**
      * @covers Cradle\Event\EventTrait::bindCallback
      */
@@ -111,14 +146,14 @@ class Cradle_Event_EventTrait_Test extends TestCase
         $trigger = new StdClass;
         $trigger->success = null;
 		$trigger->test = $this;
-		
+
 		$callback = $this->object->bindCallback(function() use ($trigger) {
 	    	$trigger->success = true;
 			$trigger->test->assertInstanceOf('Cradle\Event\EventTraitStub', $this);
 		});
-		
+
 		$callback();
-		
+
 		$this->assertTrue($trigger->success);
     }
 }

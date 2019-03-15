@@ -132,11 +132,8 @@ class OAuth2 extends AbstractOAuth2 implements OAuth2Interface
      *
      * @return string
      */
-    public function get(string $url, string $accessToken, array $query): array
+    public function get(string $url, array $query): array
     {
-        // set access token
-        $query['access_token'] = $accessToken;
-
         // send request
         $result = CurlHandler::i()
             ->setUrl($this->urlResource.$url. '?' . http_build_query($query))
