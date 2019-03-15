@@ -38,20 +38,20 @@ class Cradle_Async_AsyncHandler_Test extends TestCase
      * @covers Cradle\Async\AsyncHandler::__construct
      * @covers Cradle\Async\AsyncHandler::getChannelMap
      */
-    // public function test__construct()
-    // {
-    //     $handler = new AsyncHandler();
-    //     $this->assertInstanceOf('Cradle\Async\AsyncHandler', $handler);
-    //
-    //     $handler = new AsyncHandler(function() {});
-    //     $this->assertInstanceOf('Cradle\Async\AsyncHandler', $handler);
-    //
-    //     $handler = new AsyncHandler('noop');
-    //     $this->assertInstanceOf('Cradle\Async\AsyncHandler', $handler);
-    //
-    //     $handler = new AsyncHandler('foo');
-    //     $this->assertInstanceOf('Cradle\Async\AsyncHandler', $handler);
-    // }
+    public function test__construct()
+    {
+        $handler = new AsyncHandler();
+        $this->assertInstanceOf('Cradle\Async\AsyncHandler', $handler);
+
+        $handler = new AsyncHandler(function() {});
+        $this->assertInstanceOf('Cradle\Async\AsyncHandler', $handler);
+
+        $handler = new AsyncHandler('noop');
+        $this->assertInstanceOf('Cradle\Async\AsyncHandler', $handler);
+
+        $handler = new AsyncHandler('foo');
+        $this->assertInstanceOf('Cradle\Async\AsyncHandler', $handler);
+    }
 
     /**
      * @covers Cradle\Async\AsyncHandler::__construct
@@ -59,64 +59,64 @@ class Cradle_Async_AsyncHandler_Test extends TestCase
      * @covers Cradle\Async\AsyncHandler::add
      * @covers Cradle\Async\AsyncHandler::run
      */
-    // public function testRun()
-    // {
-    //     $handler = new AsyncHandler('noop');
-    //     $results = [];
-    //
-    //     $routine1 = $handler->add(function($routine) use (&$results) {
-    //         for($i = 0; $i < 5; $i++) {
-    //             $results[] = $routine->getId() . '-' . $i;
-    //             yield;
-    //         }
-    //     });
-    //
-    //     $routine2 = $handler->add(function($routine) use (&$results) {
-    //         for($i = 0; $i < 3; $i++) {
-    //             $results[] = $routine->getId() . '-' . $i;
-    //             yield;
-    //         }
-    //     });
-    //
-    //     $handler->run();
-    //
-    //     $this->assertEquals($routine1->getId() . '-0', $results[0]);
-    //     $this->assertEquals($routine2->getId() . '-0', $results[1]);
-    //     $this->assertEquals($routine1->getId() . '-1', $results[2]);
-    //     $this->assertEquals($routine2->getId() . '-1', $results[3]);
-    //     $this->assertEquals($routine1->getId() . '-2', $results[4]);
-    //     $this->assertEquals($routine2->getId() . '-2', $results[5]);
-    //     $this->assertEquals($routine1->getId() . '-3', $results[6]);
-    //     $this->assertEquals($routine1->getId() . '-4', $results[7]);
-    //
-    //     $handler = new AsyncHandler('noop');
-    //     $results = [];
-    //
-    //     $routine1 = $handler->add(function($routine) {
-    //         for($i = 0; $i < 5; $i++) {
-    //             yield $routine->getId() . '-' . $i;
-    //         }
-    //     });
-    //
-    //     $routine2 = $handler->add(function($routine) {
-    //         for($i = 0; $i < 3; $i++) {
-    //             yield $routine->getId() . '-' . $i;
-    //         }
-    //     });
-    //
-    //     $handler->run(function($value, $routine) use (&$results) {
-    //         $results[] = $value;
-    //     });
-    //
-    //     $this->assertEquals($routine1->getId() . '-0', $results[0]);
-    //     $this->assertEquals($routine2->getId() . '-0', $results[1]);
-    //     $this->assertEquals($routine1->getId() . '-1', $results[2]);
-    //     $this->assertEquals($routine2->getId() . '-1', $results[3]);
-    //     $this->assertEquals($routine1->getId() . '-2', $results[4]);
-    //     $this->assertEquals($routine2->getId() . '-2', $results[5]);
-    //     $this->assertEquals($routine1->getId() . '-3', $results[6]);
-    //     $this->assertEquals($routine1->getId() . '-4', $results[7]);
-    // }
+    public function testRun()
+    {
+        $handler = new AsyncHandler('noop');
+        $results = [];
+
+        $routine1 = $handler->add(function($routine) use (&$results) {
+            for($i = 0; $i < 5; $i++) {
+                $results[] = $routine->getId() . '-' . $i;
+                yield;
+            }
+        });
+
+        $routine2 = $handler->add(function($routine) use (&$results) {
+            for($i = 0; $i < 3; $i++) {
+                $results[] = $routine->getId() . '-' . $i;
+                yield;
+            }
+        });
+
+        $handler->run();
+
+        $this->assertEquals($routine1->getId() . '-0', $results[0]);
+        $this->assertEquals($routine2->getId() . '-0', $results[1]);
+        $this->assertEquals($routine1->getId() . '-1', $results[2]);
+        $this->assertEquals($routine2->getId() . '-1', $results[3]);
+        $this->assertEquals($routine1->getId() . '-2', $results[4]);
+        $this->assertEquals($routine2->getId() . '-2', $results[5]);
+        $this->assertEquals($routine1->getId() . '-3', $results[6]);
+        $this->assertEquals($routine1->getId() . '-4', $results[7]);
+
+        $handler = new AsyncHandler('noop');
+        $results = [];
+
+        $routine1 = $handler->add(function($routine) {
+            for($i = 0; $i < 5; $i++) {
+                yield $routine->getId() . '-' . $i;
+            }
+        });
+
+        $routine2 = $handler->add(function($routine) {
+            for($i = 0; $i < 3; $i++) {
+                yield $routine->getId() . '-' . $i;
+            }
+        });
+
+        $handler->run(function($value, $routine) use (&$results) {
+            $results[] = $value;
+        });
+
+        $this->assertEquals($routine1->getId() . '-0', $results[0]);
+        $this->assertEquals($routine2->getId() . '-0', $results[1]);
+        $this->assertEquals($routine1->getId() . '-1', $results[2]);
+        $this->assertEquals($routine2->getId() . '-1', $results[3]);
+        $this->assertEquals($routine1->getId() . '-2', $results[4]);
+        $this->assertEquals($routine2->getId() . '-2', $results[5]);
+        $this->assertEquals($routine1->getId() . '-3', $results[6]);
+        $this->assertEquals($routine1->getId() . '-4', $results[7]);
+    }
 
     /**
      * @covers Cradle\Async\AsyncHandler::add
