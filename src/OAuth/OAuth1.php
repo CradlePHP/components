@@ -9,6 +9,8 @@
 
 namespace Cradle\OAuth;
 
+use Closure;
+
 /**
  * OAuth 1 implementation
  *
@@ -19,6 +21,7 @@ namespace Cradle\OAuth;
  */
 class OAuth1 extends AbstractOAuth1 implements OAuth1Interface
 {
+
     /**
      * Sets up the required variables
      *
@@ -35,7 +38,8 @@ class OAuth1 extends AbstractOAuth1 implements OAuth1Interface
         string $urlRedirect,
         string $urlRequest,
         string $urlAuthorize,
-        string $urlAccess
+        string $urlAccess,
+        Closure $map = null
     ) {
         $this->consumerKey = $consumerKey;
         $this->consumerSecret = $consumerSecret;
@@ -50,7 +54,9 @@ class OAuth1 extends AbstractOAuth1 implements OAuth1Interface
 
         $this->signature = self::PLAIN_TEXT;
         $this->method = self::GET;
+        $this->map = $map;
     }
+
 
     /**
      * Returns the access token

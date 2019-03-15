@@ -164,6 +164,11 @@ abstract class AbstractOAuth1
     protected $urlRequest = null;
 
     /**
+     * @var Closure|null $map The actual curl callback
+     */
+    protected $map = null;
+    
+    /**
      * Sets request headers
      *
      * @param *string $key
@@ -512,7 +517,7 @@ abstract class AbstractOAuth1
         $url = $this->url;
 
         //set curl
-        $curl = CurlHandler::i()
+        $curl = CurlHandler::i($this->map)
             ->verifyHost(false)
             ->verifyPeer(false);
 

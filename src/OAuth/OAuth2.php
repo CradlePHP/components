@@ -9,6 +9,7 @@
 
 namespace Cradle\OAuth;
 
+use Closure;
 use Cradle\Curl\CurlHandler;
 
 /**
@@ -36,7 +37,8 @@ class OAuth2 extends AbstractOAuth2 implements OAuth2Interface
         string $urlRedirect,
         string $urlRequest,
         string $urlAccess,
-        string $urlResource
+        string $urlResource,
+        Closure $map = null
     ) {
         $this->clientId = $clientId;
         $this->clientSecret = $clientSecret;
@@ -44,6 +46,7 @@ class OAuth2 extends AbstractOAuth2 implements OAuth2Interface
         $this->urlRequest = $urlRequest;
         $this->urlAccess = $urlAccess;
         $this->urlResource = $urlResource;
+        $this->map = $map;
     }
 
     /**
@@ -70,7 +73,7 @@ class OAuth2 extends AbstractOAuth2 implements OAuth2Interface
         }
 
         //set curl
-        $result = CurlHandler::i()
+        $result = CurlHandler::i($this->map)
             ->setUrl($this->urlAccess)
             ->verifyHost(false)
             ->verifyPeer(false)
@@ -135,7 +138,7 @@ class OAuth2 extends AbstractOAuth2 implements OAuth2Interface
     public function get(string $url, array $query): array
     {
         // send request
-        $result = CurlHandler::i()
+        $result = CurlHandler::i($this->map)
             ->setUrl($this->urlResource.$url. '?' . http_build_query($query))
             ->setCustomRequest('GET')
             ->getJsonResponse();
