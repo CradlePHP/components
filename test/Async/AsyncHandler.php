@@ -131,19 +131,25 @@ class Cradle_Async_AsyncHandler_Test extends TestCase
 
         $count = 0;
 
-        $routine = $handler->add(function($routine) {
+        $routine1 = $handler->add(function($routine1) {
             for($i = 0; $i < 5; $i++) {
-                yield [$routine->getId() , $i];
+                yield $i;
             }
         });
 
-        $handler->run(function($value, $routine) use (&$handler, &$count) {
-            $count = $value[1];
-            if ($count === 3) {
-                $handler->kill($value[0]);
+        $routine2 = $handler->add(function($routine2) {
+            sleep();
+            for($i = 0; $i < 5; $i++) {
+                yield $i;
             }
         });
 
-        $this->assertEquals(4, $count);
+        $count = 0;
+        $handler->run(function($value) use (&$handler, &$count, &$routine2, &$routine1) {
+            $count += $value;
+            $handler->kill($routine2->getId());
+        });
+
+        $this->assertEquals(10, $count);
     }
 }
