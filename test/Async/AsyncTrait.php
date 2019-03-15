@@ -40,6 +40,33 @@ class Cradle_Async_AsyncTrait_Test extends TestCase
     }
 
     /**
+     * @covers Cradle\Async\AsyncTrait::getAsyncHandler
+     */
+    public function testGetAsyncHandler()
+    {
+        $instance = $this->object->getAsyncHandler();
+        $this->assertInstanceOf('Cradle\Async\AsyncHandler', $instance);
+
+        $instance = $this->object
+            ->setAsyncHandler(new AsyncHandler('noop'))
+            ->getAsyncHandler();
+
+        $this->assertInstanceOf('Cradle\Async\AsyncHandler', $instance);
+    }
+
+    /**
+     * @covers Cradle\Async\AsyncTrait::setAsyncHandler
+     */
+    public function testSetAsyncHandler()
+    {
+        $instance = $this->object->setAsyncHandler(new AsyncHandler('noop'));
+        $this->assertInstanceOf('Cradle\Async\AsyncTraitStub', $instance);
+
+        $instance = $this->object->setAsyncHandler(new AsyncHandler('noop'), true);
+        $this->assertInstanceOf('Cradle\Async\AsyncTraitStub', $instance);
+    }
+
+    /**
      * @covers Cradle\Async\AsyncTrait::promise
      */
     public function testPromise()
@@ -169,33 +196,6 @@ class Cradle_Async_AsyncTrait_Test extends TestCase
         $this->assertEquals('Promise 4 - Call Task: 8', $results[29]);
         $this->assertEquals('Promise 5 - Call Task: 4-4', $results[30]);
         $this->assertEquals('Promise 4 - Call Task: 9', $results[31]);
-    }
-
-    /**
-     * @covers Cradle\Async\AsyncTrait::getAsyncHandler
-     */
-    public function testGetAsyncHandler()
-    {
-        $instance = $this->object->getAsyncHandler();
-        $this->assertInstanceOf('Cradle\Async\AsyncHandler', $instance);
-
-        $instance = $this->object
-            ->setAsyncHandler(new AsyncHandler('noop'))
-            ->getAsyncHandler();
-
-        $this->assertInstanceOf('Cradle\Async\AsyncHandler', $instance);
-    }
-
-    /**
-     * @covers Cradle\Async\AsyncTrait::setAsyncHandler
-     */
-    public function testSetAsyncHandler()
-    {
-        $instance = $this->object->setAsyncHandler(new AsyncHandler('noop'));
-        $this->assertInstanceOf('Cradle\Async\AsyncTraitStub', $instance);
-
-        $instance = $this->object->setAsyncHandler(new AsyncHandler('noop'), true);
-        $this->assertInstanceOf('Cradle\Async\AsyncTraitStub', $instance);
     }
 }
 
