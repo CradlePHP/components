@@ -49,6 +49,30 @@ class Cradle_OAauth_OAuth2_Test extends TestCase
     }
 
     /**
+     * @covers Cradle\OAuth\OAuth2::__construct
+     */
+    public function test__construct()
+    {
+        try {
+            $object = new OAuth2(
+                $this->clientId,
+                $this->clientSecret,
+                $this->urlRedirect,
+                $this->urlRequest,
+                $this->urlAccess,
+                $this->urlResource,
+                function($options) {
+                    $options['response'] = json_encode($options);
+                    return $options;
+                }
+            );
+        } catch(Exception $e) {
+        }
+
+        $this->assertInstanceOf('Cradle\OAuth\OAuth2', $object);
+    }
+
+    /**
      * Tears down the fixture, for example, closes a network connection.
      * This method is called after a test is executed.
      */
@@ -58,9 +82,11 @@ class Cradle_OAauth_OAuth2_Test extends TestCase
 
     /**
      * @covers Cradle\OAuth\OAuth2::getAccessTokens
+     * @covers Cradle\OAuth\AbstractOAuth2::getAccessTokens
+     * @covers Cradle\OAuth\AbstractOAuth2::isJson
      */
     public function testGetAccessTokens()
-    {   
+    {
         $code = 'foobar_code';
         $actual = $this->object->getAccessTokens($code);
 
@@ -71,21 +97,54 @@ class Cradle_OAauth_OAuth2_Test extends TestCase
 
     /**
      * @covers Cradle\OAuth\OAuth2::getLoginUrl
+     * @covers Cradle\OAuth\AbstractOAuth2::getLoginUrl
+     * @covers Cradle\OAuth\AbstractOAuth2::autoApprove
+     * @covers Cradle\OAuth\AbstractOAuth2::forceApprove
+     * @covers Cradle\OAuth\AbstractOAuth2::setDisplay
+     * @covers Cradle\OAuth\AbstractOAuth2::setState
+     * @covers Cradle\OAuth\AbstractOAuth2::setScope
+     * @covers Cradle\OAuth\AbstractOAuth2::forOnline
+     * @covers Cradle\OAuth\AbstractOAuth2::forOffline
      */
     public function testGetLoginUrl()
     {
+        $hash = md5(uniqid());
+
+        // for online, auto approve, state
         $token = 'foobar_token';
-        $actual = $this->object->getLoginUrl();
+        $actual = $this->object
+            ->forOnline()
+            ->autoApprove()
+            ->setState($hash)
+            ->setDisplay('web')
+            ->getLoginUrl();
 
         $this->assertEquals(
                 $this->urlRequest . '?response_type=code' .
                 '&client_id=' . $this->clientId .
                 '&redirect_uri=' . urlencode($this->urlRedirect) .
                 '&access_type=online' .
-                '&approval_prompt=auto', $actual);
+                '&approval_prompt=auto' .
+                '&state=' . $hash .
+                '&display=web', $actual);
+
+        // test offline, force approve, scope
+        $actual = $this->object
+            ->forOffline()
+            ->forceApprove()
+            ->setScope('readOnly')
+            ->getLoginUrl();
+
+        $this->assertEquals(
+                $this->urlRequest . '?response_type=code' .
+                '&client_id=' . $this->clientId .
+                '&redirect_uri=' . urlencode($this->urlRedirect) .
+                '&access_type=offline' .
+                '&approval_prompt=force' .
+                '&scope=readOnly' .
+                '&state=' . $hash .
+                '&display=web', $actual);
     }
-
-
 
     /**
      * @covers Cradle\OAuth\OAuth2::get
@@ -99,8 +158,8 @@ class Cradle_OAauth_OAuth2_Test extends TestCase
         $actual = $this->object->get($resource, $fields);
 
         $this->assertEquals(
-            $this->urlResource.$resource 
-            .'?access_token='. $fields['access_token'], 
+            $this->urlResource.$resource
+            .'?access_token='. $fields['access_token'],
             $actual[CURLOPT_URL]
         );
     }
