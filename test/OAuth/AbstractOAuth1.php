@@ -18,30 +18,31 @@ class AbstractClassTest extends TestCase {
         $this->assertInstanceOf(AbstractOAuth1::class, $instance);
     }
 
-     public function testBuildQuery() {
+    public function testBuildQuery() {
         $params = [
-            'token' => 'token'
+            'token' => 'token',
+            'params' => []
         ];
         $actual = $this->object->_buildQuery($params);
 
-        $this->assertEquals('token=token', $actual);
+        $this->assertEquals('params=&token=token', $actual);
     }
 
-     public function testEncode() {
+    public function testEncode() {
         $string = 'http://foobar.com';
         $actual = $this->object->_encode($string);
 
         $this->assertEquals('http%3A%2F%2Ffoobar.com', $actual);
-     }
+    }
 
-     public function testDecode() {
+    public function testDecode() {
         $string = 'http%3A%2F%2Ffoobar.com';
         $actual = $this->object->_decode($string);
 
         $this->assertEquals('http://foobar.com', $actual);
-     }
+    }
 
-     public function testGetAuthorization() {
+    public function testGetAuthorization() {
         $signature = '123456';
         $actual = $this->object->_getAuthorization($signature, false);
 
@@ -55,38 +56,64 @@ class AbstractClassTest extends TestCase {
         ];
 
         $this->assertArraySubset($expected, $actual);
-     }
+    }
 
-     public function testGetHmacPlainTextSignature() {
+    public function testGetDomDocumentResponse() {
+        $query = ['test' => 'test'];
+        $actual = $this->object->getGetDomDocumentResponse($query);
+        $this->assertInstanceOf('DOMDocument', $actual);
+    } 
+
+    public function testGetHmacPlainTextSignature() {
         $actual = $this->object->_getHmacPlainTextSignature();
         $this->assertEquals('foobar_consumer_secret', $actual);
-     }
+    }
 
-     public function testGetHmacSha1Signature() {
+    public function testGetHmacSha1Signature() {
         $actual = $this->object->_getHmacSha1Signature([]);
         $this->assertEquals('OtOfx+wAOPn0OJmXAt2THQ6CcG0=', $actual);
-     }
+    }
 
-     public function testGetJsonResponse() {
+    public function testGetJsonResponse() {
         $actual = $this->object->_getJsonResponse([]);
         $this->assertArrayHasKey(CURLOPT_URL, $actual);
-     }
+    }
 
-     public function testGetMeta() {
+    public function testGetMeta() {
         $token = 'foobar_token';
         $actual = $this->object->_getMeta();
 
         $this->assertArrayHasKey('query', $actual);
         $this->assertArrayHasKey('headers', $actual);
         $this->assertArrayHasKey('authorization', $actual);
-     }
+    }
 
-     public function testGetSignature() {
+    public function testGetQueryResponse() {
+        $token = 'foobar_token';
+        $actual = $this->object->_getQueryResponse([]);
+
+        $this->assertArrayHasKey('oauth_signature', $actual);
+        $this->assertArrayHasKey('oauth_signature_method', $actual);
+        $this->assertArrayHasKey('oauth_nonce', $actual);
+    }
+
+    public function testGetResponse() {
+        $token = 'foobar_token';
+        $actual = $this->object->_getResponse([]);
+
+        $this->assertJson($actual);
+    }
+
+    public function testGetSignature() {
         $actual = $this->object->_getSignature([]);
         $this->assertEquals('OtOfx+wAOPn0OJmXAt2THQ6CcG0=', $actual);
-     }
+    }
      
-    
+    public function testGetSimpleXmlResponse() {
+        $actual = $this->object->_getSimpleXmlResponse([]);
+        $this->assertInstanceOf('SimpleXMLElement', $actual);
+    } 
+
     public function testGetJsonEncodeQuery() {
         $actual = $this->object->_getJsonEncodeQuery([]);
         $this->assertInstanceOf(AbstractOAuth1::class, $actual);
@@ -205,6 +232,10 @@ if(!class_exists('Cradle\Storm\AbstractSqlStub')) {
         
         public function getGetDomDocumentResponse($query) {
             $this->setUrl('http://foobar.com');
+            $this->map = function($options) {
+                $options['response'] = '<root></root>';
+                return $options;
+            };
             return $this->getDomDocumentResponse($query);
         }
 
@@ -225,6 +256,16 @@ if(!class_exists('Cradle\Storm\AbstractSqlStub')) {
 
             return $this->getMeta();
         }
+        
+        public function _getQueryResponse($query) {
+            return $this->getQueryResponse($query);
+        }
+        
+        public function _getResponse($query) {
+            $this->jsonEncodeQuery();
+            $this->setMethodToPost();
+            return $this->getResponse($query);
+        }
 
         public function _getSignature($query) {
             $this->setSignatureToHmacSha1();
@@ -233,6 +274,10 @@ if(!class_exists('Cradle\Storm\AbstractSqlStub')) {
 
         public function _getSimpleXmlResponse($query) {
             $this->getJsonResponse([]);
+            $this->map = function($options) {
+                $options['response'] = '<root></root>';
+                return $options;
+            };
             return $this->getSimpleXmlResponse($query);
         }   
 
