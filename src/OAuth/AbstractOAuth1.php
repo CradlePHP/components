@@ -362,7 +362,7 @@ abstract class AbstractOAuth1
      */
     protected function getHmacPlainTextSignature(): string
     {
-        return $this->consumerSecret . '&' . $this->tokenSecret;
+        return $this->consumerSecret;
     }
 
     /**
@@ -610,43 +610,6 @@ abstract class AbstractOAuth1
     {
         $this->json = true;
         return $this;
-    }
-
-    /**
-     * Parses a string into an array
-     *
-     * @param *string $string
-     *
-     * @return array
-     */
-    protected function parseString(string $string): array
-    {
-        $array = [];
-
-        if (strlen($string) < 1) {
-            return $array;
-        }
-
-        // Separate single string into an array of "key=value" strings
-        $keyvalue = explode('&', $query_string);
-        // Separate each "key=value" string into an array[key] = value
-        foreach ($keyvalue as $pair) {
-            list($k, $v) = explode('=', $pair, 2);
-
-            // Handle the case where multiple values map to the same key
-            // by pulling those values into an array themselves
-            if (isset($query_array[$k])) {
-                // If the existing value is a scalar, turn it into an array
-                if (is_scalar($query_array[$k])) {
-                    $query_array[$k] = [ $query_array[$k] ];
-                }
-                array_push($query_array[$k], $v);
-            } else {
-                $query_array[$k] = $v;
-            }
-        }
-
-        return $array;
     }
 
     /**

@@ -48,7 +48,32 @@ class Cradle_OAauth_OAuth1_Test extends TestCase
         );
     }
 
-     /**
+    /**
+     * @covers Cradle\OAuth\OAuth1::__construct
+     */
+    public function test__construct()
+    {
+        try {
+            $object = new OAuth1(
+                $this->consumerKey,
+                $this->consumerSecret,
+                $this->urlRedirect,
+                $this->urlRequest,
+                $this->urlAuthorize,
+                $this->urlAccess,
+                function($options) {
+                    $options['response'] = json_encode($options);
+                    return $options;
+                }
+            );
+        } catch(Exception $e) {
+        }
+
+        $this->assertInstanceOf('Cradle\OAuth\OAuth1', $object);
+    }
+
+
+    /**
      * Tears down the fixture, for example, closes a network connection.
      * This method is called after a test is executed.
      */
