@@ -96,6 +96,13 @@
       <file>test/Image/ImageHandler.php</file>
       <file>test/Image/ImageException.php</file>
     </testsuite>
+    <testsuite name="CradlePHP Async Test Suite">
+      <file>test/Async/AsyncException.php</file>
+      <file>test/Async/Coroutine.php</file>
+      <file>test/Async/AsyncHandler.php</file>
+      <file>test/Async/Promise.php</file>
+      <file>test/Async/AsyncTrait.php</file>
+    </testsuite>
   </testsuites>
 
   <filter>
@@ -122,6 +129,11 @@
         <file>src/Http/Router/RouterInterface.php</file>
         <file>src/Http/map/output.php</file>
         <file>src/Http/map/redirect.php</file>
+        <file>src/Async/PromiseInterface.php</file>
+        <file>src/Async/QueueInterface.php</file>
+        <file>src/Async/map/noop.php</file>
+        <file>src/Async/map/shutdown.php</file>
+        <file>src/Async/map/socket.php</file>
       </exclude>
     </whitelist>
   </filter>

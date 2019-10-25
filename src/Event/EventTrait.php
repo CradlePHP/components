@@ -10,6 +10,7 @@
 namespace Cradle\Event;
 
 use Closure;
+use Cradle\Async\AsyncTrait;
 use Cradle\Helper\BinderTrait;
 
 /**
@@ -21,7 +22,7 @@ use Cradle\Helper\BinderTrait;
  */
 trait EventTrait
 {
-    use BinderTrait;
+    use AsyncTrait;
 
     /**
      * @var Resolver|null $globalEventHandler The resolver instance
@@ -32,6 +33,30 @@ trait EventTrait
      * @var EventHandler|null $eventHandler
      */
     private $eventHandler = null;
+
+    /**
+     * Asyncronous trigger
+     *
+     * @param *string $event The event to trigger
+     * @param mixed   ...$args The arguments to pass to the handler
+     *
+     * @return EventTrait
+     */
+    public function async(string $event, ...$args)
+    {
+        //get the event handler
+        $handler = $this->getEventHandler();
+
+        //set up the async callback
+        $callback = function () use ($handler, &$event, &$args) {
+            yield $handler->trigger($event, ...$args);
+        };
+
+        //add the callback in the async handler
+        $this->getAsyncHandler()->add($callback);
+
+        return $this;
+    }
 
     /**
      * Returns an EventHandler object
