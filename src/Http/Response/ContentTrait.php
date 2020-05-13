@@ -50,7 +50,7 @@ trait ContentTrait
     public function setContent($content)
     {
         if (!is_scalar($content)) {
-            $content = json_encode($content, JSON_PRETTY_PRINT);
+            $content = json_encode($content, JSON_PARTIAL_OUTPUT_ON_ERROR|JSON_PRETTY_PRINT);
         }
 
         if (is_bool($content)) {
