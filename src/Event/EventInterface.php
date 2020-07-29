@@ -22,36 +22,36 @@ namespace Cradle\Event;
  */
 interface EventInterface
 {
-    /**
-     * Stops listening to an event
-     *
-     * @param string|null   $event    name of the event
-     * @param callable|null $callback callback handler
-     *
-     * @return EventInterface
-     */
-    public function off(string $event = null, callable $callback = null): EventInterface;
+  /**
+   * Stops listening to an event
+   *
+   * @param string|null   $event  name of the event
+   * @param callable|null $callback callback handler
+   *
+   * @return EventInterface
+   */
+  public function unbind(string $event = null, callable $callback = null): EventInterface;
 
-    /**
-     * Attaches an instance to be notified
-     * when an event has been triggered
-     *
-     * @param *string|array   $event    The name of the event
-     * @param *callable       $callback The event handler
-     * @param int             $priority Set the importance
-     *
-     * @return EventInterface
-     */
-    public function on($event, callable $callback, int $priority = 0): EventInterface;
+  /**
+   * Attaches an instance to be notified
+   * when an event has been triggered
+   *
+   * @param *string|array   $event  The name of the event
+   * @param *callable     $callback The event handler
+   * @param int       $priority Set the importance
+   *
+   * @return EventInterface
+   */
+  public function on($event, callable $callback, int $priority = 0): EventInterface;
 
-    /**
-     * Notify all observers of that a specific
-     * event has happened
-     *
-     * @param *string $event The event to trigger
-     * @param mixed   ...$args The arguments to pass to the handler
-     *
-     * @return EventInterface
-     */
-    public function trigger(string $event, ...$args): EventInterface;
+  /**
+   * Notify all observers of that a specific
+   * event has happened
+   *
+   * @param *string $event The event to trigger
+   * @param mixed   ...$args The arguments to pass to the handler
+   *
+   * @return EventInterface
+   */
+  public function emit(string $event, ...$args): EventInterface;
 }

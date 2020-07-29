@@ -10,163 +10,163 @@ use PHPUnit\Framework\TestCase;
  */
 class Cradle_Event_EventTrait_Test extends TestCase
 {
-    /**
-     * @var EventTrait
-     */
-    protected $object;
+  /**
+   * @var EventTrait
+   */
+  protected $object;
 
-    /**
-     * Sets up the fixture, for example, opens a network connection.
-     * This method is called before a test is executed.
-     */
-    protected function setUp()
-    {
-        $this->object = new EventTraitStub;
-		$this->object->getEventHandler()->off();
-    }
+  /**
+   * Sets up the fixture, for example, opens a network connection.
+   * This method is called before a test is executed.
+   */
+  protected function setUp()
+  {
+    $this->object = new EventTraitStub;
+    $this->object->getEventEmitter()->unbind();
+  }
 
-    /**
-     * Tears down the fixture, for example, closes a network connection.
-     * This method is called after a test is executed.
-     */
-    protected function tearDown()
-    {
-    }
+  /**
+   * Tears down the fixture, for example, closes a network connection.
+   * This method is called after a test is executed.
+   */
+  protected function tearDown()
+  {
+  }
 
-    /**
-     * @covers Cradle\Event\EventTrait::async
-     */
-    public function testAsync()
-    {
-        $trigger = new StdClass();
-        $trigger->success = null;
-        $trigger->results = 0;
+  /**
+   * @covers Cradle\Event\EventTrait::async
+   */
+  public function testAsync()
+  {
+    $trigger = new StdClass();
+    $trigger->success = null;
+    $trigger->results = 0;
 
-        $process = function() use ($trigger) {
-            $trigger->success = true;
-            $trigger->results += 5;
-        };
+    $process = function() use ($trigger) {
+      $trigger->success = true;
+      $trigger->results += 5;
+    };
 
-        $process2 = function() use ($trigger) {
-            $trigger->results += 10;
-        };
+    $process2 = function() use ($trigger) {
+      $trigger->results += 10;
+    };
 
-        $instance = $this
-            ->object
-            ->on('foo', $process)
-            ->on('bar', $process2)
-            ->async('foo')
-            ->async('bar');
+    $instance = $this
+      ->object
+      ->on('foo', $process)
+      ->on('bar', $process2)
+      ->async('foo')
+      ->async('bar');
 
-        $this->assertInstanceOf('Cradle\Event\EventTraitStub', $instance);
+    $this->assertInstanceOf('Cradle\Event\EventTraitStub', $instance);
 
-        $instance = $instance->getAsyncHandler();
-        $this->assertInstanceOf('Cradle\Async\AsyncHandler', $instance);
+    $instance = $instance->getAsyncHandler();
+    $this->assertInstanceOf('Cradle\Async\AsyncHandler', $instance);
 
-        $instance->run();
-        $this->assertTrue($trigger->success);
-        $this->assertEquals(15, $trigger->results);
-    }
+    $instance->run();
+    $this->assertTrue($trigger->success);
+    $this->assertEquals(15, $trigger->results);
+  }
 
-    /**
-     * @covers Cradle\Event\EventTrait::getEventHandler
-     */
-    public function testGetEventHandler()
-    {
-		$instance = $this->object->getEventHandler();
-		$this->assertInstanceOf('Cradle\Event\EventHandler', $instance);
+  /**
+   * @covers Cradle\Event\EventTrait::getEventEmitter
+   */
+  public function testGetEventEmitter()
+  {
+    $instance = $this->object->getEventEmitter();
+    $this->assertInstanceOf('Cradle\Event\EventEmitter', $instance);
 
-        $instance = $this->object
-			->setEventHandler(new EventTraitEventHandlerStub)
-			->getEventHandler();
-		$this->assertInstanceOf('Cradle\Event\EventTraitEventHandlerStub', $instance);
-    }
+    $instance = $this->object
+      ->setEventEmitter(new EventTraitEventEmitterStub)
+      ->getEventEmitter();
+    $this->assertInstanceOf('Cradle\Event\EventTraitEventEmitterStub', $instance);
+  }
 
-    /**
-     * @covers Cradle\Event\EventTrait::on
-     */
-    public function testOn()
-    {
-        $trigger = new StdClass();
-		$trigger->success = null;
+  /**
+   * @covers Cradle\Event\EventTrait::on
+   */
+  public function testOn()
+  {
+    $trigger = new StdClass();
+    $trigger->success = null;
 
-        $callback = function() use ($trigger) {
-			$trigger->success = true;
-		};
+    $callback = function() use ($trigger) {
+      $trigger->success = true;
+    };
 
-		$instance = $this
-			->object
-			->on('foobar', $callback)
-			->trigger('foobar');
+    $instance = $this
+      ->object
+      ->on('foobar', $callback)
+      ->emit('foobar');
 
-		$this->assertInstanceOf('Cradle\Event\EventTraitStub', $instance);
-		$this->assertTrue($trigger->success);
-    }
+    $this->assertInstanceOf('Cradle\Event\EventTraitStub', $instance);
+    $this->assertTrue($trigger->success);
+  }
 
-    /**
-     * @covers Cradle\Event\EventTrait::setEventHandler
-     */
-    public function testSetEventHandler()
-    {
-        $instance = $this->object->setEventHandler(new EventPipeEventHandlerStub);
-		$this->assertInstanceOf('Cradle\Event\EventTraitStub', $instance);
+  /**
+   * @covers Cradle\Event\EventTrait::setEventEmitter
+   */
+  public function testSetEventEmitter()
+  {
+    $instance = $this->object->setEventEmitter(new EventTraitEventEmitterStub);
+    $this->assertInstanceOf('Cradle\Event\EventTraitStub', $instance);
 
-        $instance = $this->object->setEventHandler(new EventPipeEventHandlerStub, true);
-		$this->assertInstanceOf('Cradle\Event\EventTraitStub', $instance);
+    $instance = $this->object->setEventEmitter(new EventTraitEventEmitterStub, true);
+    $this->assertInstanceOf('Cradle\Event\EventTraitStub', $instance);
 
-        $instance = $this->object->setEventHandler(new EventHandler, true);
-    }
+    $instance = $this->object->setEventEmitter(new EventEmitter, true);
+  }
 
-    /**
-     * @covers Cradle\Event\EventTrait::trigger
-     */
-    public function testTrigger()
-    {
-		$trigger = new StdClass();
-		$trigger->success = null;
+  /**
+   * @covers Cradle\Event\EventTrait::trigger
+   */
+  public function testEmit()
+  {
+    $trigger = new StdClass();
+    $trigger->success = null;
 
-        $callback = function() use ($trigger) {
-			$trigger->success = true;
-		};
+    $callback = function() use ($trigger) {
+      $trigger->success = true;
+    };
 
-		$instance = $this
-			->object
-			->on('foobar', $callback)
-			->trigger('foobar');
+    $instance = $this
+      ->object
+      ->on('foobar', $callback)
+      ->emit('foobar');
 
-		$this->assertInstanceOf('Cradle\Event\EventTraitStub', $instance);
-		$this->assertTrue($trigger->success);
-    }
+    $this->assertInstanceOf('Cradle\Event\EventTraitStub', $instance);
+    $this->assertTrue($trigger->success);
+  }
 
-    /**
-     * @covers Cradle\Event\EventTrait::bindCallback
-     */
-    public function testBindCallback()
-    {
-        $trigger = new StdClass;
-        $trigger->success = null;
-		$trigger->test = $this;
+  /**
+   * @covers Cradle\Event\EventTrait::bindCallback
+   */
+  public function testBindCallback()
+  {
+    $trigger = new StdClass;
+    $trigger->success = null;
+    $trigger->test = $this;
 
-		$callback = $this->object->bindCallback(function() use ($trigger) {
-	    	$trigger->success = true;
-			$trigger->test->assertInstanceOf('Cradle\Event\EventTraitStub', $this);
-		});
+    $callback = $this->object->bindCallback(function() use ($trigger) {
+      $trigger->success = true;
+      $trigger->test->assertInstanceOf('Cradle\Event\EventTraitStub', $this);
+    });
 
-		$callback();
+    $callback();
 
-		$this->assertTrue($trigger->success);
-    }
+    $this->assertTrue($trigger->success);
+  }
 }
 
 if(!class_exists('Cradle\Event\EventTraitStub')) {
-	class EventTraitStub
-	{
-		use EventTrait;
-	}
+  class EventTraitStub
+  {
+    use EventTrait;
+  }
 }
 
-if(!class_exists('Cradle\Event\EventTraitEventHandlerStub')) {
-	class EventTraitEventHandlerStub extends EventHandler
-	{
-	}
+if(!class_exists('Cradle\Event\EventTraitEventEmitterStub')) {
+  class EventTraitEventEmitterStub extends EventEmitter
+  {
+  }
 }
