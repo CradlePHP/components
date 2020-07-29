@@ -9,101 +9,101 @@ use PHPUnit\Framework\TestCase;
  */
 class Cradle_Helper_ConditionalTrait_Test extends TestCase
 {
-    /**
-     * @var ConditionalTrait
-     */
-    protected $object;
+  /**
+   * @var ConditionalTrait
+   */
+  protected $object;
 
-    /**
-     * Sets up the fixture, for example, opens a network connection.
-     * This method is called before a test is executed.
-     */
-    protected function setUp()
-    {
-        $this->object = new ConditionalTraitStub;
-    }
+  /**
+   * Sets up the fixture, for example, opens a network connection.
+   * This method is called before a test is executed.
+   */
+  protected function setUp()
+  {
+    $this->object = new ConditionalTraitStub;
+  }
 
-    /**
-     * Tears down the fixture, for example, closes a network connection.
-     * This method is called after a test is executed.
-     */
-    protected function tearDown()
-    {
-    }
+  /**
+   * Tears down the fixture, for example, closes a network connection.
+   * This method is called after a test is executed.
+   */
+  protected function tearDown()
+  {
+  }
 
-    /**
-     * covers Cradle\Helper\ConditionalTrait::when
-     */
-    public function testWhen()
-    {
-        $self = $this;
-        $test = 'Good';
-        $this->object->when(function() use ($self) {
-            $self->assertInstanceOf('Cradle\Helper\ConditionalTraitStub', $this);
-            return false;
-        }, function() use ($self, &$test) {
-            $self->assertInstanceOf('Cradle\Helper\ConditionalTraitStub', $this);
-            $test = 'Bad';
-        });
+  /**
+   * covers Cradle\Helper\ConditionalTrait::when
+   */
+  public function testWhen()
+  {
+    $self = $this;
+    $test = 'Good';
+    $this->object->when(function() use ($self) {
+      $self->assertInstanceOf('Cradle\Helper\ConditionalTraitStub', $this);
+      return false;
+    }, function() use ($self, &$test) {
+      $self->assertInstanceOf('Cradle\Helper\ConditionalTraitStub', $this);
+      $test = 'Bad';
+    });
 
-        $this->assertSame('Good', $test);
+    $this->assertSame('Good', $test);
 
-        $test = 'Good';
-        $this->object->when(null, function() use (&$test) {
-            $test = 'Bad';
-        });
+    $test = 'Good';
+    $this->object->when(null, function() use (&$test) {
+      $test = 'Bad';
+    });
 
-        $this->assertSame('Good', $test);
+    $this->assertSame('Good', $test);
 
-        $test = 'Good';
-        $this->object->when(false, function() use (&$test) {
-            $test = 'Bad';
-        });
+    $test = 'Good';
+    $this->object->when(false, function() use (&$test) {
+      $test = 'Bad';
+    });
 
-        $this->assertSame('Good', $test);
+    $this->assertSame('Good', $test);
 
 
-        $test = 'Good';
-        $this->object->when(function() {
-            return true;
-        }, function() use (&$test) {
-            $test = 'Bad';
-        });
+    $test = 'Good';
+    $this->object->when(function() {
+      return true;
+    }, function() use (&$test) {
+      $test = 'Bad';
+    });
 
-        $this->assertSame('Bad', $test);
+    $this->assertSame('Bad', $test);
 
-        $test = 'Good';
-        $this->object->when('hi', function() use (&$test) {
-            $test = 'Bad';
-        });
+    $test = 'Good';
+    $this->object->when('hi', function() use (&$test) {
+      $test = 'Bad';
+    });
 
-        $this->assertSame('Bad', $test);
+    $this->assertSame('Bad', $test);
 
-        $test = 'Good';
-        $this->object->when(true, function() use (&$test) {
-            $test = 'Bad';
-        });
+    $test = 'Good';
+    $this->object->when(true, function() use (&$test) {
+      $test = 'Bad';
+    });
 
-        $this->assertSame('Bad', $test);
+    $this->assertSame('Bad', $test);
 
-        $test = 'Not Sure';
-        $this->object->when(function() use ($self) {
-            $self->assertInstanceOf('Cradle\Helper\ConditionalTraitStub', $this);
-            return false;
-        }, function() use ($self, &$test) {
-            $self->assertInstanceOf('Cradle\Helper\ConditionalTraitStub', $this);
-            $test = 'Good';
-        }, function() use ($self, &$test) {
-            $self->assertInstanceOf('Cradle\Helper\ConditionalTraitStub', $this);
-            $test = 'Bad';
-        });
+    $test = 'Not Sure';
+    $this->object->when(function() use ($self) {
+      $self->assertInstanceOf('Cradle\Helper\ConditionalTraitStub', $this);
+      return false;
+    }, function() use ($self, &$test) {
+      $self->assertInstanceOf('Cradle\Helper\ConditionalTraitStub', $this);
+      $test = 'Good';
+    }, function() use ($self, &$test) {
+      $self->assertInstanceOf('Cradle\Helper\ConditionalTraitStub', $this);
+      $test = 'Bad';
+    });
 
-        $this->assertSame('Bad', $test);
+    $this->assertSame('Bad', $test);
 
-        $this->assertSame('Bad', $this->object->when(true, function() {
-            return 'Bad';
-        }));
-    }
+    $this->assertSame('Bad', $this->object->when(true, function() {
+      return 'Bad';
+    }));
+  }
 }
 
 if(!class_exists('Cradle\Helper\ConditionalTraitStub')) {

@@ -19,12 +19,12 @@ namespace Cradle\Data;
  */
 trait CountableTrait
 {
-    /**
-     * Returns the data size
-     * For Countable interface
-     */
-    public function count(): int
-    {
-        return count($this->data);
-    }
+  /**
+   * Returns the data size
+   * For Countable interface
+   */
+  public function count(): int
+  {
+    return count($this->data);
+  }
 }

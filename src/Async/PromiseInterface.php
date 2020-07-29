@@ -19,17 +19,17 @@ namespace Cradle\Async;
  */
 interface PromiseInterface
 {
-    /**
-     * Appends fulfillment and rejection handlers to the promise, and returns
-     * a new promise resolving to the return value of the called handler.
-     *
-     * @param callable $onFulfilled
-     * @param callable $onRejected
-     *
-     * @return PromiseInterface
-     */
-    public function then(
-        callable $onFulfilled = null,
-        callable $onRejected = null
-    ): PromiseInterface;
+  /**
+   * Appends fulfillment and rejection handlers to the promise, and returns
+   * a new promise resolving to the return value of the called handler.
+   *
+   * @param callable $onFulfilled
+   * @param callable $onRejected
+   *
+   * @return PromiseInterface
+   */
+  public function then(
+    callable $onFulfilled = null,
+    callable $onRejected = null
+  ): PromiseInterface;
 }

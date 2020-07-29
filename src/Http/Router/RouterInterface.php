@@ -9,7 +9,7 @@
 
 namespace Cradle\Http\Router;
 
-use Cradle\Http\Request\RequestInterface;
+use Cradle\IO\Request\RequestInterface;
 
 /**
  * Handles method-path matching and routing
@@ -22,21 +22,21 @@ use Cradle\Http\Request\RequestInterface;
 interface RouterInterface
 {
 
-    /**
-     * Process routes
-     *
-     * @return bool
-     */
-    public function process(RequestInterface $request, ...$args): bool;
+  /**
+   * Process routes
+   *
+   * @return bool
+   */
+  public function process(RequestInterface $request, ...$args): bool;
 
-    /**
-     * Adds routing middleware
-     *
-     * @param string   $method   The request method
-     * @param string   $pattern  The route pattern
-     * @param callable $callback The middleware handler
-     *
-     * @return RouterInterface
-     */
-    public function route(string $method, string $pattern, callable $callback): RouterInterface;
+  /**
+   * Adds routing middleware
+   *
+   * @param string   $method   The request method
+   * @param string   $pattern  The route pattern
+   * @param callable $callback The middleware handler
+   *
+   * @return RouterInterface
+   */
+  public function route(string $method, string $pattern, callable $callback): RouterInterface;
 }

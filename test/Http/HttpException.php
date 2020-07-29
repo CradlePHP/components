@@ -9,40 +9,40 @@ use PHPUnit\Framework\TestCase;
  */
 class Cradle_Http_HttpException_Test extends TestCase
 {
-    /**
-     * @var HttpException
-     */
-    protected $object;
+  /**
+   * @var HttpException
+   */
+  protected $object;
 
-    /**
-     * Sets up the fixture, for example, opens a network connection.
-     * This method is called before a test is executed.
-     */
-    protected function setUp()
-    {
-        $this->object = new HttpException;
+  /**
+   * Sets up the fixture, for example, opens a network connection.
+   * This method is called before a test is executed.
+   */
+  protected function setUp()
+  {
+    $this->object = new HttpException;
+  }
+
+  /**
+   * Tears down the fixture, for example, closes a network connection.
+   * This method is called after a test is executed.
+   */
+  protected function tearDown()
+  {
+  }
+
+  /**
+   * @covers Cradle\Http\HttpException::forResponseNotFound
+   */
+  public function testForResponseNotFound()
+  {
+    $message = null;
+    try {
+      throw HttpException::forResponseNotFound();
+    } catch(HttpException $e) {
+      $message = $e->getMessage();
     }
 
-    /**
-     * Tears down the fixture, for example, closes a network connection.
-     * This method is called after a test is executed.
-     */
-    protected function tearDown()
-    {
-    }
-
-    /**
-     * @covers Cradle\Http\HttpException::forResponseNotFound
-     */
-    public function testForResponseNotFound()
-    {
-        $message = null;
-        try {
-            throw HttpException::forResponseNotFound();
-        } catch(HttpException $e) {
-            $message = $e->getMessage();
-        }
-
-        $this->assertEquals('Not Found.', $message);
-    }
+    $this->assertEquals('404 Not Found', $message);
+  }
 }

@@ -19,19 +19,19 @@ namespace Cradle\OAuth;
  */
 interface OAuth2Interface
 {
-    /**
-     * Returns the access token given the code
-     *
-     * @param string* $code
-     *
-     * @return array
-     */
-    public function getAccessTokens(string $code): array;
+  /**
+   * Returns the access token given the code
+   *
+   * @param string* $code
+   *
+   * @return array
+   */
+  public function getAccessTokens(string $code): array;
 
-    /**
-     * Returns the generated login url
-     *
-     * @return string
-     */
-    public function getLoginUrl(): string;
+  /**
+   * Returns the generated login url
+   *
+   * @return string
+   */
+  public function getLoginUrl(): string;
 }

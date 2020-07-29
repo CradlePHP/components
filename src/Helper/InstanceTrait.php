@@ -22,23 +22,23 @@ namespace Cradle\Helper;
  */
 trait InstanceTrait
 {
-    /**
-     * One of the hard thing about instantiating classes is
-     * that design patterns can impose different ways of
-     * instantiating a class. The word "new" is not flexible.
-     * Authors of classes should be able to control how a class
-     * is instantiated, while leaving others using the class
-     * oblivious to it. All in all its one less thing to remember
-     * for each class call. By default we instantiate classes with
-     * this method.
-     *
-     * @param mixed ...$args Arguments to pass to the constructor
-     *
-     * @return InstanceTrait
-     */
-    public static function i(...$args)
-    {
-        $class = get_called_class();
-        return new $class(...$args);
-    }
+  /**
+   * One of the hard thing about instantiating classes is
+   * that design patterns can impose different ways of
+   * instantiating a class. The word "new" is not flexible.
+   * Authors of classes should be able to control how a class
+   * is instantiated, while leaving others using the class
+   * oblivious to it. All in all its one less thing to remember
+   * for each class call. By default we instantiate classes with
+   * this method.
+   *
+   * @param mixed ...$args Arguments to pass to the constructor
+   *
+   * @return InstanceTrait
+   */
+  public static function i(...$args)
+  {
+    $class = get_called_class();
+    return new $class(...$args);
+  }
 }

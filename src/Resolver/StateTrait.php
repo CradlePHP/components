@@ -21,48 +21,48 @@ use Closure;
  */
 trait StateTrait
 {
-    use ResolverTrait;
+  use ResolverTrait;
 
-    /**
-     * Returns a state that was previously saved
-     *
-     * @param *string $key the state name
-     *
-     * @return mixed
-     */
-    public function loadState(string $name)
-    {
-        $state = $this->resolve($name);
+  /**
+   * Returns a state that was previously saved
+   *
+   * @param *string $key the state name
+   *
+   * @return mixed
+   */
+  public function loadState(string $name)
+  {
+    $state = $this->resolve($name);
 
-        if (is_callable($state)) {
-            if ($state instanceof Closure) {
-                $state = $state->bindTo($this, get_class($this));
-            }
+    if (is_callable($state)) {
+      if ($state instanceof Closure) {
+        $state = $state->bindTo($this, get_class($this));
+      }
 
-            $state = call_user_func($state, $this);
-        }
-
-        return $state;
+      $state = call_user_func($state, $this);
     }
 
-    /**
-     * Sets instance state for later usage.
-     *
-     * @param *string $name  the state name
-     * @param mixed   $value the instance to save
-     *
-     * @return StateTrait
-     */
-    public function saveState(string $name, $value = null)
-    {
-        if (is_null($value)) {
-            $value = $this;
-        }
+    return $state;
+  }
 
-        $this->addResolver($name, function () use ($value) {
-            return $value;
-        });
-
-        return $this;
+  /**
+   * Sets instance state for later usage.
+   *
+   * @param *string $name  the state name
+   * @param mixed   $value the instance to save
+   *
+   * @return StateTrait
+   */
+  public function saveState(string $name, $value = null)
+  {
+    if (is_null($value)) {
+      $value = $this;
     }
+
+    $this->addResolver($name, function () use ($value) {
+      return $value;
+    });
+
+    return $this;
+  }
 }

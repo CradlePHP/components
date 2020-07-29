@@ -21,143 +21,143 @@ namespace Cradle\Data;
  */
 trait DotTrait
 {
-    /**
-     * Gets a value given the path in the registry.
-     *
-     * @param *string $notation  Name space string notation
-     * @param string  $separator If you want to specify a different separator other than dot
-     *
-     * @return mixed
-     */
-    public function getDot(string $notation, string $separator = '.')
-    {
-        $args = explode($separator, $notation);
+  /**
+   * Gets a value given the path in the registry.
+   *
+   * @param *string $notation  Name space string notation
+   * @param string  $separator If you want to specify a different separator other than dot
+   *
+   * @return mixed
+   */
+  public function getDot(string $notation, string $separator = '.')
+  {
+    $args = explode($separator, $notation);
 
-        if (count($args) == 0) {
-            return null;
-        }
-
-        $last = array_pop($args);
-        $pointer = &$this->data;
-
-        foreach ($args as $step) {
-            if (!isset($pointer[$step])) {
-                return null;
-            }
-
-            $pointer = &$pointer[$step];
-        }
-
-        if (!isset($pointer[$last])) {
-            return null;
-        }
-
-        return $pointer[$last];
+    if (count($args) == 0) {
+      return null;
     }
 
-    /**
-     * Checks to see if a key is set
-     *
-     * @param *string $notation  Name space string notation
-     * @param string  $separator If you want to specify a different separator other than dot
-     *
-     * @return bool
-     */
-    public function isDot(string $notation, string $separator = '.'): bool
-    {
-        $args = explode($separator, $notation);
+    $last = array_pop($args);
+    $pointer = &$this->data;
 
-        if (count($args) == 0) {
-            return false;
-        }
+    foreach ($args as $step) {
+      if (!isset($pointer[$step])) {
+        return null;
+      }
 
-        $last = array_pop($args);
-
-        $pointer = &$this->data;
-        foreach ($args as $i => $step) {
-            if (!isset($pointer[$step])
-                || !is_array($pointer[$step])
-            ) {
-                return false;
-            }
-
-            $pointer = &$pointer[$step];
-        }
-
-        if (!isset($pointer[$last])) {
-            return false;
-        }
-
-        return true;
+      $pointer = &$pointer[$step];
     }
 
-    /**
-     * Removes name space given notation
-     *
-     * @param *string $notation  Name space string notation
-     * @param string  $separator If you want to specify a different separator other than dot
-     *
-     * @return DotTrait
-     */
-    public function removeDot(string $notation, string $separator = '.')
-    {
-        $args = explode($separator, $notation);
-
-        if (count($args) === 0) {
-            return $this;
-        }
-
-        $last = array_pop($args);
-
-        $pointer = &$this->data;
-        foreach ($args as $i => $step) {
-            if (!isset($pointer[$step])
-                || !is_array($pointer[$step])
-            ) {
-                $pointer[$step] = [];
-            }
-
-            $pointer = &$pointer[$step];
-        }
-
-        unset($pointer[$last]);
-
-        return $this;
+    if (!isset($pointer[$last])) {
+      return null;
     }
 
-    /**
-     * Creates the name space given the space
-     * and sets the value to that name space
-     *
-     * @param *string $notation  Name space string notation
-     * @param *mixed  $value     Value to set on this namespace
-     * @param string  $separator If you want to specify a different separator other than dot
-     *
-     * @return DotTrait
-     */
-    public function setDot(string $notation, $value, string $separator = '.')
-    {
-        $args = explode($separator, $notation);
+    return $pointer[$last];
+  }
 
-        if (count($args) === 0) {
-            return $this;
-        }
+  /**
+   * Checks to see if a key is set
+   *
+   * @param *string $notation  Name space string notation
+   * @param string  $separator If you want to specify a different separator other than dot
+   *
+   * @return bool
+   */
+  public function isDot(string $notation, string $separator = '.'): bool
+  {
+    $args = explode($separator, $notation);
 
-        $last = array_pop($args);
-
-        $pointer = &$this->data;
-        foreach ($args as $i => $step) {
-            if (!isset($pointer[$step])
-                || !is_array($pointer[$step])
-            ) {
-                $pointer[$step] = [];
-            }
-
-            $pointer = &$pointer[$step];
-        }
-
-        $pointer[$last] = $value;
-
-        return $this;
+    if (count($args) == 0) {
+      return false;
     }
+
+    $last = array_pop($args);
+
+    $pointer = &$this->data;
+    foreach ($args as $i => $step) {
+      if (!isset($pointer[$step])
+        || !is_array($pointer[$step])
+      ) {
+        return false;
+      }
+
+      $pointer = &$pointer[$step];
+    }
+
+    if (!isset($pointer[$last])) {
+      return false;
+    }
+
+    return true;
+  }
+
+  /**
+   * Removes name space given notation
+   *
+   * @param *string $notation  Name space string notation
+   * @param string  $separator If you want to specify a different separator other than dot
+   *
+   * @return DotTrait
+   */
+  public function removeDot(string $notation, string $separator = '.')
+  {
+    $args = explode($separator, $notation);
+
+    if (count($args) === 0) {
+      return $this;
+    }
+
+    $last = array_pop($args);
+
+    $pointer = &$this->data;
+    foreach ($args as $i => $step) {
+      if (!isset($pointer[$step])
+        || !is_array($pointer[$step])
+      ) {
+        $pointer[$step] = [];
+      }
+
+      $pointer = &$pointer[$step];
+    }
+
+    unset($pointer[$last]);
+
+    return $this;
+  }
+
+  /**
+   * Creates the name space given the space
+   * and sets the value to that name space
+   *
+   * @param *string $notation  Name space string notation
+   * @param *mixed  $value   Value to set on this namespace
+   * @param string  $separator If you want to specify a different separator other than dot
+   *
+   * @return DotTrait
+   */
+  public function setDot(string $notation, $value, string $separator = '.')
+  {
+    $args = explode($separator, $notation);
+
+    if (count($args) === 0) {
+      return $this;
+    }
+
+    $last = array_pop($args);
+
+    $pointer = &$this->data;
+    foreach ($args as $i => $step) {
+      if (!isset($pointer[$step])
+        || !is_array($pointer[$step])
+      ) {
+        $pointer[$step] = [];
+      }
+
+      $pointer = &$pointer[$step];
+    }
+
+    $pointer[$last] = $value;
+
+    return $this;
+  }
 }

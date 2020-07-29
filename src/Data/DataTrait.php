@@ -21,7 +21,31 @@ namespace Cradle\Data;
  */
 trait DataTrait
 {
-    use ArrayAccessTrait, IteratorTrait, CountableTrait, DotTrait, MagicTrait, GeneratorTrait;
+  use ArrayAccessTrait, IteratorTrait, CountableTrait, DotTrait, MagicTrait, GeneratorTrait;
 
-    protected $data = [];
+  protected $data = [];
+
+  /**
+   * Attempts to copy from one key/value to key
+   *
+   * @param *string $source
+   * @param *string $destination
+   *
+   * @return DataTrait
+   */
+  public function copy(string $source, string $destination)
+  {
+    //if there is a source key in the data
+    if (isset($this->data[$source])) {
+      //send it over to the destiination
+      $this->data[$destination] = $this->data[$source];
+    //if the destination exists
+    } else if (isset($this->data[$destination])) {
+      //the source doesnt exist, so set it to null
+      $this->data[$destination] = null;
+    }
+
+    //if the source and destination does not exist, do nothing
+    return $this;
+  }
 }

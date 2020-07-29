@@ -9,42 +9,42 @@ use PHPUnit\Framework\TestCase;
  */
 class Cradle_Helper_LoopTrait_Test extends TestCase
 {
-    /**
-     * @var LoopTrait
-     */
-    protected $object;
+  /**
+   * @var LoopTrait
+   */
+  protected $object;
 
-    /**
-     * Sets up the fixture, for example, opens a network connection.
-     * This method is called before a test is executed.
-     */
-    protected function setUp()
-    {
-        $this->object = new LoopTraitStub;
-    }
+  /**
+   * Sets up the fixture, for example, opens a network connection.
+   * This method is called before a test is executed.
+   */
+  protected function setUp()
+  {
+    $this->object = new LoopTraitStub;
+  }
 
-    /**
-     * Tears down the fixture, for example, closes a network connection.
-     * This method is called after a test is executed.
-     */
-    protected function tearDown()
-    {
-    }
+  /**
+   * Tears down the fixture, for example, closes a network connection.
+   * This method is called after a test is executed.
+   */
+  protected function tearDown()
+  {
+  }
 
-    /**
-     * covers Cradle\Helper\LoopTrait::loop
-     */
-    public function testLoop()
-    {
-        $self = $this;
-        $this->object->loop(function($i) use ($self) {
-            $self->assertInstanceOf('Cradle\Helper\LoopTraitStub', $this);
-            
-            if ($i == 2) {
-                return false;
-            }
-        });
-    }
+  /**
+   * covers Cradle\Helper\LoopTrait::loop
+   */
+  public function testLoop()
+  {
+    $self = $this;
+    $this->object->loop(function($i) use ($self) {
+      $self->assertInstanceOf('Cradle\Helper\LoopTraitStub', $this);
+      
+      if ($i == 2) {
+        return false;
+      }
+    });
+  }
 }
 
 if(!class_exists('Cradle\Helper\LoopTraitStub')) {

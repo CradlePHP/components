@@ -19,19 +19,19 @@ namespace Cradle\Async;
  */
 interface QueueInterface
 {
-    /**
-     * Adds a task
-     *
-     * @param *Task|Generator|callable $coroutine
-     *
-     * @return string
-     */
-    public function add($coroutine): Coroutine;
+  /**
+   * Adds a task
+   *
+   * @param *Task|Generator|callable $coroutine
+   *
+   * @return string
+   */
+  public function add($coroutine): Coroutine;
 
-    /**
-     * Runs all the tasks in the queue, considering steps
-     *
-     * @return QueueInterface
-     */
-    public function run(): QueueInterface;
+  /**
+   * Runs all the tasks in the queue, considering steps
+   *
+   * @return QueueInterface
+   */
+  public function run(): QueueInterface;
 }

@@ -10,35 +10,35 @@ use PHPUnit\Framework\TestCase;
  */
 class Cradle_Data_CountableTrait_Test extends TestCase
 {
-    /**
-     * @var CountableTrait
-     */
-    protected $object;
+  /**
+   * @var CountableTrait
+   */
+  protected $object;
 
-    /**
-     * Sets up the fixture, for example, opens a network connection.
-     * This method is called before a test is executed.
-     */
-    protected function setUp()
-    {
-        $this->object = new CountableTraitStub;
-    }
+  /**
+   * Sets up the fixture, for example, opens a network connection.
+   * This method is called before a test is executed.
+   */
+  protected function setUp()
+  {
+    $this->object = new CountableTraitStub;
+  }
 
-    /**
-     * Tears down the fixture, for example, closes a network connection.
-     * This method is called after a test is executed.
-     */
-    protected function tearDown()
-    {
-    }
+  /**
+   * Tears down the fixture, for example, closes a network connection.
+   * This method is called after a test is executed.
+   */
+  protected function tearDown()
+  {
+  }
 
-    /**
-     * @covers Cradle\Data\CountableTrait::count
-     */
-    public function testCount()
-    {
+  /**
+   * @covers Cradle\Data\CountableTrait::count
+   */
+  public function testCount()
+  {
 		$this->assertEquals(4, count($this->object));
-    }
+  }
 }
 
 if(!class_exists('Cradle\Data\CountableTraitStub')) {

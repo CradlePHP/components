@@ -9,214 +9,214 @@ use PHPUnit\Framework\TestCase;
  */
 class Cradle_Resolver_StateTrait_Test extends TestCase
 {
-    /**
-     * @var StateTrait
-     */
-    protected $object;
+  /**
+   * @var StateTrait
+   */
+  protected $object;
 
-    /**
-     * Sets up the fixture, for example, opens a network connection.
-     * This method is called before a test is executed.
-     */
-    protected function setUp()
-    {
-        $this->object = new StateTraitStub;
-    }
+  /**
+   * Sets up the fixture, for example, opens a network connection.
+   * This method is called before a test is executed.
+   */
+  protected function setUp()
+  {
+    $this->object = new StateTraitStub;
+  }
 
-    /**
-     * Tears down the fixture, for example, closes a network connection.
-     * This method is called after a test is executed.
-     */
-    protected function tearDown()
-    {
-    }
+  /**
+   * Tears down the fixture, for example, closes a network connection.
+   * This method is called after a test is executed.
+   */
+  protected function tearDown()
+  {
+  }
 
-    /**
-     * @covers Cradle\Resolver\StateTrait::loadState
-     */
-    public function testLoadState()
-    {
-        $state1 = new StateTraitStub();
-        $state2 = new StateTraitStub();
+  /**
+   * @covers Cradle\Resolver\StateTrait::loadState
+   */
+  public function testLoadState()
+  {
+    $state1 = new StateTraitStub();
+    $state2 = new StateTraitStub();
 
-        $state1->saveState('state1');
-        $state2->saveState('state2');
+    $state1->saveState('state1');
+    $state2->saveState('state2');
 
-        $this->assertTrue($state2 === $state1->loadState('state2'));
-        $this->assertTrue($state1 === $state2->loadState('state1'));
+    $this->assertTrue($state2 === $state1->loadState('state2'));
+    $this->assertTrue($state1 === $state2->loadState('state1'));
 
-        $actual = $state2->saveState('foobar', function() {
-            return true;
-        })->loadState('foobar');
+    $actual = $state2->saveState('foobar', function() {
+      return true;
+    })->loadState('foobar');
 
-        $this->assertTrue($actual);
-    }
+    $this->assertTrue($actual);
+  }
 
-    /**
-     * @covers Cradle\Resolver\StateTrait::saveState
-     */
-    public function testSaveState()
-    {
-        $state1 = new StateTraitStub();
-        $state2 = new StateTraitStub();
+  /**
+   * @covers Cradle\Resolver\StateTrait::saveState
+   */
+  public function testSaveState()
+  {
+    $state1 = new StateTraitStub();
+    $state2 = new StateTraitStub();
 
-        $state1->saveState('state1');
-        $state2->saveState('state2');
+    $state1->saveState('state1');
+    $state2->saveState('state2');
 
-        $this->assertTrue($state2 === $state1->loadState('state2'));
-        $this->assertTrue($state1 === $state2->loadState('state1'));
-    }
+    $this->assertTrue($state2 === $state1->loadState('state2'));
+    $this->assertTrue($state1 === $state2->loadState('state1'));
+  }
 
-    /**
-     * @covers Cradle\Resolver\StateTrait::__callResolver
-     */
-    public function test__callResolver()
-    {
-        $actual = $this->object->addResolver(ResolverCallStub::class, function() {});
-        $this->assertInstanceOf('Cradle\Resolver\StateTraitStub', $actual);
-    }
+  /**
+   * @covers Cradle\Resolver\StateTrait::__callResolver
+   */
+  public function test__callResolver()
+  {
+    $actual = $this->object->addResolver(ResolverCallStub::class, function() {});
+    $this->assertInstanceOf('Cradle\Resolver\StateTraitStub', $actual);
+  }
 
-    /**
-     * @covers Cradle\Resolver\StateTrait::addResolver
-     */
-    public function testAddResolver()
-    {
-        $actual = $this->object->addResolver(ResolverCallStub::class, function() {});
-        $this->assertInstanceOf('Cradle\Resolver\StateTraitStub', $actual);
-    }
+  /**
+   * @covers Cradle\Resolver\StateTrait::addResolver
+   */
+  public function testAddResolver()
+  {
+    $actual = $this->object->addResolver(ResolverCallStub::class, function() {});
+    $this->assertInstanceOf('Cradle\Resolver\StateTraitStub', $actual);
+  }
 
-    /**
-     * @covers Cradle\Resolver\StateTrait::getResolverHandler
-     */
-    public function testGetResolverHandler()
-    {
-        $actual = $this->object->getResolverHandler();
-        $this->assertInstanceOf('Cradle\Resolver\ResolverInterface', $actual);
-    }
+  /**
+   * @covers Cradle\Resolver\StateTrait::getResolverHandler
+   */
+  public function testGetResolverHandler()
+  {
+    $actual = $this->object->getResolverHandler();
+    $this->assertInstanceOf('Cradle\Resolver\ResolverInterface', $actual);
+  }
 
-    /**
-     * @covers Cradle\Resolver\StateTrait::resolve
-     */
-    public function testResolve()
-    {
-        $actual = $this->object->addResolver(
-            ResolverCallStub::class,
-            function() {
-                return new ResolverAddStub();
-            }
-        )
-        ->resolve(ResolverCallStub::class)
-        ->foo('bar');
+  /**
+   * @covers Cradle\Resolver\StateTrait::resolve
+   */
+  public function testResolve()
+  {
+    $actual = $this->object->addResolver(
+      ResolverCallStub::class,
+      function() {
+        return new ResolverAddStub();
+      }
+    )
+    ->resolve(ResolverCallStub::class)
+    ->foo('bar');
 
-        $this->assertEquals('barfoo', $actual);
-    }
+    $this->assertEquals('barfoo', $actual);
+  }
 
-    /**
-     * @covers Cradle\Resolver\StateTrait::resolveShared
-     */
-    public function testResolveShared()
-    {
-        $actual = $this
-            ->object
-            ->resolveShared(ResolverSharedStub::class)
-            ->reset()
-            ->foo('bar');
+  /**
+   * @covers Cradle\Resolver\StateTrait::resolveShared
+   */
+  public function testResolveShared()
+  {
+    $actual = $this
+      ->object
+      ->resolveShared(ResolverSharedStub::class)
+      ->reset()
+      ->foo('bar');
 
-        $this->assertEquals('barfoo', $actual);
+    $this->assertEquals('barfoo', $actual);
 
-        $actual = $this
-            ->object
-            ->resolveShared(ResolverSharedStub::class)
-            ->foo('bar');
+    $actual = $this
+      ->object
+      ->resolveShared(ResolverSharedStub::class)
+      ->foo('bar');
 
-        $this->assertEquals('barbar', $actual);
-    }
+    $this->assertEquals('barbar', $actual);
+  }
 
-    /**
-     * @covers Cradle\Resolver\StateTrait::resolveStatic
-     */
-    public function testResolveStatic()
-    {
-        $actual = $this
-            ->object
-            ->resolveStatic(
-                ResolverStaticStub::class,
-                'foo',
-                'bar'
-            );
+  /**
+   * @covers Cradle\Resolver\StateTrait::resolveStatic
+   */
+  public function testResolveStatic()
+  {
+    $actual = $this
+      ->object
+      ->resolveStatic(
+        ResolverStaticStub::class,
+        'foo',
+        'bar'
+      );
 
-        $this->assertEquals('barfoo', $actual);
-    }
+    $this->assertEquals('barfoo', $actual);
+  }
 
-    /**
-     * @covers Cradle\Resolver\StateTrait::setResolverHandler
-     */
-    public function testSetResolverHandler()
-    {
-        $actual = $this->object->setResolverHandler(new ResolverHandlerStub);
-        $this->assertInstanceOf('Cradle\Resolver\StateTraitStub', $actual);
-    }
+  /**
+   * @covers Cradle\Resolver\StateTrait::setResolverHandler
+   */
+  public function testSetResolverHandler()
+  {
+    $actual = $this->object->setResolverHandler(new ResolverHandlerStub);
+    $this->assertInstanceOf('Cradle\Resolver\StateTraitStub', $actual);
+  }
 }
 
 if(!class_exists('Cradle\Resolver\StateTraitStub')) {
-    class StateTraitStub
-    {
-        use StateTrait;
-    }
+  class StateTraitStub
+  {
+    use StateTrait;
+  }
 }
 
 if(!class_exists('Cradle\Resolver\ResolverCallStub')) {
-    class ResolverCallStub
+  class ResolverCallStub
+  {
+    public function foo($string)
     {
-        public function foo($string)
-        {
-            return $string . 'foo';
-        }
+      return $string . 'foo';
     }
+  }
 }
 
 if(!class_exists('Cradle\Resolver\ResolverAddStub')) {
-    class ResolverAddStub
+  class ResolverAddStub
+  {
+    public function foo($string)
     {
-        public function foo($string)
-        {
-            return $string . 'foo';
-        }
+      return $string . 'foo';
     }
+  }
 }
 
 if(!class_exists('Cradle\Resolver\ResolverSharedStub')) {
-    class ResolverSharedStub
+  class ResolverSharedStub
+  {
+    public $name = 'foo';
+
+    public function foo($string)
     {
-        public $name = 'foo';
-
-        public function foo($string)
-        {
-            $name = $this->name;
-            $this->name = $string;
-            return $string . $name;
-        }
-
-        public function reset()
-        {
-            $this->name = 'foo';
-            return $this;
-        }
+      $name = $this->name;
+      $this->name = $string;
+      return $string . $name;
     }
+
+    public function reset()
+    {
+      $this->name = 'foo';
+      return $this;
+    }
+  }
 }
 
 if(!class_exists('Cradle\Resolver\ResolverStaticStub')) {
-    class ResolverStaticStub
+  class ResolverStaticStub
+  {
+    public static function foo($string)
     {
-        public static function foo($string)
-        {
-            return $string . 'foo';
-        }
+      return $string . 'foo';
     }
+  }
 }
 
 if(!class_exists('Cradle\Resolver\ResolverHandlerStub')) {
-    class ResolverHandlerStub extends ResolverHandler
-    {
-    }
+  class ResolverHandlerStub extends ResolverHandler
+  {
+  }
 }

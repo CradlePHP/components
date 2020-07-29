@@ -10,52 +10,52 @@ use PHPUnit\Framework\TestCase;
  */
 class Cradle_Profiler_LoggerTrait_Test extends TestCase
 {
-    /**
-     * @var LoggerTrait
-     */
-    protected $object;
+  /**
+   * @var LoggerTrait
+   */
+  protected $object;
 
-    /**
-     * Sets up the fixture, for example, opens a network connection.
-     * This method is called before a test is executed.
-     */
-    protected function setUp()
-    {
-        $this->object = new LoggerTraitStub;
-    }
+  /**
+   * Sets up the fixture, for example, opens a network connection.
+   * This method is called before a test is executed.
+   */
+  protected function setUp()
+  {
+    $this->object = new LoggerTraitStub;
+  }
 
-    /**
-     * Tears down the fixture, for example, closes a network connection.
-     * This method is called after a test is executed.
-     */
-    protected function tearDown()
-    {
-    }
+  /**
+   * Tears down the fixture, for example, closes a network connection.
+   * This method is called after a test is executed.
+   */
+  protected function tearDown()
+  {
+  }
 
-    /**
-     * @covers Cradle\Profiler\LoggerTrait::addLogger
-     */
-    public function testAddLogger()
-    {
-        $instance = $this->object->addLogger(function() {});
+  /**
+   * @covers Cradle\Profiler\LoggerTrait::addLogger
+   */
+  public function testAddLogger()
+  {
+    $instance = $this->object->addLogger(function() {});
 		$this->assertInstanceOf('Cradle\Profiler\LoggerTraitStub', $instance);
-    }
+  }
 
-    /**
-     * @covers Cradle\Profiler\LoggerTrait::log
-     */
-    public function testLog()
-    {
+  /**
+   * @covers Cradle\Profiler\LoggerTrait::log
+   */
+  public function testLog()
+  {
 		$trigger = new StdClass();
 		$trigger->success = null;
-        $this->object->addLogger(function($trigger) {
+    $this->object->addLogger(function($trigger) {
 			$trigger->success = true;
 		})
 		->log($trigger);
 
 
 		$this->assertTrue($trigger->success);
-    }
+  }
 }
 
 if(!class_exists('Cradle\Profiler\LoggerTraitStub')) {

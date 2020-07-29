@@ -21,18 +21,18 @@ use Exception;
  */
 class AsyncException extends Exception
 {
-    /**
-     * @const string ERROR_INVALID_COROUTINE Error template
-     */
-    const ERROR_INVALID_COROUTINE = 'Argument 1 was expecting either a Generator or callable, %s used.';
+  /**
+   * @const string ERROR_INVALID_COROUTINE Error template
+   */
+  const ERROR_INVALID_COROUTINE = 'Argument 1 was expecting either a Generator or callable, %s used.';
 
-    /**
-     * Create a new exception for invalid task
-     *
-     * @return AsyncException
-     */
-    public static function forInvalidCoroutine($value): AsyncException
-    {
-        return new static(sprintf(static::ERROR_INVALID_COROUTINE, gettype($value)));
-    }
+  /**
+   * Create a new exception for invalid task
+   *
+   * @return AsyncException
+   */
+  public static function forInvalidCoroutine($value): AsyncException
+  {
+    return new static(sprintf(static::ERROR_INVALID_COROUTINE, gettype($value)));
+  }
 }

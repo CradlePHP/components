@@ -10,9 +10,12 @@
 namespace Cradle\Http;
 
 use Cradle\Event\EventTrait;
-use Cradle\Event\EventHandler;
+use Cradle\Event\EventEmitter;
+
 use Cradle\Resolver\ResolverTrait;
-use Cradle\Http\Request\RequestInterface;
+
+use Cradle\IO\Request\RequestInterface;
+
 use Cradle\Http\Router\RouterInterface;
 
 /**
@@ -25,138 +28,138 @@ use Cradle\Http\Router\RouterInterface;
  */
 class Router implements RouterInterface
 {
-    use EventTrait, ResolverTrait;
+  use EventTrait, ResolverTrait;
 
-    /**
-     * Allow to pass a custom EventHandler
-     */
-    public function __construct(EventHandler $handler = null)
-    {
-        //but we do need one
-        if (is_null($handler)) {
-            $handler = $this->resolve(EventHandler::class);
-        }
-
-        $this->setEventHandler($handler);
+  /**
+   * Allow to pass a custom EventEmitter
+   */
+  public function __construct(EventEmitter $handler = null)
+  {
+    //but we do need one
+    if (is_null($handler)) {
+      $handler = $this->resolve(EventEmitter::class);
     }
 
-    /**
-     * Process routes
-     *
-     * @param *RequestInterface $request
-     * @param mixed             ...$args
-     *
-     * @return bool
-     */
-    public function process(RequestInterface $request, ...$args): bool
-    {
-        $path = $request->getPath('string');
-        $method = $request->getMethod();
-        $event = $method.' '.$path;
+    $this->setEventEmitter($handler);
+  }
 
-        return $this
-            ->getEventHandler()
-            ->trigger($event, $request, ...$args)
-            ->getMeta() !== EventHandler::STATUS_INCOMPLETE;
+  /**
+   * Process routes
+   *
+   * @param *RequestInterface $request
+   * @param mixed       ...$args
+   *
+   * @return bool
+   */
+  public function process(RequestInterface $request, ...$args): bool
+  {
+    $path = $request->getPath('string');
+    $method = $request->getMethod();
+    $event = $method.' '.$path;
+
+    return $this
+      ->getEventEmitter()
+      ->emit($event, $request, ...$args)
+      ->getMeta() !== EventEmitter::STATUS_INCOMPLETE;
+  }
+
+  /**
+   * Adds routing middleware
+   *
+   * @param *string   $method   The request method
+   * @param *string   $pattern  The route pattern
+   * @param *callable $callback The middleware handler
+   * @param int     $priority  if true will be prepended in order
+   *
+   * @return RouterInterface
+   */
+  public function route(
+    string $method,
+    string $pattern,
+    callable $callback,
+    int $priority = 0
+  ): RouterInterface {
+    //hard requirement
+    if (!is_callable($callback)) {
+      throw HttpException::forInvalidRouteCallback();
     }
 
-    /**
-     * Adds routing middleware
-     *
-     * @param *string   $method   The request method
-     * @param *string   $pattern  The route pattern
-     * @param *callable $callback The middleware handler
-     * @param int       $priority  if true will be prepended in order
-     *
-     * @return RouterInterface
-     */
-    public function route(
-        string $method,
-        string $pattern,
-        callable $callback,
-        int $priority = 0
-    ): RouterInterface {
-        //hard requirement
-        if (!is_callable($callback)) {
-            throw HttpException::forInvalidRouteCallback();
-        }
-
-        if (strtoupper($method) === 'ALL') {
-            $method = '[a-zA-Z0-9]+';
-        }
-
-        //find and organize all the dynamic parameters
-        preg_match_all('#(\:[a-zA-Z0-9\-_]+)|(\*\*)|(\*)#s', $pattern, $matches);
-
-        $keys = array();
-        if (isset($matches[0]) && is_array($matches[0])) {
-            $keys = $matches[0];
-        }
-
-        //replace the :variable-_name01
-        $regex = preg_replace('#(\:[a-zA-Z0-9\-_]+)#s', '*', $pattern);
-
-        //replace the stars
-        //* -> ([^/]+)
-        $regex = str_replace('*', '([^/]+)', $regex);
-        //** -> ([^/]+)([^/]+) -> (.*)
-        $regex = str_replace('([^/]+)([^/]+)', '(.*)', $regex);
-
-        //now form the event pattern
-        $event = '#^' . $method . '\s' . $regex . '/*$#is';
-
-        //we need the handler for later
-        $handler = $this->getEventHandler();
-
-        $handler->on(
-            $event,
-            function (
-                RequestInterface $request,
-                ...$args
-            ) use (
-                $handler,
-                $callback,
-                $pattern,
-                $keys
-            ) {
-                $route = $handler->getMeta();
-                $variables = array();
-                $parameters = array();
-
-                //sanitize the variables
-                foreach ($route['variables'] as $i => $variable) {
-                    //if it's a * variable
-                    if (!isset($keys[$i]) || strpos($keys[$i], '*') === 0) {
-                        //it's a variable
-                        if (strpos($variable, '/') === false) {
-                            $variables[] = $variable;
-                            continue;
-                        }
-
-                        $variables = array_merge($variables, explode('/', $variable));
-                        continue;
-                    }
-
-                    //if it's a :parameter
-                    if (isset($keys[$i])) {
-                        $key = substr($keys[$i], 1);
-                        $parameters[$key] = $variable;
-                    }
-                }
-
-                $request
-                    ->setStage($parameters)
-                    ->setRoute(array(
-                        'event' => $route['event'],
-                        'variables' => $variables,
-                        'parameters' => $parameters
-                    ));
-
-                return call_user_func($callback, $request, ...$args);
-            },
-            $priority
-        );
-
-        return $this;
+    if (strtoupper($method) === 'ALL') {
+      $method = '[a-zA-Z0-9]+';
     }
+
+    //find and organize all the dynamic parameters
+    preg_match_all('#(\:[a-zA-Z0-9\-_]+)|(\*\*)|(\*)#s', $pattern, $matches);
+
+    $keys = array();
+    if (isset($matches[0]) && is_array($matches[0])) {
+      $keys = $matches[0];
+    }
+
+    //replace the :variable-_name01
+    $regex = preg_replace('#(\:[a-zA-Z0-9\-_]+)#s', '*', $pattern);
+
+    //replace the stars
+    //* -> ([^/]+)
+    $regex = str_replace('*', '([^/]+)', $regex);
+    //** -> ([^/]+)([^/]+) -> (.*)
+    $regex = str_replace('([^/]+)([^/]+)', '(.*)', $regex);
+
+    //now form the event pattern
+    $event = '#^' . $method . '\s' . $regex . '/*$#is';
+
+    //we need the handler for later
+    $handler = $this->getEventEmitter();
+
+    $handler->on(
+      $event,
+      function (
+        RequestInterface $request,
+        ...$args
+      ) use (
+        $handler,
+        $callback,
+        $pattern,
+        $keys
+      ) {
+        $route = $handler->getMeta();
+        $variables = array();
+        $parameters = array();
+
+        //sanitize the variables
+        foreach ($route['variables'] as $i => $variable) {
+          //if it's a * variable
+          if (!isset($keys[$i]) || strpos($keys[$i], '*') === 0) {
+            //it's a variable
+            if (strpos($variable, '/') === false) {
+              $variables[] = $variable;
+              continue;
+            }
+
+            $variables = array_merge($variables, explode('/', $variable));
+            continue;
+          }
+
+          //if it's a :parameter
+          if (isset($keys[$i])) {
+            $key = substr($keys[$i], 1);
+            $parameters[$key] = $variable;
+          }
+        }
+
+        $request
+          ->setStage($parameters)
+          ->setRoute(array(
+            'event' => $route['event'],
+            'variables' => $variables,
+            'parameters' => $parameters
+          ));
+
+        return call_user_func($callback, $request, ...$args);
+      },
+      $priority
+    );
+
+    return $this;
+  }
 }

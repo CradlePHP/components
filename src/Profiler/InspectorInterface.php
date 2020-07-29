@@ -19,33 +19,33 @@ namespace Cradle\Profiler;
  */
 interface InspectorInterface
 {
-    /**
-     * Call a method of the scope and output it
-     *
-     * @param *string $name the name of the method
-     * @param *array  $args arguments that were passed
-     *
-     * @return mixed
-     */
-    public function __call(string $name, array $args);
+  /**
+   * Call a method of the scope and output it
+   *
+   * @param *string $name the name of the method
+   * @param *array  $args arguments that were passed
+   *
+   * @return mixed
+   */
+  public function __call(string $name, array $args);
 
-    /**
-     * Hijacks the class and reports the results of the next
-     * method call
-     *
-     * @param *object     $scope the class instance
-     * @param string|null $name  the name of the property to inspect
-     *
-     * @return InspectorInterface
-     */
-    public function next($scope, string $name = null): InspectorInterface;
+  /**
+   * Hijacks the class and reports the results of the next
+   * method call
+   *
+   * @param *object   $scope the class instance
+   * @param string|null $name  the name of the property to inspect
+   *
+   * @return InspectorInterface
+   */
+  public function next($scope, string $name = null): InspectorInterface;
 
-    /**
-     * Outputs anything
-     *
-     * @param *mixed $variable any data
-     *
-     * @return InspectorInterface
-     */
-    public function output($variable): InspectorInterface;
+  /**
+   * Outputs anything
+   *
+   * @param *mixed $variable any data
+   *
+   * @return InspectorInterface
+   */
+  public function output($variable): InspectorInterface;
 }

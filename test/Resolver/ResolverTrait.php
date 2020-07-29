@@ -9,61 +9,61 @@ use PHPUnit\Framework\TestCase;
  */
 class Cradle_Resolver_ResolverTrait_Test extends TestCase
 {
-    /**
-     * @var ResolverTrait
-     */
-    protected $object;
+  /**
+   * @var ResolverTrait
+   */
+  protected $object;
 
-    /**
-     * Sets up the fixture, for example, opens a network connection.
-     * This method is called before a test is executed.
-     */
-    protected function setUp()
-    {
-        $this->object = new ResolverTraitStub;
-    }
+  /**
+   * Sets up the fixture, for example, opens a network connection.
+   * This method is called before a test is executed.
+   */
+  protected function setUp()
+  {
+    $this->object = new ResolverTraitStub;
+  }
 
-    /**
-     * Tears down the fixture, for example, closes a network connection.
-     * This method is called after a test is executed.
-     */
-    protected function tearDown()
-    {
-    }
+  /**
+   * Tears down the fixture, for example, closes a network connection.
+   * This method is called after a test is executed.
+   */
+  protected function tearDown()
+  {
+  }
 
-    /**
-     * @covers Cradle\Resolver\ResolverTrait::__callResolver
-     */
-    public function test__callResolver()
-    {
-        $actual = $this->object->__callResolver(ResolverCallStub::class, [])->foo('bar');
+  /**
+   * @covers Cradle\Resolver\ResolverTrait::__callResolver
+   */
+  public function test__callResolver()
+  {
+    $actual = $this->object->__callResolver(ResolverCallStub::class, [])->foo('bar');
 		$this->assertEquals('barfoo', $actual);
-    }
+  }
 
-    /**
-     * @covers Cradle\Resolver\ResolverTrait::addResolver
-     */
-    public function testAddResolver()
-    {
-        $actual = $this->object->addResolver(ResolverCallStub::class, function() {});
+  /**
+   * @covers Cradle\Resolver\ResolverTrait::addResolver
+   */
+  public function testAddResolver()
+  {
+    $actual = $this->object->addResolver(ResolverCallStub::class, function() {});
 		$this->assertInstanceOf('Cradle\Resolver\ResolverTraitStub', $actual);
-    }
+  }
 
-    /**
-     * @covers Cradle\Resolver\ResolverTrait::getResolverHandler
-     */
-    public function testGetResolverHandler()
-    {
-        $actual = $this->object->getResolverHandler();
+  /**
+   * @covers Cradle\Resolver\ResolverTrait::getResolverHandler
+   */
+  public function testGetResolverHandler()
+  {
+    $actual = $this->object->getResolverHandler();
 		$this->assertInstanceOf('Cradle\Resolver\ResolverInterface', $actual);
-    }
+  }
 
-    /**
-     * @covers Cradle\Resolver\ResolverTrait::resolve
-     */
-    public function testResolve()
-    {
-        $actual = $this->object->addResolver(
+  /**
+   * @covers Cradle\Resolver\ResolverTrait::resolve
+   */
+  public function testResolve()
+  {
+    $actual = $this->object->addResolver(
 			ResolverCallStub::class,
 			function() {
 				return new ResolverAddStub();
@@ -72,48 +72,48 @@ class Cradle_Resolver_ResolverTrait_Test extends TestCase
 		->resolve(ResolverCallStub::class)
 		->foo('bar');
 
-        $this->assertEquals('barfoo', $actual);
+    $this->assertEquals('barfoo', $actual);
 
-        $trigger = false;
+    $trigger = false;
 
-        try {
-            $this->object->resolve('barfoo');
-        } catch(ResolverException $e) {
-            $trigger = true;
-        }
-
-        $this->assertTrue($trigger);
-
-        $this->assertEquals('0', $this->object->resolve('strpos', 'Foobar', 'Foo'));
+    try {
+      $this->object->resolve('barfoo');
+    } catch(ResolverException $e) {
+      $trigger = true;
     }
 
-    /**
-     * @covers Cradle\Resolver\ResolverTrait::resolveShared
-     */
-    public function testResolveShared()
-    {
-        $actual = $this
+    $this->assertTrue($trigger);
+
+    $this->assertEquals('0', $this->object->resolve('strpos', 'Foobar', 'Foo'));
+  }
+
+  /**
+   * @covers Cradle\Resolver\ResolverTrait::resolveShared
+   */
+  public function testResolveShared()
+  {
+    $actual = $this
 			->object
 			->resolveShared(ResolverSharedStub::class)
 			->reset()
 			->foo('bar');
 
-        $this->assertEquals('barfoo', $actual);
+    $this->assertEquals('barfoo', $actual);
 
 		$actual = $this
 			->object
 			->resolveShared(ResolverSharedStub::class)
 			->foo('bar');
 
-        $this->assertEquals('barbar', $actual);
-    }
+    $this->assertEquals('barbar', $actual);
+  }
 
-    /**
-     * @covers Cradle\Resolver\ResolverTrait::resolveStatic
-     */
-    public function testResolveStatic()
-    {
-        $actual = $this
+  /**
+   * @covers Cradle\Resolver\ResolverTrait::resolveStatic
+   */
+  public function testResolveStatic()
+  {
+    $actual = $this
 			->object
 			->resolveStatic(
 				ResolverStaticStub::class,
@@ -121,17 +121,17 @@ class Cradle_Resolver_ResolverTrait_Test extends TestCase
 				'bar'
 			);
 
-        $this->assertEquals('barfoo', $actual);
-    }
+    $this->assertEquals('barfoo', $actual);
+  }
 
-    /**
-     * @covers Cradle\Resolver\ResolverTrait::setResolverHandler
-     */
-    public function testSetResolverHandler()
-    {
-        $actual = $this->object->setResolverHandler(new ResolverHandlerStub);
+  /**
+   * @covers Cradle\Resolver\ResolverTrait::setResolverHandler
+   */
+  public function testSetResolverHandler()
+  {
+    $actual = $this->object->setResolverHandler(new ResolverHandlerStub);
 		$this->assertInstanceOf('Cradle\Resolver\ResolverTraitStub', $actual);
-    }
+  }
 }
 
 if(!class_exists('Cradle\Resolver\ResolverTraitStub')) {

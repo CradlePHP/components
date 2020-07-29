@@ -19,13 +19,13 @@ namespace Cradle\Data;
  */
 trait GeneratorTrait
 {
-    /**
-     * Loop generator
-     */
-    public function generator()
-    {
-        foreach ($this->data as $key => $value) {
-            yield $key => $value;
-        }
+  /**
+   * Loop generator
+   */
+  public function generator()
+  {
+    foreach ($this->data as $key => $value) {
+      yield $key => $value;
     }
+  }
 }

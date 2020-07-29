@@ -9,73 +9,73 @@ use PHPUnit\Framework\TestCase;
  */
 class Cradle_Data_IteratorTrait_Test extends TestCase
 {
-    /**
-     * @var IteratorTrait
-     */
-    protected $object;
+  /**
+   * @var IteratorTrait
+   */
+  protected $object;
 
-    /**
-     * Sets up the fixture, for example, opens a network connection.
-     * This method is called before a test is executed.
-     */
-    protected function setUp()
-    {
-        $this->object = new IteratorTraitStub;
-    }
+  /**
+   * Sets up the fixture, for example, opens a network connection.
+   * This method is called before a test is executed.
+   */
+  protected function setUp()
+  {
+    $this->object = new IteratorTraitStub;
+  }
 
-    /**
-     * Tears down the fixture, for example, closes a network connection.
-     * This method is called after a test is executed.
-     */
-    protected function tearDown()
-    {
-    }
+  /**
+   * Tears down the fixture, for example, closes a network connection.
+   * This method is called after a test is executed.
+   */
+  protected function tearDown()
+  {
+  }
 
-    /**
-     * @covers Cradle\Data\IteratorTrait::current
-     */
-    public function testCurrent()
-    {
+  /**
+   * @covers Cradle\Data\IteratorTrait::current
+   */
+  public function testCurrent()
+  {
 		$actual = $this->object->current();
-    	$this->assertEquals('bar', $actual);
-    }
+  	$this->assertEquals('bar', $actual);
+  }
 
-    /**
-     * @covers Cradle\Data\IteratorTrait::key
-     */
-    public function testKey()
-    {
-        $actual = $this->object->key();
-    	$this->assertEquals('foo', $actual);
-    }
+  /**
+   * @covers Cradle\Data\IteratorTrait::key
+   */
+  public function testKey()
+  {
+    $actual = $this->object->key();
+  	$this->assertEquals('foo', $actual);
+  }
 
-    /**
-     * @covers Cradle\Data\IteratorTrait::next
-     */
-    public function testNext()
-    {
+  /**
+   * @covers Cradle\Data\IteratorTrait::next
+   */
+  public function testNext()
+  {
 		$this->object->next();
-        $actual = $this->object->current();
-    	$this->assertEquals('foo', $actual);
-    }
+    $actual = $this->object->current();
+  	$this->assertEquals('foo', $actual);
+  }
 
-    /**
-     * @covers Cradle\Data\IteratorTrait::rewind
-     */
-    public function testRewind()
-    {
+  /**
+   * @covers Cradle\Data\IteratorTrait::rewind
+   */
+  public function testRewind()
+  {
 		$this->object->rewind();
-        $actual = $this->object->current();
-    	$this->assertEquals('bar', $actual);
-    }
+    $actual = $this->object->current();
+  	$this->assertEquals('bar', $actual);
+  }
 
-    /**
-     * @covers Cradle\Data\IteratorTrait::valid
-     */
-    public function testValid()
-    {
-        $this->assertTrue($this->object->valid());
-    }
+  /**
+   * @covers Cradle\Data\IteratorTrait::valid
+   */
+  public function testValid()
+  {
+    $this->assertTrue($this->object->valid());
+  }
 }
 
 if(!class_exists('Cradle\Data\IteratorTraitStub')) {

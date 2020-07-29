@@ -10,68 +10,68 @@ use PHPUnit\Framework\TestCase;
  */
 class Cradle_Data_ArrayAccessTrait_Test extends TestCase
 {
-    /**
-     * @var ArrayAccessTrait
-     */
-    protected $object;
+  /**
+   * @var ArrayAccessTrait
+   */
+  protected $object;
 
-    /**
-     * Sets up the fixture, for example, opens a network connection.
-     * This method is called before a test is executed.
-     */
-    protected function setUp()
-    {
-        $this->object = new ArrayAccessTraitStub;
+  /**
+   * Sets up the fixture, for example, opens a network connection.
+   * This method is called before a test is executed.
+   */
+  protected function setUp()
+  {
+    $this->object = new ArrayAccessTraitStub;
 		$this->object['foo'] = 'bar';
-    }
+  }
 
-    /**
-     * Tears down the fixture, for example, closes a network connection.
-     * This method is called after a test is executed.
-     */
-    protected function tearDown()
-    {
-    }
+  /**
+   * Tears down the fixture, for example, closes a network connection.
+   * This method is called after a test is executed.
+   */
+  protected function tearDown()
+  {
+  }
 
-    /**
-     * @covers Cradle\Data\ArrayAccessTrait::offsetExists
-     */
-    public function testOffsetExists()
-    {
-        $actual = isset($this->object['foo']);
-	    $this->assertTrue($actual);
+  /**
+   * @covers Cradle\Data\ArrayAccessTrait::offsetExists
+   */
+  public function testOffsetExists()
+  {
+    $actual = isset($this->object['foo']);
+	  $this->assertTrue($actual);
 		
-        $actual = isset($this->object['bar']);
-	    $this->assertFalse($actual);
-    }
+    $actual = isset($this->object['bar']);
+	  $this->assertFalse($actual);
+  }
 
-    /**
-     * @covers Cradle\Data\ArrayAccessTrait::offsetGet
-     */
-    public function testOffsetGet()
-    {
-        $actual = $this->object['foo'];
-	    $this->assertEquals('bar', $actual);
-    }
+  /**
+   * @covers Cradle\Data\ArrayAccessTrait::offsetGet
+   */
+  public function testOffsetGet()
+  {
+    $actual = $this->object['foo'];
+	  $this->assertEquals('bar', $actual);
+  }
 
-    /**
-     * @covers Cradle\Data\ArrayAccessTrait::offsetSet
-     */
-    public function testOffsetSet()
-    {
+  /**
+   * @covers Cradle\Data\ArrayAccessTrait::offsetSet
+   */
+  public function testOffsetSet()
+  {
 		$this->object['bar'] = 'foo';
-        $actual = $this->object['bar'];
-	    $this->assertEquals('foo', $actual);
-    }
+    $actual = $this->object['bar'];
+	  $this->assertEquals('foo', $actual);
+  }
 
-    /**
-     * @covers Cradle\Data\ArrayAccessTrait::offsetUnset
-     */
-    public function testOffsetUnset()
-    {
+  /**
+   * @covers Cradle\Data\ArrayAccessTrait::offsetUnset
+   */
+  public function testOffsetUnset()
+  {
 		unset($this->object['foo']);
-	    $this->assertFalse(isset($this->object['foo']));
-    }
+	  $this->assertFalse(isset($this->object['foo']));
+  }
 }
 
 if(!class_exists('Cradle\Data\ArrayAccessTraitStub')) {

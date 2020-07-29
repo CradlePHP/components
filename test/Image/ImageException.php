@@ -9,33 +9,33 @@ use PHPUnit\Framework\TestCase;
  */
 class Cradle_Image_ImageException_Test extends TestCase
 {
-    /**
-     * @var ImageException
-     */
-    protected $object;
+  /**
+   * @var ImageException
+   */
+  protected $object;
 
-    /**
-     * Sets up the fixture, for example, opens a network connection.
-     * This method is called before a test is executed.
-     */
-    protected function setUp()
-    {
-        $this->object = new ImageException;
-    }
+  /**
+   * Sets up the fixture, for example, opens a network connection.
+   * This method is called before a test is executed.
+   */
+  protected function setUp()
+  {
+    $this->object = new ImageException;
+  }
 
-    /**
-     * Tears down the fixture, for example, closes a network connection.
-     * This method is called after a test is executed.
-     */
-    protected function tearDown()
-    {
-    }
+  /**
+   * Tears down the fixture, for example, closes a network connection.
+   * This method is called after a test is executed.
+   */
+  protected function tearDown()
+  {
+  }
 
-    /**
-     * @covers Cradle\Image\ImageException::forGDNotInstalled
-     */
-    public function testForGDNotInstalled()
-    {
+  /**
+   * @covers Cradle\Image\ImageException::forGDNotInstalled
+   */
+  public function testForGDNotInstalled()
+  {
 		$message = null;
 		
 		try {
@@ -45,13 +45,13 @@ class Cradle_Image_ImageException_Test extends TestCase
 		}
 		
 		$this->assertEquals('PHP GD Library is not installed.', $message);
-    }
+  }
 
-    /**
-     * @covers Cradle\Image\ImageException::forInvalidImageFile
-     */
-    public function testForInvalidImageFile()
-    {
+  /**
+   * @covers Cradle\Image\ImageException::forInvalidImageFile
+   */
+  public function testForInvalidImageFile()
+  {
 		$message = null;
 		
 		try {
@@ -61,5 +61,5 @@ class Cradle_Image_ImageException_Test extends TestCase
 		}
 		
 		$this->assertEquals('foobar is not a valid image file.', $message);
-    }
+  }
 }

@@ -9,80 +9,80 @@ use PHPUnit\Framework\TestCase;
  */
 class Cradle_Profiler_CallerTrait_Test extends TestCase
 {
-    /**
-     * @var CallerTrait
-     */
-    protected $object;
+  /**
+   * @var CallerTrait
+   */
+  protected $object;
 
-    /**
-     * Sets up the fixture, for example, opens a network connection.
-     * This method is called before a test is executed.
-     */
-    protected function setUp()
-    {
-        $this->object = new CallerTraitStub;
-    }
+  /**
+   * Sets up the fixture, for example, opens a network connection.
+   * This method is called before a test is executed.
+   */
+  protected function setUp()
+  {
+    $this->object = new CallerTraitStub;
+  }
 
-    /**
-     * Tears down the fixture, for example, closes a network connection.
-     * This method is called after a test is executed.
-     */
-    protected function tearDown()
-    {
-    }
+  /**
+   * Tears down the fixture, for example, closes a network connection.
+   * This method is called after a test is executed.
+   */
+  protected function tearDown()
+  {
+  }
 
-    /**
-     * @covers Cradle\Profiler\CallerTrait::getCaller
-     */
-    public function testGetCaller()
-    {
-        $profile = $this->object->call1(1);
-        $this->assertEquals('call2', $profile['function']);
-    }
+  /**
+   * @covers Cradle\Profiler\CallerTrait::getCaller
+   */
+  public function testGetCaller()
+  {
+    $profile = $this->object->call1(1);
+    $this->assertEquals('call2', $profile['function']);
+  }
 
-    /**
-     * @covers Cradle\Profiler\CallerTrait::getCallee
-     */
-    public function testGetCallee()
-    {
-        $profile = $this->object->call4(1);
-        $this->assertEquals('call6', $profile['function']);
-    }
+  /**
+   * @covers Cradle\Profiler\CallerTrait::getCallee
+   */
+  public function testGetCallee()
+  {
+    $profile = $this->object->call4(1);
+    $this->assertEquals('call6', $profile['function']);
+  }
 }
 
 if(!class_exists('Cradle\Profiler\CallerTraitStub')) {
-    class CallerTraitStub
+  class CallerTraitStub
+  {
+    use CallerTrait;
+
+    public function call1($x)
     {
-        use CallerTrait;
-
-        public function call1($x)
-        {
-            return $this->call2($x + 1);
-        }
-
-        public function call2($x)
-        {
-            return $this->call3($x + 1);
-        }
-
-        public function call3($x)
-        {
-            return $this->getCaller();
-        }
-
-        public function call4($x)
-        {
-            return $this->call5($x + 1);
-        }
-
-        public function call5($x)
-        {
-            return $this->call6($x + 1);
-        }
-
-        public function call6($x)
-        {
-            return $this->getCallee();
-        }
+      return $this->call2($x + 1);
     }
+
+    public function call2($x)
+    {
+      return $this->call3($x + 1);
+    }
+
+    public function call3($x)
+    {
+      return $this->getCaller();
+    }
+
+    public function call4($x)
+    {
+      return $this->call5($x + 1);
+    }
+
+    public function call5($x)
+    {
+      return $this->call6($x + 1);
+    }
+
+    public function call6($x)
+    {
+      return $this->getCallee();
+    }
+  }
 }

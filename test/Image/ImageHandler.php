@@ -9,45 +9,45 @@ use PHPUnit\Framework\TestCase;
  */
 class Cradle_Image_ImageHandler_Test extends TestCase
 {
-    /**
-     * @var ImageHandler
-     */
-    protected $object;
+  /**
+   * @var ImageHandler
+   */
+  protected $object;
 
-    /**
-     * Sets up the fixture, for example, opens a network connection.
-     * This method is called before a test is executed.
-     */
-    protected function setUp()
-    {
-        $this->object = new ImageHandler(__DIR__.'/../assets/image/foobar.png', 'png');
-    }
+  /**
+   * Sets up the fixture, for example, opens a network connection.
+   * This method is called before a test is executed.
+   */
+  protected function setUp()
+  {
+    $this->object = new ImageHandler(__DIR__.'/../assets/image/foobar.png', 'png');
+  }
 
-    /**
-     * Tears down the fixture, for example, closes a network connection.
-     * This method is called after a test is executed.
-     */
-    protected function tearDown()
-    {
+  /**
+   * Tears down the fixture, for example, closes a network connection.
+   * This method is called after a test is executed.
+   */
+  protected function tearDown()
+  {
 		$this->object->__destruct();
-    }
+  }
 
-    /**
-     * @covers Cradle\Image\ImageHandler::__destruct
-     */
-    public function test__destruct()
-    {
+  /**
+   * @covers Cradle\Image\ImageHandler::__destruct
+   */
+  public function test__destruct()
+  {
 		$this->object->__destruct();
 
 		$this->assertNull($this->object->getResource());
-    }
+  }
 
-    /**
-     * @covers Cradle\Image\ImageHandler::__construct
+  /**
+   * @covers Cradle\Image\ImageHandler::__construct
 	 * @covers Cradle\Image\ImageHandler::createResource
-     */
-    public function test__construct()
-    {
+   */
+  public function test__construct()
+  {
 		$actual = $this->object->__construct(__DIR__.'/../assets/image/foobar.png', 'png');
 		$this->assertNull($actual);
 		$this->object->__destruct();
@@ -59,86 +59,86 @@ class Cradle_Image_ImageHandler_Test extends TestCase
 		$this->object->__destruct();
 		$actual = $this->object->__construct(__DIR__.'/../assets/image/foobar.wbmp', 'bmp');
 		$this->assertNull($actual);
-    }
+  }
 
-    /**
-     * @covers Cradle\Image\ImageHandler::__toString
-     */
-    public function test__toString()
-    {
+  /**
+   * @covers Cradle\Image\ImageHandler::__toString
+   */
+  public function test__toString()
+  {
 		$actual = base64_encode($this->object->__toString());
 		$this->assertTrue(!!strlen($actual));
 
-        $object = new ImageHandler(__DIR__.'/../assets/image/foobar.gif', 'gif');
-        $actual = base64_encode($object->__toString());
+    $object = new ImageHandler(__DIR__.'/../assets/image/foobar.gif', 'gif');
+    $actual = base64_encode($object->__toString());
 		$this->assertTrue(!!strlen($actual));
 
-        $object = new ImageHandler(__DIR__.'/../assets/image/foobar.png', 'png', true, 9);
-        $actual = base64_encode($object->__toString());
+    $object = new ImageHandler(__DIR__.'/../assets/image/foobar.png', 'png', true, 9);
+    $actual = base64_encode($object->__toString());
 		$this->assertTrue(!!strlen($actual));
 
-        $object = new ImageHandler(__DIR__.'/../assets/image/foobar.wbmp', 'bmp');
-        $actual = base64_encode($object->__toString());
+    $object = new ImageHandler(__DIR__.'/../assets/image/foobar.wbmp', 'bmp');
+    $actual = base64_encode($object->__toString());
 		$this->assertTrue(!!strlen($actual));
 
-        $object = new ImageHandler(__DIR__.'/../assets/image/foobar.wbmp', 'wbmp');
-        $actual = base64_encode($object->__toString());
+    $object = new ImageHandler(__DIR__.'/../assets/image/foobar.wbmp', 'wbmp');
+    $actual = base64_encode($object->__toString());
 		$this->assertTrue(!!strlen($actual));
 
-        $object = new ImageHandler(__DIR__.'/../assets/image/foobar.jpg', 'jpg');
-        $actual = base64_encode($object->__toString());
+    $object = new ImageHandler(__DIR__.'/../assets/image/foobar.jpg', 'jpg');
+    $actual = base64_encode($object->__toString());
 		$this->assertTrue(!!strlen($actual));
 
-        $object = new ImageHandler(__DIR__.'/../assets/image/foobar.jpg', 'jpeg');
-        $actual = base64_encode($object->__toString());
+    $object = new ImageHandler(__DIR__.'/../assets/image/foobar.jpg', 'jpeg');
+    $actual = base64_encode($object->__toString());
 		$this->assertTrue(!!strlen($actual));
 
-        $object = new ImageHandler(__DIR__.'/../assets/image/foobar.jpg', 'pjpeg');
-        $actual = base64_encode($object->__toString());
+    $object = new ImageHandler(__DIR__.'/../assets/image/foobar.jpg', 'pjpeg');
+    $actual = base64_encode($object->__toString());
 		$this->assertTrue(!!strlen($actual));
-    }
+  }
 
-    /**
-     * @covers Cradle\Image\ImageHandler::blur
-     */
-    public function testBlur()
-    {
+  /**
+   * @covers Cradle\Image\ImageHandler::blur
+   */
+  public function testBlur()
+  {
 		$instance = $this->object->blur();
 		$this->assertInstanceOf('Cradle\Image\ImageHandler', $instance);
-    }
+  }
 
-    /**
-     * @covers Cradle\Image\ImageHandler::brightness
-     */
-    public function testBrightness()
-    {
+  /**
+   * @covers Cradle\Image\ImageHandler::brightness
+   */
+  public function testBrightness()
+  {
 		$instance = $this->object->brightness(10);
 		$this->assertInstanceOf('Cradle\Image\ImageHandler', $instance);
-    }
+  }
 
-    /**
-     * @covers Cradle\Image\ImageHandler::colorize
-     */
-    public function testColorize()
-    {
+  /**
+   * @covers Cradle\Image\ImageHandler::colorize
+   */
+  public function testColorize()
+  {
 		$instance = $this->object->colorize(255, 0, 0);
 		$this->assertInstanceOf('Cradle\Image\ImageHandler', $instance);
-    }
+  }
 
-    /**
-     * @covers Cradle\Image\ImageHandler::contrast
-     */
-    public function testContrast()
-    {
+  /**
+   * @covers Cradle\Image\ImageHandler::contrast
+   */
+  public function testContrast()
+  {
 		$instance = $this->object->contrast(10);
 		$this->assertInstanceOf('Cradle\Image\ImageHandler', $instance);
-    }
+  }
 
-    /**
-     * @covers Cradle\Image\ImageHandler::crop
-     */
-    public function testCrop()
-    {
+  /**
+   * @covers Cradle\Image\ImageHandler::crop
+   */
+  public function testCrop()
+  {
 		$instance = $this->object->crop(10);
 		$this->assertInstanceOf('Cradle\Image\ImageHandler', $instance);
 
@@ -156,100 +156,100 @@ class Cradle_Image_ImageHandler_Test extends TestCase
 
 		$instance = $this->object->crop(200, 300);
 		$this->assertInstanceOf('Cradle\Image\ImageHandler', $instance);
-    }
+  }
 
-    /**
-     * @covers Cradle\Image\ImageHandler::edgedetect
-     */
-    public function testEdgedetect()
-    {
+  /**
+   * @covers Cradle\Image\ImageHandler::edgedetect
+   */
+  public function testEdgedetect()
+  {
 		$instance = $this->object->edgedetect();
 		$this->assertInstanceOf('Cradle\Image\ImageHandler', $instance);
-    }
+  }
 
-    /**
-     * @covers Cradle\Image\ImageHandler::emboss
-     */
-    public function testEmboss()
-    {
+  /**
+   * @covers Cradle\Image\ImageHandler::emboss
+   */
+  public function testEmboss()
+  {
 		$instance = $this->object->emboss();
 		$this->assertInstanceOf('Cradle\Image\ImageHandler', $instance);
-    }
+  }
 
-    /**
-     * @covers Cradle\Image\ImageHandler::gaussianBlur
-     */
-    public function testGaussianBlur()
-    {
+  /**
+   * @covers Cradle\Image\ImageHandler::gaussianBlur
+   */
+  public function testGaussianBlur()
+  {
 		$instance = $this->object->gaussianBlur();
 		$this->assertInstanceOf('Cradle\Image\ImageHandler', $instance);
-    }
+  }
 
-    /**
-     * @covers Cradle\Image\ImageHandler::getDimensions
-     */
-    public function testGetDimensions()
-    {
+  /**
+   * @covers Cradle\Image\ImageHandler::getDimensions
+   */
+  public function testGetDimensions()
+  {
 		$actual = $this->object->getDimensions();
 		$this->assertTrue(is_array($actual));
-    }
+  }
 
-    /**
-     * @covers Cradle\Image\ImageHandler::getResource
-     */
-    public function testGetResource()
-    {
+  /**
+   * @covers Cradle\Image\ImageHandler::getResource
+   */
+  public function testGetResource()
+  {
 		$resource = $this->object->getResource();
 
 		$this->assertTrue(imagesx($resource) > 0);
-    }
+  }
 
-    /**
-     * @covers Cradle\Image\ImageHandler::greyscale
-     */
-    public function testGreyscale()
-    {
+  /**
+   * @covers Cradle\Image\ImageHandler::greyscale
+   */
+  public function testGreyscale()
+  {
 		$instance = $this->object->greyscale();
 		$this->assertInstanceOf('Cradle\Image\ImageHandler', $instance);
-    }
+  }
 
-    /**
-     * @covers Cradle\Image\ImageHandler::invert
-     */
-    public function testInvert()
-    {
+  /**
+   * @covers Cradle\Image\ImageHandler::invert
+   */
+  public function testInvert()
+  {
 		$instance = $this->object->invert();
 		$this->assertInstanceOf('Cradle\Image\ImageHandler', $instance);
 
 		$instance = $this->object->invert(true);
 		$this->assertInstanceOf('Cradle\Image\ImageHandler', $instance);
-    }
+  }
 
-    /**
-     * @covers Cradle\Image\ImageHandler::meanRemoval
-     */
-    public function testMeanRemoval()
-    {
+  /**
+   * @covers Cradle\Image\ImageHandler::meanRemoval
+   */
+  public function testMeanRemoval()
+  {
 		$instance = $this->object->meanRemoval();
 		$this->assertInstanceOf('Cradle\Image\ImageHandler', $instance);
-    }
+  }
 
-    /**
-     * @covers Cradle\Image\ImageHandler::negative
-     */
-    public function testNegative()
-    {
+  /**
+   * @covers Cradle\Image\ImageHandler::negative
+   */
+  public function testNegative()
+  {
 		$instance = $this->object->negative();
 		$this->assertInstanceOf('Cradle\Image\ImageHandler', $instance);
-    }
+  }
 
-    /**
-     * @covers Cradle\Image\ImageHandler::resize
+  /**
+   * @covers Cradle\Image\ImageHandler::resize
 	 * @covers Cradle\Image\ImageHandler::getHeightAspectRatio
 	 * @covers Cradle\Image\ImageHandler::getWidthAspectRatio
-     */
-    public function testResize()
-    {
+   */
+  public function testResize()
+  {
 		$instance = $this->object->resize(10, 10);
 		$this->assertInstanceOf('Cradle\Image\ImageHandler', $instance);
 
@@ -267,22 +267,22 @@ class Cradle_Image_ImageHandler_Test extends TestCase
 
 		$instance = $this->object->resize(200, 300);
 		$this->assertInstanceOf('Cradle\Image\ImageHandler', $instance);
-    }
+  }
 
-    /**
-     * @covers Cradle\Image\ImageHandler::rotate
-     */
-    public function testRotate()
-    {
+  /**
+   * @covers Cradle\Image\ImageHandler::rotate
+   */
+  public function testRotate()
+  {
 		$instance = $this->object->rotate(10);
 		$this->assertInstanceOf('Cradle\Image\ImageHandler', $instance);
-    }
+  }
 
-    /**
-     * @covers Cradle\Image\ImageHandler::scale
-     */
-    public function testScale()
-    {
+  /**
+   * @covers Cradle\Image\ImageHandler::scale
+   */
+  public function testScale()
+  {
 		$instance = $this->object->scale(10, 10);
 		$this->assertInstanceOf('Cradle\Image\ImageHandler', $instance);
 
@@ -300,32 +300,32 @@ class Cradle_Image_ImageHandler_Test extends TestCase
 
 		$instance = $this->object->scale(200, 300);
 		$this->assertInstanceOf('Cradle\Image\ImageHandler', $instance);
-    }
+  }
 
-    /**
-     * @covers Cradle\Image\ImageHandler::setTransparency
-     */
-    public function testSetTransparency()
-    {
+  /**
+   * @covers Cradle\Image\ImageHandler::setTransparency
+   */
+  public function testSetTransparency()
+  {
 		$instance = $this->object->setTransparency();
 		$this->assertInstanceOf('Cradle\Image\ImageHandler', $instance);
-    }
+  }
 
-    /**
-     * @covers Cradle\Image\ImageHandler::smooth
-     */
-    public function testSmooth()
-    {
+  /**
+   * @covers Cradle\Image\ImageHandler::smooth
+   */
+  public function testSmooth()
+  {
 		$instance = $this->object->smooth(10);
 		$this->assertInstanceOf('Cradle\Image\ImageHandler', $instance);
-    }
+  }
 
-    /**
-     * @covers Cradle\Image\ImageHandler::save
-     */
-    public function testSave()
-    {
-        $instance = $this->object->save('/tmp/foobar.png', 'png');
+  /**
+   * @covers Cradle\Image\ImageHandler::save
+   */
+  public function testSave()
+  {
+    $instance = $this->object->save('/tmp/foobar.png', 'png');
 		$this->assertInstanceOf('Cradle\Image\ImageHandler', $instance);
 
 		$gif = new ImageHandler(__DIR__.'/../assets/image/foobar.gif', 'gif');
@@ -343,19 +343,19 @@ class Cradle_Image_ImageHandler_Test extends TestCase
 		$instance = $bmp->save('/tmp/foobar.wbmp', 'bmp');
 		$this->assertInstanceOf('Cradle\Image\ImageHandler', $instance);
 		$bmp->__destruct();
-    }
+  }
 
-    /**
-     * @covers Cradle\Image\ImageHandler::i
-     */
-    public function testI()
-    {
-        $instance1 = ImageHandler::i(__DIR__.'/../assets/image/foobar.png', 'png');
+  /**
+   * @covers Cradle\Image\ImageHandler::i
+   */
+  public function testI()
+  {
+    $instance1 = ImageHandler::i(__DIR__.'/../assets/image/foobar.png', 'png');
 
 		$this->assertInstanceOf('Cradle\Image\ImageHandler', $instance1);
 
 		$instance2 = ImageHandler::i(__DIR__.'/../assets/image/foobar.png', 'png');
 
 		$this->assertTrue($instance1 !== $instance2);
-    }
+  }
 }

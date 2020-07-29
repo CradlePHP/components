@@ -9,95 +9,95 @@ use PHPUnit\Framework\TestCase;
  */
 class Cradle_Data_MagicTrait_Test extends TestCase
 {
-    /**
-     * @var MagicTrait
-     */
-    protected $object;
+  /**
+   * @var MagicTrait
+   */
+  protected $object;
 
-    /**
-     * Sets up the fixture, for example, opens a network connection.
-     * This method is called before a test is executed.
-     */
-    protected function setUp()
-    {
-        $this->object = new MagicTraitStub;
+  /**
+   * Sets up the fixture, for example, opens a network connection.
+   * This method is called before a test is executed.
+   */
+  protected function setUp()
+  {
+    $this->object = new MagicTraitStub;
+  }
+
+  /**
+   * Tears down the fixture, for example, closes a network connection.
+   * This method is called after a test is executed.
+   */
+  protected function tearDown()
+  {
+  }
+
+  /**
+   * @covers Cradle\Data\MagicTrait::__callData
+   */
+  public function test__callData()
+  {
+    $instance = $this->object->__callData('setZoo', array(2));
+    $this->assertInstanceOf('Cradle\Data\MagicTraitStub', $instance);
+
+    $actual = $this->object->__callData('getZoo', array());
+
+    $this->assertEquals(2, $actual);
+
+    $trigger = false;
+
+    try {
+      $this->object->__callData('foobar', array());
+    } catch(DataException $e) {
+        $trigger = true;
     }
 
-    /**
-     * Tears down the fixture, for example, closes a network connection.
-     * This method is called after a test is executed.
-     */
-    protected function tearDown()
-    {
-    }
+    $this->assertTrue($trigger);
+  }
 
-    /**
-     * @covers Cradle\Data\MagicTrait::__callData
-     */
-    public function test__callData()
-    {
-        $instance = $this->object->__callData('setZoo', array(2));
-        $this->assertInstanceOf('Cradle\Data\MagicTraitStub', $instance);
+  /**
+   * @covers Cradle\Data\MagicTrait::__getData
+   */
+  public function test__getData()
+  {
+    $actual = $this->object->__getData('foo');
+    $this->assertEquals('bar', $actual);
 
-        $actual = $this->object->__callData('getZoo', array());
+    $actual = $this->object->__getData('foobar');
+    $this->assertNull($actual);
+  }
 
-        $this->assertEquals(2, $actual);
+  /**
+   * @covers Cradle\Data\MagicTrait::__setData
+   */
+  public function test__setData()
+  {
+    $this->object->__setData('zoo', 2);
+    $actual = $this->object->__getData('zoo');
 
-        $trigger = false;
+    $this->assertEquals(2, $actual);
+  }
 
-        try {
-            $this->object->__callData('foobar', array());
-        } catch(DataException $e) {
-                $trigger = true;
-        }
-
-        $this->assertTrue($trigger);
-    }
-
-    /**
-     * @covers Cradle\Data\MagicTrait::__getData
-     */
-    public function test__getData()
-    {
-        $actual = $this->object->__getData('foo');
-        $this->assertEquals('bar', $actual);
-
-        $actual = $this->object->__getData('foobar');
-        $this->assertNull($actual);
-    }
-
-    /**
-     * @covers Cradle\Data\MagicTrait::__setData
-     */
-    public function test__setData()
-    {
-        $this->object->__setData('zoo', 2);
-        $actual = $this->object->__getData('zoo');
-
-        $this->assertEquals(2, $actual);
-    }
-
-    /**
-     * @covers Cradle\Data\MagicTrait::__toStringData
-     * @todo   Implement test__toStringData().
-     */
-    public function test__toStringData()
-    {
-        $this->assertEquals(json_encode([
-            'foo' => 'bar',
-            'bar' => 'foo'
-        ], JSON_PRETTY_PRINT), $this->object->__toStringData());
-    }
+  /**
+   * @covers Cradle\Data\MagicTrait::__toStringData
+   * @todo   Implement test__toStringData().
+   */
+  public function test__toStringData()
+  {
+    $this->assertEquals(json_encode([
+      'foo' => 'bar',
+      'bar' => 'foo'
+    ], JSON_PRETTY_PRINT), $this->object->__toStringData());
+  }
 }
 
 if(!class_exists('Cradle\Data\MagicTraitStub')) {
-    class MagicTraitStub
-    {
-        use MagicTrait;
+  class MagicTraitStub
+  {
+    use MagicTrait;
 
-        protected $data = array(
-            'foo' => 'bar',
-            'bar' => 'foo'
-        );
-    }
+    protected $data = array(
+      'foo' => 'bar',
+      'bar' => 'foo'
+    );
+  }
 }

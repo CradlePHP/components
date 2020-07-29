@@ -40,72 +40,72 @@ use Cradle\Resolver\ResolverException;
  */
 class Model implements ArrayAccess, Iterator, Countable, ModelInterface
 {
-    use DataTrait,
-        EventTrait,
-        InstanceTrait,
-        LoopTrait,
-        ConditionalTrait,
-        InspectorTrait,
-        LoggerTrait,
-        StateTrait
-        {
-            DataTrait::__getData as __get;
-            DataTrait::__setData as __set;
-            DataTrait::__toStringData as __toString;
-    }
-
-    /**
-     * Attempts to use __callData then __callResolver
-     *
-     * @param *string $name name of method
-     * @param *array  $args arguments to pass
-     *
-     * @return mixed
-     */
-    public function __call(string $name, array $args)
+  use DataTrait,
+    EventTrait,
+    InstanceTrait,
+    LoopTrait,
+    ConditionalTrait,
+    InspectorTrait,
+    LoggerTrait,
+    StateTrait
     {
-        try {
-            return $this->__callData($name, $args);
-        } catch (DataException $e) {
-        }
+      DataTrait::__getData as __get;
+      DataTrait::__setData as __set;
+      DataTrait::__toStringData as __toString;
+  }
 
-        try {
-            return $this->__callResolver($name, $args);
-        } catch (ResolverException $e) {
-            throw new ModelException($e->getMessage());
-        }
+  /**
+   * Attempts to use __callData then __callResolver
+   *
+   * @param *string $name name of method
+   * @param *array  $args arguments to pass
+   *
+   * @return mixed
+   */
+  public function __call(string $name, array $args)
+  {
+    try {
+      return $this->__callData($name, $args);
+    } catch (DataException $e) {
     }
 
-    /**
-     * Presets the collection
-     *
-     * @param *array $data The initial data
-     */
-    public function __construct(array $data = [])
-    {
-        $this->set($data);
+    try {
+      return $this->__callResolver($name, $args);
+    } catch (ResolverException $e) {
+      throw new ModelException($e->getMessage());
     }
+  }
 
-    /**
-     * Returns the entire data
-     *
-     * @return array
-     */
-    public function get(): array
-    {
-        return $this->data;
-    }
+  /**
+   * Presets the collection
+   *
+   * @param *array $data The initial data
+   */
+  public function __construct(array $data = [])
+  {
+    $this->set($data);
+  }
 
-    /**
-     * Sets the entire data
-     *
-     * @param *array $data
-     *
-     * @return ModelInterface
-     */
-    public function set(array $data): ModelInterface
-    {
-        $this->data = $data;
-        return $this;
-    }
+  /**
+   * Returns the entire data
+   *
+   * @return array
+   */
+  public function get(): array
+  {
+    return $this->data;
+  }
+
+  /**
+   * Sets the entire data
+   *
+   * @param *array $data
+   *
+   * @return ModelInterface
+   */
+  public function set(array $data): ModelInterface
+  {
+    $this->data = $data;
+    return $this;
+  }
 }

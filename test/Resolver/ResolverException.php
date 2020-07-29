@@ -9,36 +9,36 @@ use PHPUnit\Framework\TestCase;
  */
 class Cradle_Resolver_ResolverException_Test extends TestCase
 {
-    /**
-     * @var ResolverException
-     */
-    protected $object;
+  /**
+   * @var ResolverException
+   */
+  protected $object;
 
-    /**
-     * Sets up the fixture, for example, opens a network connection.
-     * This method is called before a test is executed.
-     */
-    protected function setUp()
-    {
-        $this->object = new ResolverException;
-    }
+  /**
+   * Sets up the fixture, for example, opens a network connection.
+   * This method is called before a test is executed.
+   */
+  protected function setUp()
+  {
+    $this->object = new ResolverException;
+  }
 
-    /**
-     * Tears down the fixture, for example, closes a network connection.
-     * This method is called after a test is executed.
-     */
-    protected function tearDown()
-    {
-    }
+  /**
+   * Tears down the fixture, for example, closes a network connection.
+   * This method is called after a test is executed.
+   */
+  protected function tearDown()
+  {
+  }
 
-    /**
-     * @covers Cradle\Resolver\ResolverException::forClassNotFound
-     */
-    public function testForClassNotFound()
-    {
-        $actual = null;
+  /**
+   * @covers Cradle\Resolver\ResolverException::forClassNotFound
+   */
+  public function testForClassNotFound()
+  {
+    $actual = null;
 
-        try {
+    try {
 			throw ResolverException::forClassNotFound('foobar');
 		} catch(ResolverException $e) {
 			$actual = $e->getMessage();
@@ -47,16 +47,16 @@ class Cradle_Resolver_ResolverException_Test extends TestCase
 		$expected = 'Could not find class foobar.';
 
 		$this->assertEquals($expected, $actual);
-    }
+  }
 
-    /**
-     * @covers Cradle\Resolver\ResolverException::forMethodNotFound
-     */
-    public function testForMethodNotFound()
-    {
-        $actual = null;
+  /**
+   * @covers Cradle\Resolver\ResolverException::forMethodNotFound
+   */
+  public function testForMethodNotFound()
+  {
+    $actual = null;
 
-        try {
+    try {
 			throw ResolverException::forMethodNotFound('foo', 'bar');
 		} catch(ResolverException $e) {
 			$actual = $e->getMessage();
@@ -65,16 +65,16 @@ class Cradle_Resolver_ResolverException_Test extends TestCase
 		$expected = 'Could not find method foo->bar().';
 
 		$this->assertEquals($expected, $actual);
-    }
+  }
 
-    /**
-     * @covers Cradle\Resolver\ResolverException::forResolverNotFound
-     */
-    public function testForResolverNotFound()
-    {
-        $actual = null;
+  /**
+   * @covers Cradle\Resolver\ResolverException::forResolverNotFound
+   */
+  public function testForResolverNotFound()
+  {
+    $actual = null;
 
-        try {
+    try {
 			throw ResolverException::forResolverNotFound('foo');
 		} catch(ResolverException $e) {
 			$actual = $e->getMessage();
@@ -82,5 +82,5 @@ class Cradle_Resolver_ResolverException_Test extends TestCase
 
 		$expected = 'Could not find resolver foo.';
 		$this->assertEquals($expected, $actual);
-    }
+  }
 }

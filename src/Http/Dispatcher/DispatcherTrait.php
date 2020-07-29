@@ -22,36 +22,36 @@ use Cradle\Http\HttpDispatcher;
  */
 trait DispatcherTrait
 {
-    /**
-     * @var HttpDispatcher|null $dispatcher Response object to use
-     */
-    protected $dispatcher = null;
+  /**
+   * @var HttpDispatcher|null $dispatcher Response object to use
+   */
+  protected $dispatcher = null;
 
-    /**
-     * Returns a response object
-     *
-     * @return DispatcherInterface
-     */
-    public function getDispatcher(): DispatcherInterface
-    {
-        if (is_null($this->dispatcher)) {
-            $this->setDispatcher($this->resolve(HttpDispatcher::class));
-        }
-
-        return $this->dispatcher;
+  /**
+   * Returns a response object
+   *
+   * @return DispatcherInterface
+   */
+  public function getDispatcher(): DispatcherInterface
+  {
+    if (is_null($this->dispatcher)) {
+      $this->setDispatcher($this->resolve(HttpDispatcher::class));
     }
 
-    /**
-     * Sets the dispatcher to use
-     *
-     * @param DispatcherInterface $dispatcher
-     *
-     * @return DispatcherTrait
-     */
-    public function setDispatcher(DispatcherInterface $dispatcher)
-    {
-        $this->dispatcher = $dispatcher;
+    return $this->dispatcher;
+  }
 
-        return $this;
-    }
+  /**
+   * Sets the dispatcher to use
+   *
+   * @param DispatcherInterface $dispatcher
+   *
+   * @return DispatcherTrait
+   */
+  public function setDispatcher(DispatcherInterface $dispatcher)
+  {
+    $this->dispatcher = $dispatcher;
+
+    return $this;
+  }
 }

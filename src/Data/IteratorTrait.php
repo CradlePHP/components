@@ -20,50 +20,50 @@ namespace Cradle\Data;
  */
 trait IteratorTrait
 {
-    /**
-     * Returns the current item
-     * For Iterator interface
-     */
-    public function current()
-    {
-        return current($this->data);
-    }
+  /**
+   * Returns the current item
+   * For Iterator interface
+   */
+  public function current()
+  {
+    return current($this->data);
+  }
 
-    /**
-     * Returns th current position
-     * For Iterator interface
-     */
-    public function key()
-    {
-        return key($this->data);
-    }
+  /**
+   * Returns th current position
+   * For Iterator interface
+   */
+  public function key()
+  {
+    return key($this->data);
+  }
 
-    /**
-     * Increases the position
-     * For Iterator interface
-     */
-    public function next()
-    {
-        next($this->data);
-    }
+  /**
+   * Increases the position
+   * For Iterator interface
+   */
+  public function next()
+  {
+    next($this->data);
+  }
 
-    /**
-     * Rewinds the position
-     * For Iterator interface
-     */
-    public function rewind()
-    {
-        reset($this->data);
-    }
+  /**
+   * Rewinds the position
+   * For Iterator interface
+   */
+  public function rewind()
+  {
+    reset($this->data);
+  }
 
-    /**
-     * Validates whether if the index is set
-     * For Iterator interface
-     *
-     * @return bool
-     */
-    public function valid(): bool
-    {
-        return isset($this->data[$this->key()]);
-    }
+  /**
+   * Validates whether if the index is set
+   * For Iterator interface
+   *
+   * @return bool
+   */
+  public function valid(): bool
+  {
+    return isset($this->data[$this->key()]);
+  }
 }

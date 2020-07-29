@@ -32,25 +32,20 @@ use Cradle\Resolver\StateTrait;
  */
 class HttpHandler
 {
-    use HttpTrait,
-        EventTrait,
-        InstanceTrait,
-        LoopTrait,
-        ConditionalTrait,
-        InspectorTrait,
-        LoggerTrait,
-        StateTrait
-        {
-            StateTrait::__callResolver as __call;
-    }
+  use HttpTrait,
+    EventTrait,
+    InstanceTrait,
+    LoopTrait,
+    ConditionalTrait,
+    InspectorTrait,
+    LoggerTrait,
+    StateTrait
+    {
+      StateTrait::__callResolver as __call;
+  }
 
-    /**
-     * @const STATUS_404 Status template
-     */
-    const STATUS_404 = '404 Not Found';
-
-    /**
-     * @const STATUS_500 Status template
-     */
-    const STATUS_500 = '500 Server Error';
+  /**
+   * @const STATUS_404 Status template
+   */
+  const STATUS_404 = '404 Not Found';
 }

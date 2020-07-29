@@ -9,39 +9,39 @@ use PHPUnit\Framework\TestCase;
  */
 class Cradle_Helper_SingletonTrait_Test extends TestCase
 {
-    /**
-     * @var SingletonTrait
-     */
-    protected $object;
+  /**
+   * @var SingletonTrait
+   */
+  protected $object;
 
-    /**
-     * Sets up the fixture, for example, opens a network connection.
-     * This method is called before a test is executed.
-     */
-    protected function setUp()
-    {
-        $this->object = new SingletonTraitStub;
-    }
+  /**
+   * Sets up the fixture, for example, opens a network connection.
+   * This method is called before a test is executed.
+   */
+  protected function setUp()
+  {
+    $this->object = new SingletonTraitStub;
+  }
 
-    /**
-     * Tears down the fixture, for example, closes a network connection.
-     * This method is called after a test is executed.
-     */
-    protected function tearDown()
-    {
-    }
+  /**
+   * Tears down the fixture, for example, closes a network connection.
+   * This method is called after a test is executed.
+   */
+  protected function tearDown()
+  {
+  }
 
-    /**
-     * covers Cradle\Helper\SingletonTrait::i
-     */
-    public function testI()
-    {
-        $instance1 = SingletonTraitStub::i();
+  /**
+   * covers Cradle\Helper\SingletonTrait::i
+   */
+  public function testI()
+  {
+    $instance1 = SingletonTraitStub::i();
 		$this->assertInstanceOf('Cradle\Helper\SingletonTraitStub', $instance1);
 		
 		$instance2 = SingletonTraitStub::i();
 		$this->assertTrue($instance1 === $instance2);
-    }
+  }
 }
 
 if(!class_exists('Cradle\Helper\SingletonTraitStub')) {

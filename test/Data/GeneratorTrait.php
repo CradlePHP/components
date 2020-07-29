@@ -9,36 +9,36 @@ use PHPUnit\Framework\TestCase;
  */
 class Cradle_Data_GeneratorTrait_Test extends TestCase
 {
-    /**
-     * @var GeneratorTrait
-     */
-    protected $object;
+  /**
+   * @var GeneratorTrait
+   */
+  protected $object;
 
-    /**
-     * Sets up the fixture, for example, opens a network connection.
-     * This method is called before a test is executed.
-     */
-    protected function setUp()
-    {
-        $this->object = new GeneratorTraitStub;
-    }
+  /**
+   * Sets up the fixture, for example, opens a network connection.
+   * This method is called before a test is executed.
+   */
+  protected function setUp()
+  {
+    $this->object = new GeneratorTraitStub;
+  }
 
-    /**
-     * Tears down the fixture, for example, closes a network connection.
-     * This method is called after a test is executed.
-     */
-    protected function tearDown()
-    {
-    }
+  /**
+   * Tears down the fixture, for example, closes a network connection.
+   * This method is called after a test is executed.
+   */
+  protected function tearDown()
+  {
+  }
 
-    /**
-     * @covers Cradle\Data\GeneratorTrait::generator
-     */
-    public function testGenerator()
-    {
-        foreach($this->object->generator() as $i => $value);
+  /**
+   * @covers Cradle\Data\GeneratorTrait::generator
+   */
+  public function testGenerator()
+  {
+    foreach($this->object->generator() as $i => $value);
 		$this->assertEquals('bar', $i);
-    }
+  }
 }
 
 if(!class_exists('Cradle\Data\GeneratorTraitStub')) {

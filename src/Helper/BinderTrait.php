@@ -21,15 +21,15 @@ use Closure;
  */
 trait BinderTrait
 {
-    /**
-     * Binds callback with this instance
-     *
-     * @param *Closure $conditional should evaluate to true
-     *
-     * @return Closure
-     */
-    public function bindCallback(Closure $callback): Closure
-    {
-        return $callback->bindTo($this, get_class($this));
-    }
+  /**
+   * Binds callback with this instance
+   *
+   * @param *Closure $conditional should evaluate to true
+   *
+   * @return Closure
+   */
+  public function bindCallback(Closure $callback): Closure
+  {
+    return $callback->bindTo($this, get_class($this));
+  }
 }
