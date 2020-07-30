@@ -30,26 +30,26 @@ trait EventTrait
   protected static $globalEventEmitter = null;
 
   /**
-   * @var EventEmitter|null $eventHandler
+   * @var EventEmitter|null $eventEmitter
    */
-  private $eventHandler = null;
+  private $eventEmitter = null;
 
   /**
    * Asyncronous trigger
    *
    * @param *string $event The event to trigger
-   * @param mixed   ...$args The arguments to pass to the handler
+   * @param mixed   ...$args The arguments to pass to the emitter
    *
    * @return EventTrait
    */
   public function async(string $event, ...$args)
   {
-    //get the event handler
-    $handler = $this->getEventEmitter();
+    //get the event emitter
+    $emitter = $this->getEventEmitter();
 
     //set up the async callback
-    $callback = function () use ($handler, &$event, &$args) {
-      yield $handler->emit($event, ...$args);
+    $callback = function () use ($emitter, &$event, &$args) {
+      yield $emitter->emit($event, ...$args);
     };
 
     //add the callback in the async handler
@@ -72,11 +72,11 @@ trait EventTrait
       self::$globalEventEmitter = new EventEmitter();
     }
 
-    if (is_null($this->eventHandler)) {
-      $this->eventHandler = self::$globalEventEmitter;
+    if (is_null($this->eventEmitter)) {
+      $this->eventEmitter = self::$globalEventEmitter;
     }
 
-    return $this->eventHandler;
+    return $this->eventEmitter;
   }
 
   /**
@@ -84,7 +84,7 @@ trait EventTrait
    * when an event has been triggered
    *
    * @param *string|array   $event   the name of the event
-   * @param *callable     $callback  the event handler
+   * @param *callable     $callback  the event emitter
    * @param int       $priority  if true will be prepended in order
    *
    * @return EventTrait
@@ -107,18 +107,18 @@ trait EventTrait
   /**
    * Allow for a custom dispatcher to be used
    *
-   * @param *EventInterface $handler
+   * @param *EventInterface $emitter
    * @param bool      $static
    *
    * @return EventTrait
    */
-  public function setEventEmitter(EventInterface $handler, bool $static = false)
+  public function setEventEmitter(EventInterface $emitter, bool $static = false)
   {
     if ($static) {
-      self::$globalEventEmitter = $handler;
+      self::$globalEventEmitter = $emitter;
     }
 
-    $this->eventHandler = $handler;
+    $this->eventEmitter = $emitter;
 
     return $this;
   }
@@ -128,7 +128,7 @@ trait EventTrait
    * event has happened
    *
    * @param *string $event The event to trigger
-   * @param mixed   ...$args The arguments to pass to the handler
+   * @param mixed   ...$args The arguments to pass to the emitter
    *
    * @return EventTrait
    */
