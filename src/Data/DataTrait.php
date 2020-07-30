@@ -21,7 +21,13 @@ namespace Cradle\Data;
  */
 trait DataTrait
 {
-  use ArrayAccessTrait, IteratorTrait, CountableTrait, DotTrait, MagicTrait, GeneratorTrait;
+  use ArrayAccessTrait,
+    IteratorTrait,
+    CountableTrait,
+    DotTrait,
+    MagicTrait,
+    GeneratorTrait,
+    CloneTrait;
 
   protected $data = [];
 

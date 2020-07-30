@@ -45,6 +45,7 @@
     <file>test/Data/DataTrait.php</file>
     <file>test/Data/DotTrait.php</file>
     <file>test/Data/GeneratorTrait.php</file>
+    <file>test/Data/CloneTrait.php</file>
     <file>test/Data/IteratorTrait.php</file>
     <file>test/Data/MagicTrait.php</file>
     <file>test/Data/Model.php</file>
