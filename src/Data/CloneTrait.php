@@ -21,9 +21,16 @@ trait CloneTrait
 {
   /**
    * In instance method for cloning
+   *
+   * @param bool $flushData
    */
-  public function clone()
+  public function clone(bool $purge = false)
   {
-    return clone $this;
+    $clone = clone $this;
+    if ($purge) {
+      $clone->purge();
+    }
+
+    return $clone;
   }
 }

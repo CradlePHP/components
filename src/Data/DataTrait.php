@@ -29,6 +29,9 @@ trait DataTrait
     GeneratorTrait,
     CloneTrait;
 
+  /**
+   * @var array $ata registered data
+   */
   protected $data = [];
 
   /**
@@ -52,6 +55,17 @@ trait DataTrait
     }
 
     //if the source and destination does not exist, do nothing
+    return $this;
+  }
+
+  /**
+   * Truncates data
+   *
+   * @return DataTrait
+   */
+  public function purge()
+  {
+    $this->data = [];
     return $this;
   }
 }

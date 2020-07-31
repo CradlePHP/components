@@ -22,9 +22,30 @@ use Cradle\Data\Registry;
 abstract class AbstractIO extends Registry
 {
   /**
-   * @var metaData private data not registered
+   * Use the default __get functionality
+   *
+   * @param *string $name  The name of the supposed property
+   * @param *mixed  $value The value of the supposed property
    */
-  protected $metaData = [];
+  public function __get(string $name)
+  {
+    if (isset($this->$name)) {
+      return $this->$name;
+    }
+
+    return null;
+  }
+
+  /**
+   * Use the default __set functionality
+   *
+   * @param *string $name  The name of the supposed property
+   * @param *mixed  $value The value of the supposed property
+   */
+  public function __set(string $name, $value)
+  {
+    $this->$name = $value;
+  }
 
   /**
    * Loads default data given by PHP
@@ -32,23 +53,4 @@ abstract class AbstractIO extends Registry
    * @return Request
    */
   abstract public function load(): IOInterface;
-
-  /**
-   * Sets/Get private data not registered
-   *
-   * @return mixed
-   */
-  public function meta($key, $value = null)
-  {
-    if (!is_null($value)) {
-      $this->metaData[$key] = $value;
-      return $this;
-    }
-
-    if (isset($this->metaData[$key])) {
-      return $this->metaData[$key];
-    }
-
-    return null;
-  }
 }
