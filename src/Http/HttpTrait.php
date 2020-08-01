@@ -77,7 +77,7 @@ trait HttpTrait
       $request = $this->getRequest();
       $response->setStatus(404, HttpHandler::STATUS_404);
 
-      $error = HttpException::forNotFound();
+      $error = HttpException::forResponseNotFound();
       $continue = $this->getErrorProcessor()->process($request, $response, $error);
     }
 
