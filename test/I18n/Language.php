@@ -69,14 +69,14 @@ class Cradle_I18n_Language_Test extends TestCase
   }
 
   /**
-   * @covers Cradle\I18n\Language::get
+   * @covers Cradle\I18n\Language::translate
    */
-  public function testGet()
+  public function testTranslate()
   {
-    $string = $this->object->get('How are you?');
+    $string = $this->object->translate('How are you?');
     $this->assertEquals('Kumusta ka?', $string);
 
-    $string = $this->object->get('How are you??');
+    $string = $this->object->translate('How are you??');
     $this->assertEquals('How are you??', $string);
   }
 
@@ -96,7 +96,7 @@ class Cradle_I18n_Language_Test extends TestCase
   {
     $class = $this
       ->object
-      ->translate('How much is this?', 'Magkano ba ito?')
+      ->define('How much is this?', 'Magkano ba ito?')
       ->save();
 
     $this->assertInstanceOf('Cradle\I18n\Language', $class);
@@ -113,16 +113,16 @@ class Cradle_I18n_Language_Test extends TestCase
   }
 
   /**
-   * @covers Cradle\I18n\Language::translate
+   * @covers Cradle\I18n\Language::define
    */
-  public function testTranslate()
+  public function testDefine()
   {
     $rand = rand();
 
     $string = $this
       ->object
-      ->translate('How much is this?', 'Magkano ba ito? '.$rand)
-      ->get('How much is this?');
+      ->define('How much is this?', 'Magkano ba ito? '.$rand)
+      ->translate('How much is this?');
 
     $this->assertEquals('Magkano ba ito? '.$rand, $string);
   }

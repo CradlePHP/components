@@ -100,6 +100,20 @@ class Language implements ArrayAccess, Iterator
   }
 
   /**
+   * Sets the translated value to the specified key
+   *
+   * @param *string $key   The translation key
+   * @param *string $value The default value if we cannot find the translation
+   *
+   * @return Language
+   */
+  public function define($key, $value): Language
+  {
+    $this->data[$key] = $value;
+    return $this;
+  }
+
+  /**
    * Returns the translated key.
    * if the key is not set it will set
    * the key to the value of the key
@@ -109,7 +123,7 @@ class Language implements ArrayAccess, Iterator
    *
    * @return string
    */
-  public function get(string $key, ...$args): string
+  public function translate(string $key, ...$args): string
   {
     if (!isset($this->data[$key])) {
       $this->data[$key] = $key;
@@ -172,21 +186,6 @@ class Language implements ArrayAccess, Iterator
     }
 
     $this->data = $language;
-    return $this;
-  }
-
-  /**
-   * Sets the translated value to the specified key
-   *
-   * @param *string $key   The translation key
-   * @param *string $value The default value if we cannot find the translation
-   *
-   * @return Language
-   */
-  public function translate($key, $value): Language
-  {
-    $this->data[$key] = $value;
-
     return $this;
   }
 }
