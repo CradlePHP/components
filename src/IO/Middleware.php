@@ -32,6 +32,16 @@ class Middleware implements MiddlewareInterface
   protected $registry = [];
 
   /**
+   * Returns true if empty
+   *
+   * @return bool
+   */
+  public function isEmpty(): bool
+  {
+    return empty($this->registry);
+  }
+
+  /**
    * Adds global middleware
    *
    * @param callable $callback The middleware handler
