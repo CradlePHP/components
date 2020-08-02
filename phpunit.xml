@@ -13,103 +13,109 @@
 >
   <testsuites>
     <testsuite name="CradlePHP Helper Test Suite">
-    <file>test/Helper/BinderTrait.php</file>
-    <file>test/Helper/ConditionalTrait.php</file>
-    <file>test/Helper/InstanceTrait.php</file>
-    <file>test/Helper/LoopTrait.php</file>
-    <file>test/Helper/SingletonTrait.php</file>
-  </testsuite>
-  <testsuite name="CradlePHP Resolver Test Suite">
-    <file>test/Resolver/ResolverException.php</file>
-    <file>test/Resolver/ResolverHandler.php</file>
-    <file>test/Resolver/ResolverTrait.php</file>
-    <file>test/Resolver/StateTrait.php</file>
-  </testsuite>
-  <testsuite name="CradlePHP Profiler Test Suite">
-    <file>test/Profiler/CallerTrait.php</file>
-    <file>test/Profiler/InspectorHandler.php</file>
-    <file>test/Profiler/InspectorTrait.php</file>
-    <file>test/Profiler/LoggerException.php</file>
-    <file>test/Profiler/LoggerTrait.php</file>
-  </testsuite>
-    <testsuite name="CradlePHP Event Test Suite">
-    <file>test/Event/EventEmitter.php</file>
-    <file>test/Event/EventObserver.php</file>
-    <file>test/Event/EventTrait.php</file>
-  </testsuite>
-  <testsuite name="CradlePHP Data Test Suite">
-    <file>test/Data/ArrayAccessTrait.php</file>
-    <file>test/Data/Collection.php</file>
-    <file>test/Data/CountableTrait.php</file>
-    <file>test/Data/DataException.php</file>
-    <file>test/Data/DataTrait.php</file>
-    <file>test/Data/DotTrait.php</file>
-    <file>test/Data/GeneratorTrait.php</file>
-    <file>test/Data/CloneTrait.php</file>
-    <file>test/Data/IteratorTrait.php</file>
-    <file>test/Data/MagicTrait.php</file>
-    <file>test/Data/Model.php</file>
-    <file>test/Data/Registry.php</file>
-  </testsuite>
-  <testsuite name="CradlePHP I18n Test Suite">
-    <file>test/I18n/Language.php</file>
-      <file>test/I18n/LanguageException.php</file>
-    <file>test/I18n/Timezone.php</file>
-    <file>test/I18n/TimezoneValidation.php</file>
-  </testsuite>
-  <testsuite name="CradlePHP IO Test Suite">
-    <file>test/IO/IOHandler.php</file>
-    <file>test/IO/Middleware.php</file>
-    <file>test/IO/Request.php</file>
-    <file>test/IO/Response.php</file>
-    <file>test/IO/Middleware/ErrorProcessorTrait.php</file>
-    <file>test/IO/Middleware/PostProcessorTrait.php</file>
-    <file>test/IO/Middleware/PreProcessorTrait.php</file>
-    <file>test/IO/Request/CliTrait.php</file>
-    <file>test/IO/Request/ContentTrait.php</file>
-    <file>test/IO/Request/CookieTrait.php</file>
-    <file>test/IO/Request/FileTrait.php</file>
-    <file>test/IO/Request/GetTrait.php</file>
-    <file>test/IO/Request/PostTrait.php</file>
-    <file>test/IO/Request/RequestTrait.php</file>
-    <file>test/IO/Request/RouteTrait.php</file>
-    <file>test/IO/Request/ServerTrait.php</file>
-    <file>test/IO/Request/SessionTrait.php</file>
-    <file>test/IO/Request/StageTrait.php</file>
-    <file>test/IO/Response/ContentTrait.php</file>
-    <file>test/IO/Response/HeaderTrait.php</file>
-    <file>test/IO/Response/ResponseTrait.php</file>
-    <file>test/IO/Response/RestTrait.php</file>
-    <file>test/IO/Response/StatusTrait.php</file>
-  </testsuite>
-  <testsuite name="CradlePHP Http Test Suite">
-    <file>test/Http/HttpDispatcher.php</file>
-    <file>test/Http/HttpException.php</file>
-    <file>test/Http/HttpHandler.php</file>
-    <file>test/Http/Router.php</file>
-    <file>test/Http/Dispatcher/DispatcherTrait.php</file>
-    <file>test/Http/Router/RouterTrait.php</file>
-  </testsuite>
-  <testsuite name="CradlePHP Terminal Test Suite">
-    <file>test/Terminal/TerminalExceptopm.php</file>
-    <file>test/Terminal/TerminalHelper.php</file>
-    <file>test/Terminal/TerminalHandler.php</file>
-  </testsuite>
-  <testsuite name="CradlePHP Curl Test Suite">
-    <file>test/Curl/CurlHandler.php</file>
-    <file>test/Curl/Rest.php</file>
-  </testsuite>
-  <testsuite name="CradlePHP Image Test Suite">
-    <file>test/Image/ImageHandler.php</file>
-    <file>test/Image/ImageException.php</file>
-  </testsuite>
-  <testsuite name="CradlePHP Async Test Suite">
-    <file>test/Async/AsyncException.php</file>
-    <file>test/Async/Coroutine.php</file>
-    <file>test/Async/AsyncHandler.php</file>
-    <file>test/Async/Promise.php</file>
-    <file>test/Async/AsyncTrait.php</file>
-  </testsuite>
+      <file>test/Helper/BinderTrait.php</file>
+      <file>test/Helper/ConditionalTrait.php</file>
+      <file>test/Helper/InstanceTrait.php</file>
+      <file>test/Helper/LoopTrait.php</file>
+      <file>test/Helper/SingletonTrait.php</file>
+    </testsuite>
+    <testsuite name="CradlePHP Resolver Test Suite">
+      <file>test/Resolver/ResolverException.php</file>
+      <file>test/Resolver/ResolverHandler.php</file>
+      <file>test/Resolver/ResolverTrait.php</file>
+      <file>test/Resolver/StateTrait.php</file>
+    </testsuite>
+    <testsuite name="CradlePHP Profiler Test Suite">
+      <file>test/Profiler/CallerTrait.php</file>
+      <file>test/Profiler/InspectorHandler.php</file>
+      <file>test/Profiler/InspectorTrait.php</file>
+      <file>test/Profiler/LoggerException.php</file>
+      <file>test/Profiler/LoggerTrait.php</file>
+    </testsuite>
+      <testsuite name="CradlePHP Event Test Suite">
+      <file>test/Event/EventEmitter.php</file>
+      <file>test/Event/EventObserver.php</file>
+      <file>test/Event/EventTrait.php</file>
+    </testsuite>
+    <testsuite name="CradlePHP Data Test Suite">
+      <file>test/Data/ArrayAccessTrait.php</file>
+      <file>test/Data/Collection.php</file>
+      <file>test/Data/CountableTrait.php</file>
+      <file>test/Data/DataException.php</file>
+      <file>test/Data/DataTrait.php</file>
+      <file>test/Data/DotTrait.php</file>
+      <file>test/Data/GeneratorTrait.php</file>
+      <file>test/Data/CloneTrait.php</file>
+      <file>test/Data/IteratorTrait.php</file>
+      <file>test/Data/MagicTrait.php</file>
+      <file>test/Data/Model.php</file>
+      <file>test/Data/Registry.php</file>
+    </testsuite>
+    <testsuite name="CradlePHP I18n Test Suite">
+      <file>test/I18n/Language.php</file>
+        <file>test/I18n/LanguageException.php</file>
+      <file>test/I18n/Timezone.php</file>
+      <file>test/I18n/TimezoneValidation.php</file>
+    </testsuite>
+    <testsuite name="CradlePHP IO Test Suite">
+      <file>test/IO/IOHandler.php</file>
+      <file>test/IO/Middleware.php</file>
+      <file>test/IO/Request.php</file>
+      <file>test/IO/Response.php</file>
+      <file>test/IO/Middleware/ErrorProcessorTrait.php</file>
+      <file>test/IO/Middleware/PostProcessorTrait.php</file>
+      <file>test/IO/Middleware/PreProcessorTrait.php</file>
+      <file>test/IO/Request/CliTrait.php</file>
+      <file>test/IO/Request/ContentTrait.php</file>
+      <file>test/IO/Request/CookieTrait.php</file>
+      <file>test/IO/Request/FileTrait.php</file>
+      <file>test/IO/Request/GetTrait.php</file>
+      <file>test/IO/Request/PostTrait.php</file>
+      <file>test/IO/Request/RequestTrait.php</file>
+      <file>test/IO/Request/RouteTrait.php</file>
+      <file>test/IO/Request/ServerTrait.php</file>
+      <file>test/IO/Request/SessionTrait.php</file>
+      <file>test/IO/Request/StageTrait.php</file>
+      <file>test/IO/Response/ContentTrait.php</file>
+      <file>test/IO/Response/HeaderTrait.php</file>
+      <file>test/IO/Response/ResponseTrait.php</file>
+      <file>test/IO/Response/RestTrait.php</file>
+      <file>test/IO/Response/StatusTrait.php</file>
+    </testsuite>
+    <testsuite name="CradlePHP Http Test Suite">
+      <file>test/Http/HttpDispatcher.php</file>
+      <file>test/Http/HttpException.php</file>
+      <file>test/Http/HttpHandler.php</file>
+      <file>test/Http/Router.php</file>
+      <file>test/Http/Dispatcher/DispatcherTrait.php</file>
+      <file>test/Http/Router/RouterTrait.php</file>
+    </testsuite>
+    <testsuite name="CradlePHP Terminal Test Suite">
+      <file>test/Terminal/TerminalException.php</file>
+      <file>test/Terminal/TerminalHelper.php</file>
+      <file>test/Terminal/TerminalHandler.php</file>
+    </testsuite>
+    <testsuite name="CradlePHP Package Test Suite">
+      <file>test/Package/PackageException.php</file>
+      <file>test/Package/Package.php</file>
+      <file>test/Package/PackageTrait.php</file>
+      <file>test/Package/PackageHandler.php</file>
+    </testsuite>
+    <testsuite name="CradlePHP Curl Test Suite">
+      <file>test/Curl/CurlHandler.php</file>
+      <file>test/Curl/Rest.php</file>
+    </testsuite>
+    <testsuite name="CradlePHP Image Test Suite">
+      <file>test/Image/ImageHandler.php</file>
+      <file>test/Image/ImageException.php</file>
+    </testsuite>
+    <testsuite name="CradlePHP Async Test Suite">
+      <file>test/Async/AsyncException.php</file>
+      <file>test/Async/Coroutine.php</file>
+      <file>test/Async/AsyncHandler.php</file>
+      <file>test/Async/Promise.php</file>
+      <file>test/Async/AsyncTrait.php</file>
+    </testsuite>
   </testsuites>
 
   <filter>
