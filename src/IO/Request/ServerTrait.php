@@ -88,6 +88,23 @@ trait ServerTrait
   }
 
   /**
+   * Returns true if the server is being ran from the cli
+   *
+   * @return bool
+   */
+  public function isCLI(): bool
+  {
+    $server = $this->getServer();
+    return defined('STDIN')
+      || php_sapi_name() === 'cli'
+      || (
+        empty($server['REMOTE_ADDR'])
+        && !isset($server['HTTP_USER_AGENT'])
+        && count($server['argv']) > 0
+      ) || !array_key_exists('REQUEST_METHOD', $server);
+  }
+
+  /**
    * Returns true if method is the one given
    *
    * @param *string $method
@@ -130,6 +147,52 @@ trait ServerTrait
     return $this
       ->setDot('path.string', $path)
       ->setDot('path.array', $array);
+  }
+
+  /**
+   * Sets the host protocol
+   *
+   * @param *string $path
+   *
+   * @return ServerTrait
+   */
+  public function setHost(string $protocol)
+  {
+    $host = $this->getServer('HTTP_HOST');
+    $port = $this->getServer('SERVER_PORT');
+    $uri = $this->getServer('REQUEST_URI');
+
+    $hostname = sprintf('%s://%s', $protocol, $host);
+    if ($port) {
+      $hostname .= ':' . $port;
+    }
+
+    //url and base
+    $hostbase = $hosturl = $hostname . $uri;
+
+    //path and base
+    $hostpath = $uri;
+    if (strpos($hostbase, '?') !== false) {
+      $hostbase = substr($hostbase, 0, strpos($hostbase, '?') + 1);
+      $hostpath = substr($hostpath, 0, strpos($hostpath, '?') + 1);
+    }
+
+    $hostdir = pathinfo($hostpath, PATHINFO_DIRNAME);
+
+    $this->setDot('host.protocol', $protocol);
+
+    $this->setDot('host.name', $host);
+    $this->setDot('host.port', $port);
+    $this->setDot('host.uri', $uri);
+
+    $this->setDot('host.hostname', $hostname);
+    $this->setDot('host.hostbase', $hostbase);
+    $this->setDot('host.hostpath', $hostpath);
+
+    $this->setDot('host.hosturl', $hosturl);
+    $this->setDot('host.hostdir', $hostdir);
+
+    return $this;
   }
 
   /**

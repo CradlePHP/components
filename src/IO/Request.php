@@ -88,6 +88,11 @@ class Request extends AbstractIO implements RequestInterface, IOInterface
 
     if (isset($_SERVER)) {
       $this->setServer($_SERVER);
+      // @codeCoverageIgnoreStart
+      if (!$this->isCLI()) {
+        $this->setHost('http');
+      }
+      // @codeCoverageIgnoreEnd
     }
 
     return $this;
