@@ -96,12 +96,7 @@ class Language implements ArrayAccess, Iterator
    */
   public function __construct($language = [])
   {
-    if (is_string($language)) {
-      $this->file = $language;
-      $language = include($language);
-    }
-
-    $this->data = $language;
+    $this->setLanguage($language);
   }
 
   /**
@@ -109,14 +104,21 @@ class Language implements ArrayAccess, Iterator
    * if the key is not set it will set
    * the key to the value of the key
    *
-   * @param *string
+   * @param *string $key
+   * @param array   $args   The path if you want to set it
    *
    * @return string
    */
-  public function get(string $key): string
+  public function get(string $key, ...$args): string
   {
     if (!isset($this->data[$key])) {
       $this->data[$key] = $key;
+    }
+
+    //if we have arguments
+    if (count($args)) {
+      //sprintf it
+      return vsprintf($this->data[$key], $args);
     }
 
     return $this->data[$key];
@@ -152,6 +154,24 @@ class Language implements ArrayAccess, Iterator
     $contents = "<?php //-->\nreturn " . var_export($this->data, true) . ";";
     file_put_contents($file, $contents);
 
+    return $this;
+  }
+
+  /**
+   * Sets the entire data
+   *
+   * @param string|array $language the translation to load
+   *
+   * @return Language
+   */
+  public function setLanguage($language = []): Language
+  {
+    if (is_string($language)) {
+      $this->file = $language;
+      $language = include($language);
+    }
+
+    $this->data = $language;
     return $this;
   }
 

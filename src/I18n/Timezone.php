@@ -53,12 +53,7 @@ class Timezone
    */
   public function __construct(string $zone, $time = null)
   {
-    if (is_null($time)) {
-      $time = time();
-    }
-
-    $this->offset = $this->calculateOffset($zone);
-    $this->setTime($time);
+    $this->setTimezone($zone, $time);
   }
 
   /**
@@ -311,6 +306,25 @@ class Timezone
     }
 
     $this->time = $time - $this->offset;
+    return $this;
+  }
+
+  /**
+   * Preset the timezone and time
+   *
+   * @param *string     $zone The timezone to use
+   * @param int|string|null $time The time to use
+   *
+   * @return Timezone
+   */
+  public function setTimezone(string $zone, $time = null): Timezone
+  {
+    if (is_null($time)) {
+      $time = time();
+    }
+
+    $this->offset = $this->calculateOffset($zone);
+    $this->setTime($time);
     return $this;
   }
 
