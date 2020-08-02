@@ -56,17 +56,34 @@ trait IOTrait
     // @codeCoverageIgnoreStart
     } catch (Throwable $e) {
       //if there is an exception
-      //you may not want to out
-      //right throw it out
+      //get the error processor
+      $processor = $this->getErrorProcessor();
+      //if no error processors
+      if ($processor->isEmpty()) {
+        //throw it out with anger.. grrr.
+        throw $e;
+      }
+
+      //you may not want to out right throw it out
       $thrown = true;
       $response->setStatus(500, IOHandler::STATUS_500);
-      $continue = $this->getErrorProcessor()->process($request, $response, $e);
+      $continue = $processor->process($request, $response, $e);
       //if there's an error in the errorware then let it be thrown
     } catch (Exception $e) {
       if (!$thrown) {
         //same logic as above
+        //get the error processor
+        $processor = $this->getErrorProcessor();
+        //if no error processors
+        if ($processor->isEmpty()) {
+          //throw it out with anger.. grrr.
+          throw $e;
+        }
+
+        //you may not want to out right throw it out
+        $thrown = true;
         $response->setStatus(500, IOHandler::STATUS_500);
-        $continue = $this->getErrorProcessor()->process($request, $response, $e);
+        $continue = $processor->process($request, $response, $e);
         //if there's an error in the errorware then let it be thrown
       }
     }
@@ -101,17 +118,34 @@ trait IOTrait
     // @codeCoverageIgnoreStart
     } catch (Throwable $e) {
       //if there is an exception
-      //you may not want to out
-      //right throw it out
+      //get the error processor
+      $processor = $this->getErrorProcessor();
+      //if no error processors
+      if ($processor->isEmpty()) {
+        //throw it out with anger.. grrr.
+        throw $e;
+      }
+
+      //you may not want to out right throw it out
       $thrown = true;
       $response->setStatus(500, IOHandler::STATUS_500);
-      $continue = $this->getErrorProcessor()->process($request, $response, $e);
+      $continue = $processor->process($request, $response, $e);
       //if there's an error in the errorware then let it be thrown
     } catch (Exception $e) {
       if (!$thrown) {
         //same logic as above
+        //get the error processor
+        $processor = $this->getErrorProcessor();
+        //if no error processors
+        if ($processor->isEmpty()) {
+          //throw it out with anger.. grrr.
+          throw $e;
+        }
+
+        //you may not want to out right throw it out
+        $thrown = true;
         $response->setStatus(500, IOHandler::STATUS_500);
-        $continue = $this->getErrorProcessor()->process($request, $response, $e);
+        $continue = $processor->process($request, $response, $e);
         //if there's an error in the errorware then let it be thrown
       }
     }
@@ -170,17 +204,34 @@ trait IOTrait
     // @codeCoverageIgnoreStart
     } catch (Throwable $e) {
       //if there is an exception
-      //you may not want to out
-      //right throw it out
+      //get the error processor
+      $processor = $this->getErrorProcessor();
+      //if no error processors
+      if ($processor->isEmpty()) {
+        //throw it out with anger.. grrr.
+        throw $e;
+      }
+
+      //you may not want to out right throw it out
       $thrown = true;
       $response->setStatus(500, IOHandler::STATUS_500);
-      $continue = $this->getErrorProcessor()->process($request, $response, $e);
+      $continue = $processor->process($request, $response, $e);
       //if there's an error in the errorware then let it be thrown
     } catch (Exception $e) {
       if (!$thrown) {
         //same logic as above
+        //get the error processor
+        $processor = $this->getErrorProcessor();
+        //if no error processors
+        if ($processor->isEmpty()) {
+          //throw it out with anger.. grrr.
+          throw $e;
+        }
+
+        //you may not want to out right throw it out
+        $thrown = true;
         $response->setStatus(500, IOHandler::STATUS_500);
-        $continue = $this->getErrorProcessor()->process($request, $response, $e);
+        $continue = $processor->process($request, $response, $e);
         //if there's an error in the errorware then let it be thrown
       }
     }
