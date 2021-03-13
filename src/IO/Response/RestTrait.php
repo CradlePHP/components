@@ -20,21 +20,6 @@ namespace Cradle\IO\Response;
 trait RestTrait
 {
   /**
-   * Adds a JSON validation message or sets all the validations
-   *
-   * @param *string $field
-   * @param *string $message
-   *
-   * @return RestTrait
-   */
-  public function addValidation(string $field, string $message)
-  {
-    $args = func_get_args();
-
-    return $this->set('json', 'validation', ...$args);
-  }
-
-  /**
    * Returns JSON results if still in array mode
    *
    * @param mixed ...$args
@@ -148,6 +133,23 @@ trait RestTrait
   }
 
   /**
+   * Sets a JSON validate set
+   *
+   * @param *mixed $data
+   * @param mixed  ...$args
+   *
+   * @return RestTrait
+   */
+  public function invalidate($data, ...$args)
+  {
+    if (is_array($data)) {
+      return $this->setDot('json.validation', $data);
+    }
+
+    return $this->set('json', 'validation', $data, ...$args);
+  }
+
+  /**
    * Returns true if there's an error
    *
    * @return bool
@@ -165,6 +167,16 @@ trait RestTrait
   public function isSuccess(): bool
   {
     return $this->get('json', 'error') === false;
+  }
+
+  /**
+   * Returns true if there's no validation set
+   *
+   * @return bool
+   */
+  public function isValid(): bool
+  {
+    return empty($this->get('json', 'validation'));
   }
 
   /**

@@ -163,7 +163,7 @@ trait ServerTrait
     $uri = $this->getServer('REQUEST_URI');
 
     $hostname = sprintf('%s://%s', $protocol, $host);
-    if ($port) {
+    if ($port != 80 && $port != 443) {
       $hostname .= ':' . $port;
     }
 
