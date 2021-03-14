@@ -14,7 +14,6 @@ namespace Cradle\Terminal;
  *
  * @package  Cradle
  * @category Framework
- * @author   Christian Blanquera <cblanquera@openovate.com>
  * @standard PSR-2
  */
 class TerminalHelper
